@@ -49,3 +49,4 @@ jobs:
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
           groups: testers
           file: build/app/outputs/flutter-apk/app-release.apk
+          debug: true
