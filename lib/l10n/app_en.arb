@@ -1,0 +1,10 @@
+{
+  "@@locale": "en",
+  "language_name": "English",
+  "title": "RepositoryViewer",
+  "list": "List",
+  "detail": "Detail",
+  "search": "Search",
+  "settings": "Settings",
+  "language_setting": "Set Language"
+}
