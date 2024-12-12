@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "269055085723",
+    "project_id": "repository-121a3",
+    "storage_bucket": "repository-121a3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:269055085723:android:cc32b388d347fe3d800a3e",
+        "android_client_info": {
+          "package_name": "com.techtest.repository"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBabGcbqh1v3BAaqijdhgzP3rMeNqBpDMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
