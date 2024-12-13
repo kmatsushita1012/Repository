@@ -50,6 +50,7 @@ class DetailTile extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       title,
+                      softWrap: true,
                       textAlign: TextAlign.right,
                       style: TextStyle(fontSize: 24),
                     ),
@@ -58,6 +59,7 @@ class DetailTile extends StatelessWidget {
                       alignment: Alignment.centerRight,
                       child: Text(
                         value,
+                        softWrap: true,
                         textAlign: TextAlign.right,
                         style: TextStyle(fontSize: 32),
                       )),

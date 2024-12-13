@@ -6,7 +6,6 @@ import 'package:repository/providers/repository_provider.dart';
 class SortButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Consumer<RepositoryProvider>(
       builder: (context, provider, _) => PopupMenuButton<SortTypes>(

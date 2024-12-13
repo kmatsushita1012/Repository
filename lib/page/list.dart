@@ -63,7 +63,6 @@ class ListPage extends StatelessWidget {
                                       MaterialPageRoute(
                                           builder: (context) => DetailPage(
                                                 index: index,
-                                                item: provider.items[index],
                                               )))),
                             ),
                           )

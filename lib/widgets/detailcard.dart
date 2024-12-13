@@ -13,9 +13,6 @@ class DetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Provider.of<T>(context) で親Widgetからデータを受け取る
-    // ※ 受け取るデータの クラス と <T> は揃えましょう
-
     return Card(
         margin: const EdgeInsets.all(16),
         child: Container(
@@ -25,7 +22,7 @@ class DetailCard extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      flex: 1, // 左半分をアイコン領域に
+                      flex: 1, 
                       child: LayoutBuilder(
                         builder: (context, constraints) {
                           return Center(
@@ -38,7 +35,7 @@ class DetailCard extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      flex: 1, // 右半分を空の領域に
+                      flex: 1,
                       child: Container(),
                     ),
                   ],
@@ -47,6 +44,8 @@ class DetailCard extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     title,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                     textAlign: TextAlign.left,
                     style: TextStyle(fontSize: 24),
                   ),
@@ -55,6 +54,8 @@ class DetailCard extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: Text(
                     value,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                     textAlign: TextAlign.right,
                     style: TextStyle(fontSize: 32),
                   ),

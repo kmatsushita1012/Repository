@@ -14,7 +14,6 @@ class SelectableTile<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return GestureDetector(
       onTap: () => onTap(),
       child: Container(

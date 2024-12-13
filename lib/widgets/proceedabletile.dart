@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 
 class ProceedableTile extends StatelessWidget {
   final String text;
+  final double height;
   final void Function(BuildContext) onTap;
 
-  const ProceedableTile({super.key, required this.text, required this.onTap});
+  const ProceedableTile(
+      {super.key, required this.text, required this.onTap, this.height = 64});
 
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      child: Container(
-          height: 64,
+      child: SizedBox(
+          height: height,
           child: Container(
             margin: EdgeInsets.all(8),
             padding: EdgeInsets.all(8),
@@ -22,9 +24,9 @@ class ProceedableTile extends StatelessWidget {
               // border: Border.all(color: colorScheme.surface),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1), // 影の色
-                  blurRadius: 2, // ぼかし具合
-                  offset: Offset(0, 4), // 影の位置
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 2, 
+                  offset: Offset(0, 4),
                 ),
               ],
             ),

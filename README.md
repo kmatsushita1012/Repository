@@ -126,6 +126,8 @@ enum SortTypes {
 
 [こちら](https://zenn.dev/shima999ba/articles/d0aba49b159bf0)で勉強しました.`await tester.pumpAndSettle()`でのタイミングの調節や`Widget`の再配置が必要な箇所が多く苦労しました.
 
+なぜか`tester.tap()`が反応しない
+
 ###　ビルド
 
 Github Actions でバージョン関係を中心に大量にエラーが発生しました.
@@ -192,3 +194,4 @@ https://zenn.dev/yass97/articles/e8d1e460ae6a59
 https://zenn.dev/t_fukuyama/articles/9048d5f26befee
 https://qiita.com/kokogento/items/6c0baf22c85a28db388c
 
+https://riverpod.dev/ja/docs/essentials/testing

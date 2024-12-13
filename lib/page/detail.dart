@@ -54,7 +54,6 @@ class DetailPage extends StatelessWidget {
                       const SizedBox(width: 16),
                       Container(
                           decoration: BoxDecoration(
-                            color: Colors.white,
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
