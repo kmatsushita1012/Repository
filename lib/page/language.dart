@@ -8,11 +8,14 @@ class LanguagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
         title: Text(
           AppLocalizations.of(context)!.language_setting,
         ),
+        foregroundColor: colorScheme.onPrimary,
+        backgroundColor: colorScheme.primary,
       ),
       body: Consumer<SettingsProvider>(
           builder: (context, model, _) => Container(

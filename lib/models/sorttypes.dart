@@ -14,6 +14,19 @@ enum SortTypes {
     }
   }
 
+  String text() {
+    switch (this) {
+      case SortTypes.stars:
+        return "Stars";
+      case SortTypes.forks:
+        return "Forks";
+      case SortTypes.isuues:
+        return "Issues";
+      case SortTypes.updated:
+        return "Last Updated";
+    }
+  }
+
   IconData icon() {
     switch (this) {
       case SortTypes.stars:

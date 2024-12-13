@@ -12,11 +12,15 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
         title: Text(
           AppLocalizations.of(context)!.settings,
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        foregroundColor: colorScheme.onPrimary,
+        backgroundColor: colorScheme.primary,
       ),
       body: Container(
         margin: const EdgeInsets.all(16.0),

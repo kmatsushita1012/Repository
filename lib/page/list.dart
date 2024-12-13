@@ -6,13 +6,11 @@ import 'package:repository/page/settings.dart';
 import 'package:repository/providers/repository_provider.dart';
 import 'package:repository/widgets/proceedabletile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:repository/widgets/queryfield.dart';
+import 'package:repository/widgets/sortbutton.dart';
 
 class ListPage extends StatelessWidget {
   const ListPage({super.key});
-
-  void _textChanged(RepositoryProvider model, String value) {
-    model.setText(value);
-  }
 
   void _onTap(BuildContext context, int index) {
     Navigator.push(context,
@@ -31,7 +29,10 @@ class ListPage extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             AppLocalizations.of(context)!.list,
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          foregroundColor: colorScheme.onPrimary,
+          backgroundColor: colorScheme.primary,
           actions: [
             IconButton(
                 onPressed: () => _trailingPressed(context),
@@ -51,53 +52,12 @@ class ListPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Expanded(
-                                child: TextField(
-                                  autofillHints: [
-                                    AppLocalizations.of(context)!.search
-                                  ],
-                                  decoration: InputDecoration(
-                                      hintText:
-                                          AppLocalizations.of(context)!.search,
-                                      border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                      ),
-                                      prefixIcon: const Icon(Icons.search)),
-                                  onSubmitted: (value) =>
-                                      _textChanged(model, value),
-                                ),
-                              ),
+                              Expanded(child: QueryField()),
                               const SizedBox(
                                 width: 16,
                               ),
-                              PopupMenuButton<SortTypes>(
-                                  onSelected: (value) {
-                                    model.setSortType(value);
-                                  },
-                                  itemBuilder: (BuildContext context) {
-                                    return SortTypes.values.map((item) {
-                                      return PopupMenuItem<SortTypes>(
-                                          value: item,
-                                          child: Row(
-                                            children: [
-                                              Icon(item.icon()),
-                                              const SizedBox(
-                                                width: 8,
-                                              ),
-                                              Text(
-                                                item.toString(),
-                                                style: const TextStyle(
-                                                    fontSize: 16),
-                                              )
-                                            ],
-                                          ));
-                                    }).toList();
-                                  },
-                                  child: Icon(
-                                    model.sortType.icon(),
-                                    size: 32,
-                                  )),
+                              SizedBox(
+                                  width: 48, height: 48, child: SortButton()),
                             ],
                           ),
                           const SizedBox(
@@ -105,12 +65,11 @@ class ListPage extends StatelessWidget {
                           ),
                           Expanded(
                             child: ListView.builder(
-                                itemCount: model.items.length,
-                                itemBuilder: (context, index) =>
-                                    ProceedableTile(
-                                        text: model.items[index].name,
-                                        onTap: (context) =>
-                                            _onTap(context, index))),
+                              itemCount: model.items.length,
+                              itemBuilder: (context, index) => ProceedableTile(
+                                  text: model.items[index].name,
+                                  onTap: (context) => _onTap(context, index)),
+                            ),
                           )
                         ],
                       ),
