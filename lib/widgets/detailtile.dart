@@ -10,56 +10,61 @@ class DetailTile extends StatelessWidget {
       required this.title,
       required this.iconData,
       required this.value});
-
   @override
   Widget build(BuildContext context) {
-    // Provider.of<T>(context) で親Widgetからデータを受け取る
-    // ※ 受け取るデータの クラス と <T> は揃えましょう
-
-    return Card(
-        margin: const EdgeInsets.all(16),
-        child: Container(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 1, // 左半分をアイコン領域に
-                      child: LayoutBuilder(
-                        builder: (context, constraints) {
-                          return Center(
-                            child: Icon(
-                              iconData,
-                              size: constraints.maxWidth * 0.9,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1, // 右半分を空の領域に
-                      child: Container(),
-                    ),
-                  ],
-                ),
-                Align(
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+    return Container(
+      margin: EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+          color: colorScheme.surfaceContainerLow,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: colorScheme.shadow.withOpacity(0.1),
+              blurRadius: 2,
+              offset: Offset(0, 2),
+            ),
+          ]),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    title,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 24),
+                  child: Icon(
+                    Icons.language,
+                    size: constraints.maxWidth * 0.6,
                   ),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    value,
-                    textAlign: TextAlign.right,
-                    style: TextStyle(fontSize: 32),
+                );
+              },
+            ),
+          ),
+          Expanded(
+              flex: 1,
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(fontSize: 24),
+                    ),
                   ),
-                ),
-              ],
-            )));
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        value,
+                        textAlign: TextAlign.right,
+                        style: TextStyle(fontSize: 32),
+                      )),
+                ],
+              ))
+        ],
+      ),
+    );
   }
 }
