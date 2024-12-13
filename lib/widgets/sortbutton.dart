@@ -9,10 +9,8 @@ class SortButton extends StatelessWidget {
     // TODO: implement build
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Consumer<RepositoryProvider>(
-      builder: (context, model, _) => PopupMenuButton<SortTypes>(
-        onSelected: (value) {
-          model.setSortType(value);
-        },
+      builder: (context, provider, _) => PopupMenuButton<SortTypes>(
+        onSelected: (value) => provider.setSortType(value),
         itemBuilder: (BuildContext context) {
           return SortTypes.values.map((item) {
             return PopupMenuItem<SortTypes>(
@@ -37,7 +35,7 @@ class SortButton extends StatelessWidget {
                 border: Border.all(color: colorScheme.onSurface),
                 borderRadius: BorderRadius.circular(8)),
             child: Icon(
-              model.sortType.icon(),
+              provider.sortType.icon(),
               size: 32,
             )),
       ),

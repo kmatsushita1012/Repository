@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:repository/models/sorttypes.dart';
 import 'package:repository/page/detail.dart';
 import 'package:repository/page/settings.dart';
 import 'package:repository/providers/repository_provider.dart';
@@ -11,16 +10,6 @@ import 'package:repository/widgets/sortbutton.dart';
 
 class ListPage extends StatelessWidget {
   const ListPage({super.key});
-
-  void _onTap(BuildContext context, int index) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => DetailPage(index: index)));
-  }
-
-  void _trailingPressed(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => SettingsPage()));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +24,13 @@ class ListPage extends StatelessWidget {
           backgroundColor: colorScheme.primary,
           actions: [
             IconButton(
-                onPressed: () => _trailingPressed(context),
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SettingsPage())),
                 icon: const Icon(Icons.settings))
           ],
         ),
         body: Consumer<RepositoryProvider>(
-            builder: (context, model, _) => Stack(
+            builder: (context, provider, _) => Stack(
                   alignment: Alignment.center,
                   children: [
                     Container(
@@ -65,16 +55,22 @@ class ListPage extends StatelessWidget {
                           ),
                           Expanded(
                             child: ListView.builder(
-                              itemCount: model.items.length,
+                              itemCount: provider.items.length,
                               itemBuilder: (context, index) => ProceedableTile(
-                                  text: model.items[index].name,
-                                  onTap: (context) => _onTap(context, index)),
+                                  text: provider.items[index].name,
+                                  onTap: (context) => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailPage(
+                                                index: index,
+                                                item: provider.items[index],
+                                              )))),
                             ),
                           )
                         ],
                       ),
                     ),
-                    if (model.isLoading)
+                    if (provider.isLoading)
                       const Positioned.fill(
                         child: Center(
                           child: CircularProgressIndicator(),

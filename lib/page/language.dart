@@ -18,24 +18,24 @@ class LanguagePage extends StatelessWidget {
         backgroundColor: colorScheme.primary,
       ),
       body: Consumer<SettingsProvider>(
-          builder: (context, model, _) => Container(
+          builder: (context, provider, _) => Container(
                 margin: const EdgeInsets.all(16.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
                         child: ListView.builder(
-                            itemCount: model.appLocalizationsEntryList.length,
+                            itemCount: provider.appLocalizationsEntryList.length,
                             itemBuilder: (context, index) {
                               Locale locale =
-                                  model.appLocalizationsEntryList[index].key;
+                                  provider.appLocalizationsEntryList[index].key;
                               AppLocalizations appLocalizations =
-                                  model.appLocalizationsEntryList[index].value;
+                                  provider.appLocalizationsEntryList[index].value;
                               return SelectableTile(
                                 isSelected: locale.toLanguageTag() ==
-                                    model.locale.toLanguageTag(),
+                                    provider.locale.toLanguageTag(),
                                 text: appLocalizations.language_name,
-                                onTap: () => model.setLocale(locale),
+                                onTap: () => provider.setLocale(locale),
                               );
                             }))
                   ],
