@@ -64,19 +64,19 @@ class DetailPage extends StatelessWidget {
                         DetailTile(
                             title: "Stars",
                             icon: const Icon(Icons.star),
-                            value: item.star.toString()),
+                            value: item.stars.toString()),
                         DetailTile(
                             title: "Watchers",
                             icon: const Icon(Icons.visibility),
-                            value: item.watcher.toString()),
+                            value: item.watchers.toString()),
                         DetailTile(
                             title: "Forks",
                             icon: const Icon(Icons.fork_right),
-                            value: item.fork.toString()),
+                            value: item.forks.toString()),
                         DetailTile(
                             title: "Issues",
                             icon: const Icon(Icons.priority_high),
-                            value: item.star.toString()),
+                            value: item.stars.toString()),
                       ],
                     ),
                   ],

@@ -5,13 +5,13 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class RepositoryProvider extends ChangeNotifier {
-  String text = "";
+  String query = "";
   SortTypes sortType = SortTypes.updated;
   List<Repository> items = [];
   bool isLoading = false;
 
   void setText(String text) {
-    this.text = text;
+    this.query = text;
     items = [];
     getRepositories(1);
     notifyListeners();
@@ -31,7 +31,7 @@ class RepositoryProvider extends ChangeNotifier {
         .get(Uri.https(
       "api.github.com",
       "/search/repositories",
-      {'q': text, 'sort': sortType.toString(), 'page': page.toString()},
+      {'q': query, 'sort': sortType.toString(), 'page': page.toString()},
     ))
         .then((response) {
       if (response.statusCode == 200) {
