@@ -1,6 +1,6 @@
-# repository
+# RepositoryViewer
 
-##　未経験の技術
+## 未経験の技術
 
 - Provider を用いた状態管理
 - CI/CD パイプラインの構築,Github Actions
@@ -188,3 +188,7 @@ https://github.com/wzieba/Firebase-Distribution-Github-Action?tab=readme-ov-file
 https://zenn.dev/yass97/articles/e8d1e460ae6a59
 
 ## 備考
+
+https://zenn.dev/t_fukuyama/articles/9048d5f26befee
+https://qiita.com/kokogento/items/6c0baf22c85a28db388c
+
