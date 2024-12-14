@@ -35,7 +35,7 @@ class DetailPage extends StatelessWidget {
         ],
       ),
       body: Consumer<RepositoryProvider>(builder: (context, model, _) {
-        Repository item = model.items[index];
+        Repository item = model.getRepository(index);
         return SingleChildScrollView(
             child: Container(
                 margin: const EdgeInsets.all(16.0),

@@ -55,9 +55,9 @@ class ListPage extends StatelessWidget {
                           ),
                           Expanded(
                             child: ListView.builder(
-                              itemCount: provider.items.length,
+                              itemCount: provider.count,
                               itemBuilder: (context, index) => ProceedableTile(
-                                  text: provider.items[index].name,
+                                  text: provider.getRepository(index).name,
                                   onTap: (context) => Navigator.push(
                                       context,
                                       MaterialPageRoute(

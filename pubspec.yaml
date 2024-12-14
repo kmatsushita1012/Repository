@@ -48,6 +48,8 @@ dependencies:
   firebase_core: ^3.7.0
   test: ^1.25.8
   riverpod: ^2.6.1
+  build_runner: ^2.4.13
+  get_it: ^8.0.3
 
 flutter_icons:
   android: true

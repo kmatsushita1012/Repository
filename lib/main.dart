@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:repository/page/list.dart';
 import 'package:repository/providers/repository_provider.dart';
@@ -13,6 +15,12 @@ void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );
+  GetIt.I.registerLazySingleton<http.Client>(
+    () => http.Client(),
+  );
+  GetIt.I.registerLazySingleton<RepositoryProvider>(
+    () => RepositoryProvider(),
   );
   runApp(MyApp(
     prefs: prefs,
