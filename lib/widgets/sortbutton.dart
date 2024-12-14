@@ -4,6 +4,8 @@ import 'package:repository/models/sorttypes.dart';
 import 'package:repository/providers/repository_provider.dart';
 
 class SortButton extends StatelessWidget {
+  const SortButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;

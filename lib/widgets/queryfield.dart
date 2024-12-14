@@ -4,6 +4,8 @@ import 'package:repository/providers/repository_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QueryField extends StatelessWidget {
+  const QueryField({super.key});
+
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
