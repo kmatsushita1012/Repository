@@ -136,6 +136,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Set Language'**
   String get language_setting;
+
+  /// No description provided for @unset.
+  ///
+  /// In en, this message translates to:
+  /// **'Unset '**
+  String get unset;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

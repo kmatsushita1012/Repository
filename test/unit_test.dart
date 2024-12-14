@@ -3,31 +3,28 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 import 'package:repository/models/repository.dart';
 import 'package:repository/models/sorttypes.dart';
 import 'package:repository/providers/repository_provider.dart';
-import 'package:riverpod/riverpod.dart';
-import 'unit_test.mocks.dart';
 
 @GenerateMocks([http.Client])
 void main() {
-  group('Repository', () {
-    final client = MockClient(requestHandler);
-    GetIt.I.registerLazySingleton<http.Client>(() => client);
-
-    final sampleText = 'sample';
-    final provider = RepositoryProvider();
-    String query = provider.query;
-    SortTypes type = provider.sortType;
-    bool isLoading = provider.isLoading;
-    Repository? item;
-    provider.addListener(() {
-      query = provider.query;
-      type = provider.sortType;
-      isLoading = provider.isLoading;
-      item = provider.getRepository(0);
-    });
+  final client = MockClient(normalRequestHandler);
+  GetIt.I.registerLazySingleton<http.Client>(() => client);
+  final sampleText = 'sample';
+  final provider = RepositoryProvider();
+  String query = provider.query;
+  SortTypes type = provider.sortType;
+  bool isLoading = provider.isLoading;
+  Repository? item;
+  int count = provider.count;
+  provider.addListener(() {
+    query = provider.query;
+    type = provider.sortType;
+    isLoading = provider.isLoading;
+    item = provider.getRepository(0);
+  });
+  group('normal', () {
     test('Query before get result', () async {
       provider.setQuery(sampleText);
       expect(isLoading, true);
@@ -45,10 +42,17 @@ void main() {
       expect(item!.forks, 1199);
       expect(item!.issues, 116);
     });
+    test('Sort', () async {
+      await provider.setQuery(sampleText);
+      provider.setSortType(SortTypes.stars);
+      expect(type, SortTypes.stars);
+      expect(isLoading, true);
+      expect(count, 0);
+    });
   });
 }
 
-Future<http.Response> requestHandler(http.Request request) async {
+Future<http.Response> normalRequestHandler(http.Request request) async {
   return http.Response('''{
   "total_count": 1,
   "incomplete_results": false,

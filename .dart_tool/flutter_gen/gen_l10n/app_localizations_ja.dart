@@ -26,4 +26,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get language_setting => '言語設定';
+
+  @override
+  String get unset => '未設定 ';
 }

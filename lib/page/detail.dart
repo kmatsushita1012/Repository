@@ -73,7 +73,8 @@ class DetailPage extends StatelessWidget {
                     DetailTile(
                         title: "Language",
                         iconData: Icons.language,
-                        value: item.language.toString()),
+                        value: item.language ??
+                            AppLocalizations.of(context)!.unset),
                     SizedBox(
                       height: MediaQuery.of(context).size.width,
                       child: GridView.count(

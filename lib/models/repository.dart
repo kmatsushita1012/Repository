@@ -1,7 +1,7 @@
 class Repository {
   final String name;
   final String userIconPath;
-  final String language;
+  final String? language;
   final int stars;
   final int watchers;
   final int forks;

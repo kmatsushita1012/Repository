@@ -6,5 +6,6 @@
   "detail": "Detail",
   "search": "Search",
   "settings": "Settings",
-  "language_setting": "Set Language"
+  "language_setting": "Set Language",
+  "unset": "Unset "
 }

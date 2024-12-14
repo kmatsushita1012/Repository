@@ -6,5 +6,6 @@
   "detail": "詳細",
   "search": "検索",
   "settings": "設定",
-  "language_setting": "言語設定"
+  "language_setting": "言語設定",
+  "unset": "未設定 "
 }

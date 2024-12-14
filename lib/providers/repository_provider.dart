@@ -7,7 +7,7 @@ import 'dart:convert';
 
 class RepositoryProvider extends ChangeNotifier {
   String _query = "";
-  SortTypes _sortType = SortTypes.updated;
+  SortTypes _sortType = SortTypes.match;
   List<Repository> _items = [];
   bool _isLoading = false;
   String get query => _query;
@@ -18,6 +18,7 @@ class RepositoryProvider extends ChangeNotifier {
   Repository getRepository(int index) {
     return _items[index];
   }
+  
 
   Future<void> setQuery(String query) async {
     _query = query;
@@ -37,10 +38,13 @@ class RepositoryProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     final http.Client client = GetIt.I<http.Client>();
+    final sort = sortType.toQueryString();
     final response = await client.get(Uri.https(
       "api.github.com",
       "/search/repositories",
-      {'q': query, 'sort': sortType.toString(), 'page': page.toString()},
+      sort != null
+          ? {'q': query, 'sort': sort, 'page': page.toString()}
+          : {'q': query, 'page': page.toString()},
     ));
 
     if (response.statusCode == 200) {

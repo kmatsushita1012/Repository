@@ -19,9 +19,6 @@ void main() async {
   GetIt.I.registerLazySingleton<http.Client>(
     () => http.Client(),
   );
-  GetIt.I.registerLazySingleton<RepositoryProvider>(
-    () => RepositoryProvider(),
-  );
   runApp(MyApp(
     prefs: prefs,
   ));

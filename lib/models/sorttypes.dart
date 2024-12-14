@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 enum SortTypes {
+  match,
   stars,
   forks,
   isuues,
   updated;
 
-  String toString() {
-    if (this == SortTypes.isuues) {
+  String? toQueryString() {
+    if (this == SortTypes.match) {
+      return null;
+    } else if (this == SortTypes.isuues) {
       return "help-wanted-issues";
     } else {
       return name;
@@ -24,6 +27,8 @@ enum SortTypes {
         return "Issues";
       case SortTypes.updated:
         return "Last Updated";
+      case SortTypes.match:
+        return "Best Match";
     }
   }
 
@@ -37,6 +42,8 @@ enum SortTypes {
         return Icons.priority_high;
       case SortTypes.updated:
         return Icons.update;
+      case SortTypes.match:
+        return Icons.favorite;
     }
   }
 }
