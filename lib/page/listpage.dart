@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:repository/page/detail.dart';
-import 'package:repository/page/settings.dart';
+import 'package:repository/page/detailpage.dart';
+import 'package:repository/page/settingspage.dart';
 import 'package:repository/providers/repository_provider.dart';
 import 'package:repository/widgets/proceedabletile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:repository/widgets/queryfield.dart';
 import 'package:repository/widgets/sortbutton.dart';
 
-class ListPage extends StatelessWidget {
+class ListPage extends StatefulWidget {
   const ListPage({super.key});
+  @override
+  _ListPageState createState() => _ListPageState();
+}
 
+class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
@@ -57,13 +61,14 @@ class ListPage extends StatelessWidget {
                             child: ListView.builder(
                               itemCount: provider.count,
                               itemBuilder: (context, index) => ProceedableTile(
-                                  text: provider.getRepository(index).name,
-                                  onTap: (context) => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => DetailPage(
-                                                index: index,
-                                              )))),
+                                text: provider.getRepository(index).name,
+                                onTap: (context) => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DetailPage(
+                                              index: index,
+                                            ))),
+                              ),
                             ),
                           )
                         ],

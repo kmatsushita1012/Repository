@@ -31,12 +31,11 @@ class RepositoryProvider extends ChangeNotifier {
 
   Future<void> clearAndgetRepositories(int page) async {
     _items = [];
-    notifyListeners();
     await getRepositories(page);
   }
 
   Future<void> getRepositories(int page) async {
-    _isLoading = true;
+    // _isLoading = true;
     notifyListeners();
     final http.Client client = GetIt.I<http.Client>();
     final sort = sortType.toQueryString();
@@ -49,7 +48,6 @@ class RepositoryProvider extends ChangeNotifier {
     ));
     _isLoading = false;
     notifyListeners();
-
     if (response.statusCode == 200) {
       dynamic responseBody = utf8.decode(response.bodyBytes);
       dynamic parsedJson = jsonDecode(responseBody);
@@ -57,12 +55,13 @@ class RepositoryProvider extends ChangeNotifier {
         try {
           Repository item = Repository.fromSearhRepositoryItem(elem);
           _items.add(item);
-          notifyListeners();
         } catch (e) {
           print("parse error ${e}");
           continue;
         }
       }
     }
+    print("get");
+    notifyListeners();
   }
 }

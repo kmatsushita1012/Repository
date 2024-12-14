@@ -1,26 +1,12 @@
 import 'package:flutter/material.dart';
 
-class ProceedableTile extends StatefulWidget {
+class SettingsItemtile extends StatelessWidget {
   final String text;
   final double height;
   final void Function(BuildContext) onTap;
 
-  const ProceedableTile({
-    super.key,
-    required this.text,
-    required this.onTap,
-    this.height = 64,
-  });
-  @override
-  _ProceedableTileState createState() => _ProceedableTileState();
-}
-
-class _ProceedableTileState extends State<ProceedableTile> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+  const SettingsItemtile(
+      {super.key, required this.text, required this.onTap, this.height = 64});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +14,7 @@ class _ProceedableTileState extends State<ProceedableTile> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       child: SizedBox(
-          height: widget.height,
+          height: height,
           child: Container(
             margin: EdgeInsets.all(8),
             padding: EdgeInsets.all(8),
@@ -48,7 +34,7 @@ class _ProceedableTileState extends State<ProceedableTile> {
               children: [
                 Expanded(
                     child: Text(
-                  widget.text,
+                  text,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(fontSize: 18, color: colorScheme.onSurface),
@@ -60,7 +46,7 @@ class _ProceedableTileState extends State<ProceedableTile> {
               ],
             ),
           )),
-      onTap: () => widget.onTap(context),
+      onTap: () => onTap(context),
     );
   }
 }
