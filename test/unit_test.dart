@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -6,32 +7,38 @@ import 'package:mockito/annotations.dart';
 import 'package:repository/models/repository.dart';
 import 'package:repository/models/sorttypes.dart';
 import 'package:repository/providers/repository_provider.dart';
+import 'package:repository/providers/settings_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @GenerateMocks([http.Client])
-void main() {
-  final client = MockClient(normalRequestHandler);
-  GetIt.I.registerLazySingleton<http.Client>(() => client);
-  final sampleText = 'sample';
-  final provider = RepositoryProvider();
-  String query = provider.query;
-  SortTypes type = provider.sortType;
-  bool isLoading = provider.isLoading;
-  Repository? item;
-  int count = provider.count;
-  provider.addListener(() {
-    query = provider.query;
-    type = provider.sortType;
-    isLoading = provider.isLoading;
-    item = provider.getRepository(0);
+Future<void> main() async {
+  //Repository
+  setUpAll(() {
+    // GetItのセットアップ
+    final client = MockClient(normalRequestHandler);
+    GetIt.I.registerLazySingleton<http.Client>(() => client);
   });
-  group('normal', () {
+  group('Repository Test', () {
+    final sampleText = 'sample';
+    final repositoryProvider = RepositoryProvider();
+    String query = repositoryProvider.query;
+    SortTypes type = repositoryProvider.sortType;
+    bool isLoading = repositoryProvider.isLoading;
+    Repository? item;
+    int count = repositoryProvider.count;
+    repositoryProvider.addListener(() {
+      query = repositoryProvider.query;
+      type = repositoryProvider.sortType;
+      isLoading = repositoryProvider.isLoading;
+      item = repositoryProvider.getRepository(0);
+    });
     test('Query before get result', () async {
-      provider.setQuery(sampleText);
+      repositoryProvider.setQuery(sampleText);
       expect(isLoading, true);
       expect(query, sampleText);
     });
     test('Query after get result', () async {
-      await provider.setQuery(sampleText);
+      await repositoryProvider.setQuery(sampleText);
       expect(isLoading, false);
       expect(item!.name, 'q');
       expect(item!.userIconPath,
@@ -43,11 +50,40 @@ void main() {
       expect(item!.issues, 116);
     });
     test('Sort', () async {
-      await provider.setQuery(sampleText);
-      provider.setSortType(SortTypes.stars);
+      await repositoryProvider.setQuery(sampleText);
+      repositoryProvider.setSortType(SortTypes.stars);
       expect(type, SortTypes.stars);
       expect(isLoading, true);
       expect(count, 0);
+    });
+  });
+
+  //
+  group('SettingsProvider Tests', () {
+    late SharedPreferences prefs;
+    late SettingsProvider settingsProvider;
+    late String? languageCode;
+
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({'locale': 'en'});
+      prefs = await SharedPreferences.getInstance();
+      settingsProvider = SettingsProvider(prefs);
+      languageCode = prefs.getString('locale');
+      settingsProvider.addListener(() {
+        languageCode = settingsProvider.locale.languageCode;
+      });
+    });
+
+    test('Locale', () async {
+      settingsProvider.setLocale(Locale('ja'));
+      expect(languageCode, 'ja');
+      expect(prefs.getString('locale'), 'ja');
+    });
+
+    test('Locale List', () async {
+      final entries = settingsProvider.appLocalizationsEntryList;
+      expect(entries[0].key.languageCode, 'en');
+      expect(entries[1].key.languageCode, 'ja');
     });
   });
 }

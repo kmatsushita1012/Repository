@@ -8,6 +8,7 @@ import 'package:repository/widgets/detailtile.dart';
 import 'package:repository/widgets/proceedabletile.dart';
 import 'package:repository/widgets/queryfield.dart';
 import 'package:repository/widgets/sortbutton.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   // WidgetsBinding.instance.renderView.configuration = TestViewConfiguration(size: const Size(1080, 1920));
@@ -88,6 +89,8 @@ void main() {
     await tester.tap(find.text("Last Updated"));
     await tester.pumpAndSettle();
     expect(find.byIcon(Icons.update), findsOneWidget);
+
+    
   });
 
   testWidgets('QueryField', (WidgetTester tester) async {
