@@ -23,7 +23,7 @@ class SortButton extends StatelessWidget {
                       width: 8,
                     ),
                     Text(
-                      item.text(),
+                      item.text(context),
                       style: const TextStyle(fontSize: 16),
                     )
                   ],

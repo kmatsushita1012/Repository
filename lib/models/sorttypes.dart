@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum SortTypes {
   match,
+  updated,
   stars,
   forks,
-  isuues,
-  updated;
+  isuues;
 
   String? toQueryString() {
     if (this == SortTypes.match) {
@@ -17,18 +18,18 @@ enum SortTypes {
     }
   }
 
-  String text() {
+  String text(BuildContext context) {
     switch (this) {
       case SortTypes.stars:
-        return "Stars";
+        return AppLocalizations.of(context)!.stars;
       case SortTypes.forks:
-        return "Forks";
+        return AppLocalizations.of(context)!.forks;
       case SortTypes.isuues:
-        return "Issues";
+        return AppLocalizations.of(context)!.issues;
       case SortTypes.updated:
-        return "Last Updated";
+        return AppLocalizations.of(context)!.last_updated;
       case SortTypes.match:
-        return "Best Match";
+        return AppLocalizations.of(context)!.best_match;
     }
   }
 

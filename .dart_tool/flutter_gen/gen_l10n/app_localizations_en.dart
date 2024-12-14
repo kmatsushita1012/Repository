@@ -31,5 +31,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get language_setting => 'Set Language';
 
   @override
+  String get best_match => 'Best Match';
+
+  @override
+  String get last_updated => 'Last Updated';
+
+  @override
   String get unset => 'Unset ';
+
+  @override
+  String get stars => 'Stars';
+
+  @override
+  String get wathcers => 'Watchers';
+
+  @override
+  String get forks => 'Forks';
+
+  @override
+  String get issues => 'Issues';
 }

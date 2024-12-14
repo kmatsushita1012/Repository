@@ -8,5 +8,11 @@
   "settings": "Settings",
   "language": "Language",
   "language_setting": "Set Language",
-  "unset": "Unset "
+  "best_match": "Best Match",
+  "last_updated": "Last Updated",
+  "unset": "Unset ",
+  "stars": "Stars",
+  "wathcers": "Watchers",
+  "forks": "Forks",
+  "issues": "Issues"
 }

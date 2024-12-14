@@ -68,23 +68,31 @@ class _ListPageState extends State<ListPage> {
         ),
         body: Consumer<RepositoryProvider>(
           builder: (context, provider, _) => Container(
-            margin: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const SizedBox(
+                  height: 8,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
+                    const SizedBox(
+                      width: 8,
+                    ),
                     Expanded(child: QueryField()),
                     const SizedBox(
                       width: 16,
                     ),
                     SizedBox(width: 48, height: 48, child: SortButton()),
+                    const SizedBox(
+                      width: 8,
+                    ),
                   ],
                 ),
                 const SizedBox(
-                  height: 16,
+                  height: 8,
                 ),
                 Expanded(
                   child: ListView.builder(

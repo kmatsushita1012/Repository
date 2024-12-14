@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:repository/models/sorttypes.dart';
 import 'package:repository/providers/repository_provider.dart';
@@ -11,7 +12,6 @@ import 'package:repository/widgets/detailtile.dart';
 import 'package:repository/widgets/proceedabletile.dart';
 import 'package:repository/widgets/queryfield.dart';
 import 'package:repository/widgets/sortbutton.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   setUpAll(() {
@@ -20,7 +20,7 @@ void main() {
     GetIt.I.registerLazySingleton<http.Client>(() => client);
   });
   testWidgets('DetailCard', (WidgetTester tester) async {
-    String title = "Language";
+    String title = "Stars";
     int value = -9223372036854775808;
     await tester.pumpWidget(
       MaterialApp(
@@ -30,13 +30,14 @@ void main() {
         ),
       ),
     );
+    await tester.pumpAndSettle();
     expect(find.text(title), findsOneWidget);
-    expect(find.text(value.toString()), findsOneWidget);
+    expect(find.text(NumberFormat('#,###').format(value)), findsOneWidget);
   });
   testWidgets('DetailTile', (WidgetTester tester) async {
-    String title = "Issues";
+    String title = "Language";
     String value =
-        "1000000000000000000000000000000000000000000000000000000000000000000";
+        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
@@ -68,33 +69,22 @@ void main() {
   });
 
   //なぜかProviderがnullで失敗
-  //  testWidgets('QueryField', (WidgetTester tester) async {
-  //   final text = 'sample';
-  //   await tester.pumpWidget(
-  //     MultiProvider(
-  //       providers: [
-  //         ChangeNotifierProvider<RepositoryProvider>(
-  //           create: (_) => RepositoryProvider(),
-  //         )
-  //       ],
-  //       child: MaterialApp(
-  //         home: Scaffold(
-  //           body: SizedBox(
-  //             width: 400,
-  //             height: 400,
-  //             //サイズ大きくするといける
-  //             child: QueryField(),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  //   final textField = find.byType(TextField);
-  //   expect(textField, findsOneWidget);
-  //   await tester.enterText(textField, text);
-  //   await tester.pumpAndSettle();
-  //   expect(find.text(text), findsOneWidget);
-  // });
+  testWidgets('QueryField', (WidgetTester tester) async {
+    final text = 'sample';
+    await tester.pumpWidget(MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => RepositoryProvider())],
+      builder: (context, builder) => MaterialApp(
+        home: Scaffold(
+          body: QueryField(),
+        ),
+      ),
+    ));
+    final textField = find.byType(TextField);
+    expect(textField, findsOneWidget);
+    await tester.enterText(textField, text);
+    await tester.pumpAndSettle();
+    expect(find.text(text), findsOneWidget);
+  });
 
   testWidgets('SortButton', (WidgetTester tester) async {
     await tester.pumpWidget(

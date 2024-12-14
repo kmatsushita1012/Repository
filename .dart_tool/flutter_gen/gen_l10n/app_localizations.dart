@@ -143,11 +143,47 @@ abstract class AppLocalizations {
   /// **'Set Language'**
   String get language_setting;
 
+  /// No description provided for @best_match.
+  ///
+  /// In en, this message translates to:
+  /// **'Best Match'**
+  String get best_match;
+
+  /// No description provided for @last_updated.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Updated'**
+  String get last_updated;
+
   /// No description provided for @unset.
   ///
   /// In en, this message translates to:
   /// **'Unset '**
   String get unset;
+
+  /// No description provided for @stars.
+  ///
+  /// In en, this message translates to:
+  /// **'Stars'**
+  String get stars;
+
+  /// No description provided for @wathcers.
+  ///
+  /// In en, this message translates to:
+  /// **'Watchers'**
+  String get wathcers;
+
+  /// No description provided for @forks.
+  ///
+  /// In en, this message translates to:
+  /// **'Forks'**
+  String get forks;
+
+  /// No description provided for @issues.
+  ///
+  /// In en, this message translates to:
+  /// **'Issues'**
+  String get issues;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

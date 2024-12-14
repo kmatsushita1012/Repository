@@ -22,18 +22,18 @@ class RepositoryProvider extends ChangeNotifier {
 
   Future<void> setQuery(String query) async {
     _query = query;
-    _clearAndGetRepositories();
+    await _clearAndGetRepositories();
   }
 
   Future<void> setSortType(SortTypes sortType) async {
     _sortType = sortType;
-    _clearAndGetRepositories();
+    await _clearAndGetRepositories();
   }
 
   Future<void> getMoreRepositories() async {
     _sortType = sortType;
     page += 1;
-    _getRepositories();
+    await _getRepositories();
   }
 
   Future<void> _clearAndGetRepositories() async {
@@ -69,7 +69,6 @@ class RepositoryProvider extends ChangeNotifier {
         }
       }
     }
-    print("get");
     notifyListeners();
   }
 }

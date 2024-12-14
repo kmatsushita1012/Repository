@@ -31,5 +31,23 @@ class AppLocalizationsJa extends AppLocalizations {
   String get language_setting => '言語設定';
 
   @override
+  String get best_match => 'おすすめ';
+
+  @override
+  String get last_updated => '最新の更新';
+
+  @override
   String get unset => '未設定 ';
+
+  @override
+  String get stars => 'Stars';
+
+  @override
+  String get wathcers => 'Watchers';
+
+  @override
+  String get forks => 'Forks';
+
+  @override
+  String get issues => 'Issues';
 }

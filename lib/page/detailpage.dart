@@ -86,19 +86,19 @@ class DetailPage extends StatelessWidget {
                         physics: NeverScrollableScrollPhysics(),
                         children: [
                           DetailCard(
-                              title: "Stars",
+                              title: AppLocalizations.of(context)!.stars,
                               iconData: Icons.star,
                               value: item.stars),
                           DetailCard(
-                              title: "Watchers",
+                              title: AppLocalizations.of(context)!.wathcers,
                               iconData: Icons.visibility,
                               value: item.watchers),
                           DetailCard(
-                              title: "Forks",
+                              title: AppLocalizations.of(context)!.forks,
                               iconData: Icons.fork_right,
                               value: item.forks),
                           DetailCard(
-                              title: "Issues",
+                              title: AppLocalizations.of(context)!.issues,
                               iconData: Icons.adjust,
                               value: item.stars),
                         ],
