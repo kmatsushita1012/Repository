@@ -10,6 +10,7 @@ class RepositoryProvider extends ChangeNotifier {
   SortTypes _sortType = SortTypes.match;
   List<Repository> _items = [];
   bool _isLoading = false;
+  int page = 1;
   String get query => _query;
   SortTypes get sortType => _sortType;
   bool get isLoading => _isLoading;
@@ -21,21 +22,28 @@ class RepositoryProvider extends ChangeNotifier {
 
   Future<void> setQuery(String query) async {
     _query = query;
-    clearAndgetRepositories(1);
+    _clearAndGetRepositories();
   }
 
   Future<void> setSortType(SortTypes sortType) async {
     _sortType = sortType;
-    clearAndgetRepositories(1);
+    _clearAndGetRepositories();
   }
 
-  Future<void> clearAndgetRepositories(int page) async {
+  Future<void> getMoreRepositories() async {
+    _sortType = sortType;
+    page += 1;
+    _getRepositories();
+  }
+
+  Future<void> _clearAndGetRepositories() async {
     _items = [];
-    await getRepositories(page);
+    page = 1;
+    await _getRepositories();
   }
 
-  Future<void> getRepositories(int page) async {
-    // _isLoading = true;
+  Future<void> _getRepositories() async {
+    _isLoading = true;
     notifyListeners();
     final http.Client client = GetIt.I<http.Client>();
     final sort = sortType.toQueryString();

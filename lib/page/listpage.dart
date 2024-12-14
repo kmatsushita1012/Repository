@@ -15,9 +15,42 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        context.read<RepositoryProvider>().getMoreRepositories();
+      }
+    });
+  }
+
+  Widget _buildItem(BuildContext contex, int index) {
+    RepositoryProvider provider = context.read<RepositoryProvider>();
+    if (index < provider.count) {
+      return ProceedableTile(
+        text: provider.getRepository(index).name,
+        onTap: (context) => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DetailPage(
+                      index: index,
+                    ))),
+      );
+    } else {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -34,53 +67,34 @@ class _ListPageState extends State<ListPage> {
           ],
         ),
         body: Consumer<RepositoryProvider>(
-            builder: (context, provider, _) => Stack(
-                  alignment: Alignment.center,
+          builder: (context, provider, _) => Container(
+            margin: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.all(16.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Expanded(child: QueryField()),
-                              const SizedBox(
-                                width: 16,
-                              ),
-                              SizedBox(
-                                  width: 48, height: 48, child: SortButton()),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          Expanded(
-                            child: ListView.builder(
-                              itemCount: provider.count,
-                              itemBuilder: (context, index) => ProceedableTile(
-                                text: provider.getRepository(index).name,
-                                onTap: (context) => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => DetailPage(
-                                              index: index,
-                                            ))),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                    Expanded(child: QueryField()),
+                    const SizedBox(
+                      width: 16,
                     ),
-                    if (provider.isLoading)
-                      const Positioned.fill(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
+                    SizedBox(width: 48, height: 48, child: SortButton()),
                   ],
-                )));
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: provider.count + (provider.isLoading ? 1 : 0),
+                      itemBuilder: _buildItem),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }
