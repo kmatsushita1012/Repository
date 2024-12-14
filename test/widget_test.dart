@@ -7,11 +7,14 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:repository/models/sorttypes.dart';
 import 'package:repository/providers/repository_provider.dart';
+import 'package:repository/providers/settings_provider.dart';
 import 'package:repository/widgets/detailcard.dart';
 import 'package:repository/widgets/detailtile.dart';
 import 'package:repository/widgets/proceedabletile.dart';
 import 'package:repository/widgets/queryfield.dart';
 import 'package:repository/widgets/sortbutton.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   setUpAll(() {
@@ -67,57 +70,87 @@ void main() {
     await tester.pump();
     expect(isTapped, true);
   });
-
-  //なぜかProviderがnullで失敗
-  testWidgets('QueryField', (WidgetTester tester) async {
-    final text = 'sample';
-    await tester.pumpWidget(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => RepositoryProvider())],
-      builder: (context, builder) => MaterialApp(
-        home: Scaffold(
-          body: QueryField(),
+  group('QueryField Widget Test', () {
+    late RepositoryProvider mockProvider;
+    setUp(() {
+      mockProvider = RepositoryProvider();
+    });
+    Widget createTestableWidget() {
+      return MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: Locale('en'),
+        home: ChangeNotifierProvider<RepositoryProvider>.value(
+          value: mockProvider,
+          child: const Scaffold(body: QueryField()),
         ),
-      ),
-    ));
-    final textField = find.byType(TextField);
-    expect(textField, findsOneWidget);
-    await tester.enterText(textField, text);
-    await tester.pumpAndSettle();
-    expect(find.text(text), findsOneWidget);
-  });
+      );
+    }
 
-  testWidgets('SortButton', (WidgetTester tester) async {
-    await tester.pumpWidget(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider<RepositoryProvider>(
-            create: (_) => RepositoryProvider(),
-          )
-        ],
-        child: MaterialApp(
-          home: Scaffold(
-            body: SizedBox(
-              //サイズ大きくするといける
-              width: 800,
-              height: 800,
-              child: SortButton(),
-            ),
-          ),
-        ),
-      ),
-    );
-    expect(find.byType(Icon), findsOneWidget);
-    await tester.tap(find.byType(PopupMenuButton<SortTypes>));
-    await tester.pumpAndSettle();
-    expect(find.text("Forks"), findsOneWidget);
-    expect(find.text("Issues"), findsOneWidget);
-    expect(find.text("Last Updated"), findsOneWidget);
-    expect(find.text("Stars"), findsOneWidget);
-    await tester.tap(find.text("Last Updated"));
-    await tester.pumpAndSettle();
-    expect(find.byIcon(Icons.update), findsOneWidget);
+    testWidgets('renders QueryField correctly', (WidgetTester tester) async {
+      await tester.pumpWidget(createTestableWidget());
+      expect(find.byType(TextField), findsOneWidget);
+      expect(find.byIcon(Icons.search), findsOneWidget);
+      expect(find.text('Search'), findsOneWidget);
+    });
+
+    testWidgets('onSubmitted updates query in provider',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(createTestableWidget());
+      const queryText = 'test query';
+      await tester.enterText(find.byType(TextField), queryText);
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+      expect(mockProvider.query, queryText);
+    });
   });
-  // なぜかProviderがnullになる
+  group('SortButton Widget Test', () {
+    late RepositoryProvider mockProvider;
+    setUp(() {
+      mockProvider = RepositoryProvider();
+    });
+    Widget createTestableWidget() {
+      return MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: Locale('en'),
+        home: ChangeNotifierProvider<RepositoryProvider>.value(
+          value: mockProvider,
+          child: const Scaffold(
+              body: SizedBox(
+            //サイズ大きくするといける
+            width: 800,
+            height: 800,
+            child: SortButton(),
+          )),
+        ),
+      );
+    }
+
+    testWidgets('renders SortButton correctly', (WidgetTester tester) async {
+      await tester.pumpWidget(createTestableWidget());
+      expect(find.byType(PopupMenuButton<SortTypes>), findsOneWidget);
+      expect(find.byType(Icon), findsOneWidget);
+      await tester.tap(find.byType(PopupMenuButton<SortTypes>));
+      await tester.pumpAndSettle();
+      expect(find.text("Forks"), findsOneWidget);
+      expect(find.text("Issues"), findsOneWidget);
+      expect(find.text("Last Updated"), findsOneWidget);
+      expect(find.text("Stars"), findsOneWidget);
+      expect(find.text("Best Match"), findsOneWidget);
+    });
+
+    testWidgets('onSelected updates sorType in provider',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(createTestableWidget());
+      await tester.tap(find.byType(PopupMenuButton<SortTypes>));
+      await tester.pumpAndSettle();
+      const sortType = SortTypes.stars;
+      await tester.tap(find.text("Stars"));
+      await tester.pumpAndSettle();
+      expect(mockProvider.sortType, sortType);
+    });
+  });
 }
 
 Future<http.Response> normalRequestHandler(http.Request request) async {
