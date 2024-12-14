@@ -21,8 +21,7 @@ void main() {
   });
   testWidgets('DetailCard', (WidgetTester tester) async {
     String title = "Language";
-    String value =
-        "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+    int value = -9223372036854775808;
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
@@ -32,7 +31,7 @@ void main() {
       ),
     );
     expect(find.text(title), findsOneWidget);
-    expect(find.text(value), findsOneWidget);
+    expect(find.text(value.toString()), findsOneWidget);
   });
   testWidgets('DetailTile', (WidgetTester tester) async {
     String title = "Issues";

@@ -196,3 +196,5 @@ https://qiita.com/kokogento/items/6c0baf22c85a28db388c
 
 https://riverpod.dev/ja/docs/essentials/testing
 https://flutter.salon/plugin/mockito/
+
+https://zenn.dev/faucon/articles/ca4e3763498dac

@@ -39,11 +39,11 @@ enum SortTypes {
       case SortTypes.forks:
         return Icons.fork_right;
       case SortTypes.isuues:
-        return Icons.priority_high;
+        return Icons.adjust;
       case SortTypes.updated:
         return Icons.update;
       case SortTypes.match:
-        return Icons.favorite;
+        return Icons.thumb_up;
     }
   }
 }

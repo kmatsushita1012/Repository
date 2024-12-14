@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:repository/page/list.dart';
+import 'package:repository/page/listpage.dart';
 import 'package:repository/providers/repository_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:repository/providers/settings_provider.dart';

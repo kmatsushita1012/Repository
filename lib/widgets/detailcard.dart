@@ -1,15 +1,43 @@
+import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 
-class DetailCard extends StatelessWidget {
+class DetailCard extends StatefulWidget {
   final String title;
   final IconData iconData;
-  final String value;
+  final int value;
 
   const DetailCard(
       {super.key,
       required this.title,
       required this.iconData,
       required this.value});
+  @override
+  _DetailCardState createState() => _DetailCardState();
+}
+
+class _DetailCardState extends State<DetailCard> with TickerProviderStateMixin {
+  double opacityLevel = 1.0;
+
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(milliseconds: 500),
+    vsync: this,
+  );
+  late final Animation<double> _animation = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.easeIn,
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,15 +50,17 @@ class DetailCard extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      flex: 1, 
+                      flex: 1,
                       child: LayoutBuilder(
                         builder: (context, constraints) {
                           return Center(
+                              child: FadeTransition(
+                            opacity: _animation,
                             child: Icon(
-                              iconData,
+                              widget.iconData,
                               size: constraints.maxWidth * 0.9,
                             ),
-                          );
+                          ));
                         },
                       ),
                     ),
@@ -42,22 +72,26 @@ class DetailCard extends StatelessWidget {
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    title,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 24),
-                  ),
+                  child: FadeTransition(
+                      opacity: _animation,
+                      child: Text(
+                        widget.title,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(fontSize: 24),
+                      )),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: Text(
-                    value,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    textAlign: TextAlign.right,
-                    style: TextStyle(fontSize: 32),
+                  child: Countup(
+                    begin: 0,
+                    end: widget.value.toDouble(),
+                    duration: Duration(seconds: 1),
+                    separator: ',',
+                    style: TextStyle(
+                      fontSize: 32,
+                    ),
                   ),
                 ),
               ],

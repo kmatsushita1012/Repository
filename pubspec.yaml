@@ -50,6 +50,9 @@ dependencies:
   riverpod: ^2.6.1
   build_runner: ^2.4.13
   get_it: ^8.0.3
+  animated_flip_counter: ^0.3.4
+  countup: ^0.1.4
+  hooks_riverpod: ^2.6.1
 
 flutter_icons:
   android: true

@@ -18,20 +18,21 @@ class RepositoryProvider extends ChangeNotifier {
   Repository getRepository(int index) {
     return _items[index];
   }
-  
 
   Future<void> setQuery(String query) async {
     _query = query;
-    _items = [];
-    await getRepositories(1);
-    notifyListeners();
+    clearAndgetRepositories(1);
   }
 
   Future<void> setSortType(SortTypes sortType) async {
     _sortType = sortType;
+    clearAndgetRepositories(1);
+  }
+
+  Future<void> clearAndgetRepositories(int page) async {
     _items = [];
-    await getRepositories(1);
     notifyListeners();
+    await getRepositories(page);
   }
 
   Future<void> getRepositories(int page) async {
@@ -46,6 +47,8 @@ class RepositoryProvider extends ChangeNotifier {
           ? {'q': query, 'sort': sort, 'page': page.toString()}
           : {'q': query, 'page': page.toString()},
     ));
+    _isLoading = false;
+    notifyListeners();
 
     if (response.statusCode == 200) {
       dynamic responseBody = utf8.decode(response.bodyBytes);
@@ -54,13 +57,12 @@ class RepositoryProvider extends ChangeNotifier {
         try {
           Repository item = Repository.fromSearhRepositoryItem(elem);
           _items.add(item);
+          notifyListeners();
         } catch (e) {
           print("parse error ${e}");
           continue;
         }
       }
     }
-    _isLoading = false;
-    notifyListeners();
   }
 }
