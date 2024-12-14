@@ -10,8 +10,8 @@ class RepositoryProvider extends ChangeNotifier {
   List<Repository> items = [];
   bool isLoading = false;
 
-  void setText(String text) {
-    this.query = text;
+  void setQuery(String query) {
+    this.query = query;
     items = [];
     getRepositories(1);
     notifyListeners();

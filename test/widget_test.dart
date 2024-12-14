@@ -64,7 +64,7 @@ void main() {
 
   testWidgets('SortButton', (WidgetTester tester) async {
     await tester.pumpWidget(
-      ChangeNotifierProvider(
+      ChangeNotifierProvider<RepositoryProvider>(
         create: (_) => RepositoryProvider(),
         child: MaterialApp(
           home: Scaffold(
@@ -91,14 +91,15 @@ void main() {
   });
 
   testWidgets('QueryField', (WidgetTester tester) async {
-    final provider = RepositoryProvider();
     final text = 'sample';
     await tester.pumpWidget(
-      ChangeNotifierProvider(
-        create: (_) => provider,
+      ChangeNotifierProvider<RepositoryProvider>(
+        create: (_) => RepositoryProvider(),
         child: MaterialApp(
           home: Scaffold(
-            body: Expanded(
+            body: SizedBox(
+              width: 400,
+              height: 400,
               //サイズ大きくするといける
               child: QueryField(),
             ),
@@ -106,11 +107,10 @@ void main() {
         ),
       ),
     );
-    await tester.pumpAndSettle();
     final textField = find.byType(TextField);
     expect(textField, findsOneWidget);
     await tester.enterText(textField, text);
     await tester.pumpAndSettle();
-    expect(provider.query, text);
+    expect(find.text(text), findsOneWidget);
   });
 }

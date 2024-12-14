@@ -18,7 +18,7 @@ class QueryField extends StatelessWidget {
               borderRadius: BorderRadius.circular(30.0),
             ),
             prefixIcon: const Icon(Icons.search)),
-        onSubmitted: (value) => provider.setText(value),
+        onSubmitted: (value) => provider.setQuery(value),
       ),
     );
   }
