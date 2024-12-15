@@ -12,15 +12,10 @@ class ProceedableTile extends StatefulWidget {
     this.height = 64,
   });
   @override
-  _ProceedableTileState createState() => _ProceedableTileState();
+  ProceedableTileState createState() => ProceedableTileState();
 }
 
-class _ProceedableTileState extends State<ProceedableTile> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+class ProceedableTileState extends State<ProceedableTile> {
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +33,7 @@ class _ProceedableTileState extends State<ProceedableTile> {
               // border: Border.all(color: colorScheme.surface),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withAlpha(31),
                   blurRadius: 2,
                   offset: Offset(0, 4),
                 ),

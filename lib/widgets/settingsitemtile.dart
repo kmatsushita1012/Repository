@@ -24,7 +24,7 @@ class SettingsItemtile extends StatelessWidget {
               // border: Border.all(color: colorScheme.surface),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withAlpha(31),
                   blurRadius: 2,
                   offset: Offset(0, 4),
                 ),

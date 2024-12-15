@@ -5,6 +5,8 @@ import 'package:repository/providers/settings_provider.dart';
 import 'package:repository/widgets/selectabletile.dart';
 
 class LanguagePage extends StatelessWidget {
+  const LanguagePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;

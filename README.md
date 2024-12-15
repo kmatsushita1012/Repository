@@ -23,25 +23,23 @@
     - 多言語対応
   - パイプライン完成 & Github Actions ビルド成功
 
-## 解説
+## 作業詳細
 
-2 日目の Firebase App Distribution への連携時にプロジェクトを作り直さざるを得なくなったため,2 日目以前のコミットの記録が消滅しました。ご容赦ください。代わりに時系列順に作業工程を詳しく説明します.
-
-### パイプライン作成
-
-[こちら](https://zenn.dev/takuowake/articles/e1f52c5f0fb4ab)で勉強しました.暫定的に Build APK まで実装しました.
+2 日目の Firebase App Distribution への連携時にプロジェクトを作り直さざるを得なくなったため,2 日目以前のコミットの記録が消滅しました。ご容赦ください。
 
 ### UI 設計
 
 Figma を用いて作成しました。
 
-### Provider
+### 実装
 
-MVVM に触れるのが初めてのため[こちら](https://qiita.com/mamoru_takami/items/730b9db24c68cf8cfe75)で勉強しました.ウィジェットへの適用もこの記事通りに実装しました.
+#### Provider
 
-プロバイダーはメインとなるレポジトリ検索(`RepositoryProvider`)と設定(`SettingsProvider`)の 2 つに分けて作成します.
+MVVM に触れるのが初めてのため[【Flutter】Provider を使って複数画面で再描画を行う【初心者向け】](https://qiita.com/mamoru_takami/items/730b9db24c68cf8cfe75)を参考.
 
-`RepositoryProvider`は以下のとおり実装します.
+プロバイダーはメインとなるレポジトリ検索(`RepositoryProvider`)と設定(`SettingsProvider`)の 2 つに分けて作成.
+
+`RepositoryProvider`は以下のとおり実装.
 
 ```dart
 class RepositoryProvider extends ChangeNotifier {
@@ -56,7 +54,7 @@ class RepositoryProvider extends ChangeNotifier {
 }
 ```
 
-http 通信は実装経験があるため当時のコードから引用しアレンジを加えました.
+http 通信は実装経験があるため当時のコードから引用しアレンジを加えた.
 
 ```dart
 void getRepositories(int page) {
@@ -88,7 +86,7 @@ void getRepositories(int page) {
   }
 ```
 
-データモデルとして以下を作成しました.
+データモデルはレポジトリに対応する`Repository`とソートの選択肢に対応する`SortTypes`.
 
 ```dart
 class Repository {
@@ -110,92 +108,157 @@ enum SortTypes {
 }
 ```
 
-`SettingsProvider`は多言語対応で実装したため後述します.
+`SettingsProvider`は SharedPreference と連携しつつ設定の反映をリアルタイムで反映する.コンストラクタで SharedPreference を取り込むことでモックテストに対応.
 
-### ページ雛形
+```dart
+class SettingsProvider extends ChangeNotifier {
+  late SharedPreferences _prefs;
+  late Locale _locale;
+  Locale get locale => _locale;
 
-最低限のテストができるように基本的なウィジェットを配置しました.以下のエラーが発生しました.
+  //全言語のAppLocalizationsが必要な時(言語設定)に使用
+  final List<MapEntry<Locale, AppLocalizations>> _appLocalizationsEntryList =
+      [];
+  List<MapEntry<Locale, AppLocalizations>> get appLocalizationsEntryList =>
+      _appLocalizationsEntryList;
+
+  SettingsProvider(SharedPreferences prefs) {
+    _prefs = prefs;
+    //_appLocalizationsEntryListの初期化
+  }
+
+}
+```
+
+### Widget
 
 - ページの雛形作成中にウィジェット関連でエラー. `Column` と `ListView` を入れ子にするとサイズが定まらなくなるのが原因.`ListView`を`Expanded`で囲むなどで解決.
   https://qiita.com/umi_mori/items/fb7b67a5c5bb3dda927e
-- GestureDetector が子要素上しか反応しなかった.
+- `GestureDetector` が子要素上しか反応しなかった.
   https://note.com/gawakun/n/n54661ad04106
   https://api.flutter.dev/flutter/rendering/HitTestBehavior.html
 
-### IntegrationTest
+- リストページで追加の読み込みをできるようにした.[Flutter での Lazy Loading リストビューの実装](https://qiita.com/omitsuhashi/items/ea6ae22d9572ea882a2f)を参考にした.
 
-[こちら](https://zenn.dev/shima999ba/articles/d0aba49b159bf0)で勉強しました.`await tester.pumpAndSettle()`でのタイミングの調節や`Widget`の再配置が必要な箇所が多く苦労しました.
+### 多言語化
 
-なぜか`tester.tap()`が反応しない
-
-###　ビルド
-
-Github Actions でバージョン関係を中心に大量にエラーが発生しました.
-例:
+[Flutter アプリを多言語化する方法（作業時間：10 分）](https://zenn.dev/amuro/articles/27799da3afc40e)を参考にした.
+依存関係でハマりがちだが
 
 ```
-FAILURE: Build failed with an exception.
+flutter clean
+flutter pub get
+flutter gen-l10n
+```
 
-* Where:
-Build file '/home/runner/work/RepositoryViewer/RepositoryViewer/android/app/build.gradle' line: 2
+で治る
 
-* What went wrong:
-An exception occurred applying plugin request [id: 'com.android.application']
-> Failed to apply plugin 'com.android.internal.application'.
-   > Android Gradle plugin requires Java 17 to run. You are currently using Java 11.
-      Your current JDK is located in /usr/lib/jvm/temurin-11-jdk-amd64
-      You can try some of the following options:
-       - changing the IDE settings.
-       - changing the JAVA_HOME environment variable.
-       - changing `org.gradle.java.home` in `gradle.properties`.
+### アニメーション
 
-* Try:
-> Run with --stacktrace option to get the stack trace.
-> Run with --info or --debug option to get more log output.
-> Run with --scan to get full insights.
+- 詳細ページには主に`FadeTransition`を用いた.[リファレンス](https://api.flutter.dev/flutter/widgets/FadeTransition-class.html)を参照.
 
-* Get more help at https://help.gradle.org
+### パイプライン作成
 
-BUILD FAILED in 1m 4s
-Running Gradle task 'assembleRelease'...                           65.4s
+[Flutter アプリの CI/CD パイプライン構築ガイド](https://zenn.dev/takuowake/articles/e1f52c5f0fb4ab), [[Flutter]GitHub Actions で App Distribution にアプリをアップロードした](https://zenn.dev/shima999ba/articles/ae1fc477744e2a)を参考.最初は前者を参考にしていたが iOS のビルドがアップできないことに気づき後者に変更.
 
-┌─ Flutter Fix ───────────────────────────────────────────────────────────────────────┐
-│ [!] Android Gradle plugin requires Java 17 to run. You are currently using Java 11. │
-│                                                                                     │
-│ To fix this issue, try updating to the latest Android SDK and Android Studio on:    │
-│ https://developer.android.com/studio/install                                        │
-│ If that does not work, you can set the Java version used by Flutter by              │
-│ running `flutter config --jdk-dir=“</path/to/jdk>“`                                 │
-│                                                                                     │
-│ To check the Java version used by Flutter, run `flutter doctor --verbose`           │
-└─────────────────────────────────────────────────────────────────────────────────────┘
-Gradle task assembleRelease failed with exit code 1
+Github Actions でバージョン関係を中心に大量にエラーが発生.
+
+- 例 1
+
+```
+Android Gradle plugin requires Java 17 to run. You are currently using Java 11.
 ```
 
 Java のセットアップもワークフローに組み込むことで対処.[[参考](https://stackoverflow.com/questions/77033194/java-17-is-required-instad-of-java-11-android-ci-cd-github-actions)]
 
-### 多言語化
+- 例 2
 
-ビルドでのエラーの多さに
-https://zenn.dev/amuro/articles/27799da3afc40e
-依存関係でハマった.
-flutter clean
-flutter pub get
-flutter gen-l10n
-で治る
+```
+Error: This request has been automatically failed because it uses a deprecated version of `actions/download-artifact: v2`.
+```
+
+該当部分は以下
+
+```yaml
+- uses: actions/checkout@v2
+  - name: Get release-ipa from artifacts
+    uses: actions/download-artifact@v4
+```
+
+`v2`を`v4`に書き換えて解決.`download-artifact`以外に`upload-artifact`,`checkout-artifact`も同様.
 
 ### Firebase App Distribution
 
-https://github.com/wzieba/Firebase-Distribution-Github-Action?tab=readme-ov-file
-https://zenn.dev/yass97/articles/e8d1e460ae6a59
+- iOS のバージョンが初期設定の 12.0 では Firebase と連携できなかったため 14.0 に変更.
+  [参考 1](https://zenn.dev/t_fukuyama/articles/9048d5f26befee)
+- [参考 2](https://qiita.com/kokogento/items/6c0baf22c85a28db388c)
+
+必要な環境変数を集めて GithubActions にセットする.
+
+- 共通
+  - [FIREBASE_PROJ_DEV_NAME] プロジェクト ID
+  - [FIREBASE_AUTH_TOKEN] Firebase のトークン
+  - [FIREBASE_DEV_TOKEN] Firebase の Json Token
+  - [FIREBASE_DEV_IOS_ID,FIREBASE_DEV_ANDROID_ID] Firebase のアプリ ID(iOS/Android で共通)
+- iOS
+  - [APPSTORE_CERT_BASE64] 証明書(Base64 でエンコード)
+  - [APPSTORE_CERT_PASSWORD] 証明書のパスワード
+  - [MOBILEPROVISION_ADHOC_BASE64] プロビジョニングプロファイル(Adhoc)
+  - [KEYCHAIN_PASSWORD] キーチェーンパスワード(任意の文字列で可)
+- Android
+  - [ANDROID_KEY_JKS]キーストアファイル
+  - [ANDROID_STORE_PASSWORD] キーストアファイルのパスワード
+  - [ANDROID_ALIAS_PASSWORD] キーストアファイルの ALIAS のパスワード
+  - [ANDROID_KEY_ALIAS] キーストアファイルの ALIAS 名
+
+#### iOS の手順
+
+- キーチェーンアクセスから証明書要求ファイル作成 ([参考](https://faq.growthbeat.com/article/178-ios-p12))
+- Apple Developer で Certificates を作成,ダウンロード
+  - 用途に iOS Distribution を選択
+  - 取得した証明書要求ファイルをセット
+- ダウンロードしたファイルをキーチェーンアクセスで開き`*.p12`で書き出し
+  - ログイン->自分の証明書で選択
+  - パスワードを入力し`APPSTORE_CERT_BASE64`にセット
+  - Base64 にエンコードして`APPSTORE_CERT_BASE64`にセット
+- Apple Developer から AppID を作成
+  - バンドル ID には`com.example.yourappname`を入力
+- Apple Developer から Profile を作成 ([参考](https://developer.apple.com/jp/help/account/manage-profiles/create-a-development-provisioning-profile/))
+  - 用途に App Store Connect を選択.
+  - 作成した AppID を選択.
+  - 取得した証明書を選択.
+
+### Android の手順
+
+### テスト
+
+[【Flutter】IntegrationTest の準備](https://zenn.dev/shima999ba/articles/d0aba49b159bf0)を参考.
+
+#### ユニットテスト(Provider)
+
+[provider のテスト](https://riverpod.dev/ja/docs/essentials/testing)を参考.また htpp 通信のテストにモックを導入した.([【Flutter】DI と Mock を使って WEB API をテストする + mockito チートシート コード付](https://flutter.salon/plugin/mockito/))
+
+#### Widget
+
+Provider が絡むテキストフィールドとボタンでつまづいた.
+
+```dart
+ testWidgets('renders QueryField correctly', (WidgetTester tester) async {
+  final provider = RepositoryProvider()
+    await tester.pumpWidget(MultiProvider(
+      providers: [ChangeNotifierProvider.value(provider)],
+      builder: (context, builder) => MaterialApp(
+        //...
+      ),
+    ));
+```
+
+このような形式だったが Widget 側でnullエラーに.
 
 ## 備考
 
-https://zenn.dev/t_fukuyama/articles/9048d5f26befee
-https://qiita.com/kokogento/items/6c0baf22c85a28db388c
-
-https://riverpod.dev/ja/docs/essentials/testing
-https://flutter.salon/plugin/mockito/
-
-https://zenn.dev/faucon/articles/ca4e3763498dac
-https://qiita.com/omitsuhashi/items/ea6ae22d9572ea882a2f
+その他備忘録. これらで治りはしなかったが今後役立つかもしれない.
+https://dev.classmethod.jp/articles/xcode-no-signing-certificate-ios-development-found-error/
+https://qiita.com/warapuri/items/2a32cb2201ce75aa5f4b
+https://qiita.com/warapuri/items/2a32cb2201ce75aa5f4b
+https://qiita.com/kokogento/items/c2979542a34610925e2d

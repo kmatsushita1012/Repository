@@ -4,6 +4,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:repository/widgets/settingsitemtile.dart';
 
 class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
+
   void _onLanguageTap(BuildContext context) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => LanguagePage()));
