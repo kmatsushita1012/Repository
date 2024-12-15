@@ -130,6 +130,9 @@ enum SortTypes {
 
 なぜか`tester.tap()`が反応しない
 
+####　ユニット(Provider)
+[providerのテスト](https://riverpod.dev/ja/docs/essentials/testing)を参考
+
 ###　ビルド
 
 Github Actions でバージョン関係を中心に大量にエラーが発生しました.
@@ -160,15 +163,11 @@ flutter gen-l10n
 
 ### Firebase App Distribution
 
-https://github.com/wzieba/Firebase-Distribution-Github-Action?tab=readme-ov-file
-https://zenn.dev/yass97/articles/e8d1e460ae6a59
+iOS のバージョンが初期設定の 12.0 では Firebase と連携できなかったため 14.0 に変更
+[参考 1](https://zenn.dev/t_fukuyama/articles/9048d5f26befee),[参考 2](https://qiita.com/kokogento/items/6c0baf22c85a28db388c)
 
 ## 備考
 
-https://zenn.dev/t_fukuyama/articles/9048d5f26befee
-https://qiita.com/kokogento/items/6c0baf22c85a28db388c
-
-https://riverpod.dev/ja/docs/essentials/testing
 https://flutter.salon/plugin/mockito/
 
 https://zenn.dev/faucon/articles/ca4e3763498dac
