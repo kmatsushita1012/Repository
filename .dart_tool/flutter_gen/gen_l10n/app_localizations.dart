@@ -184,6 +184,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Issues'**
   String get issues;
+
+  /// No description provided for @http_error.
+  ///
+  /// In en, this message translates to:
+  /// **'An unexpected error has occurred. Please try again.'**
+  String get http_error;
+
+  /// No description provided for @invalid_query.
+  ///
+  /// In en, this message translates to:
+  /// **'The search query you entered is invalid. Please check it again.'**
+  String get invalid_query;
+
+  /// No description provided for @empty_list.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a keyword to search for repositories.'**
+  String get empty_list;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
