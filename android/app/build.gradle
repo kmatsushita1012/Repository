@@ -8,10 +8,10 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
-}
+// def flutterVersionName = localProperties.getProperty('flutter.versionName')
+// if (flutterVersionName == null) {
+//     flutterVersionName = '1.0'
+// }
 
 def keystorePropertiesFile = rootProject.file("key.properties")
 

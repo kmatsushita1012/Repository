@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: setup repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
       - name: Set up Java
         uses: actions/setup-java@v2
