@@ -138,18 +138,22 @@ class SettingsProvider extends ChangeNotifier {
   https://note.com/gawakun/n/n54661ad04106
   https://api.flutter.dev/flutter/rendering/HitTestBehavior.html
 
+- リストページで追加の読み込みをできるようにした.[FlutterでのLazy Loadingリストビューの実装](https://qiita.com/omitsuhashi/items/ea6ae22d9572ea882a2f)を参考にした.
+
+
 ### 多言語化
 
 [Flutter アプリを多言語化する方法（作業時間：10 分）](https://zenn.dev/amuro/articles/27799da3afc40e)を参考にした.
 依存関係でハマりがちだが
-
 ```
 flutter clean
 flutter pub get
 flutter gen-l10n
 ```
-
 で治る
+
+### アニメーション
+- 詳細ページには主に`FadeTransition`を用いた.[リファレンス](https://api.flutter.dev/flutter/widgets/FadeTransition-class.html)を参照.
 
 ### パイプライン作成
 
@@ -165,17 +169,18 @@ Android Gradle plugin requires Java 17 to run. You are currently using Java 11.
 
 Java のセットアップもワークフローに組み込むことで対処.[[参考](https://stackoverflow.com/questions/77033194/java-17-is-required-instad-of-java-11-android-ci-cd-github-actions)]
 
-- 例 2 　下記コードでエラー
+- 例 2
 
-```yaml
-- name: collect ipa artifacts
-  uses: actions/upload-artifact@v2
-  with:
-    name: release-ipa
-    path: build/ios/ipa/*.ipa
 ```
-
-`v2`を`v4`に書き換えて解決.
+Error: This request has been automatically failed because it uses a deprecated version of `actions/download-artifact: v2`.
+```
+該当部分は以下
+```yaml
+- uses: actions/checkout@v2
+  - name: Get release-ipa from artifacts
+    uses: actions/download-artifact@v4
+```
+`v2`を`v4`に書き換えて解決.`download-artifact`以外にも`upload-artifact`などで頻出した.
 
 ### Firebase App Distribution
 
@@ -189,9 +194,9 @@ Java のセットアップもワークフローに組み込むことで対処.[[
 
 [【Flutter】IntegrationTest の準備](https://zenn.dev/shima999ba/articles/d0aba49b159bf0)を参考.
 
-#### ユニット(Provider)
+#### ユニットテスト(Provider)
 
-[provider のテスト](https://riverpod.dev/ja/docs/essentials/testing)を参考
+[provider のテスト](https://riverpod.dev/ja/docs/essentials/testing)を参考.また htpp 通信のテストにモックを導入した.([【Flutter】DI と Mock を使って WEB API をテストする + mockito チートシート コード付](https://flutter.salon/plugin/mockito/))
 
 #### Widget
 
@@ -207,14 +212,15 @@ Provider が絡むテキストフィールドとボタンでつまづいた.
       ),
     ));
 ```
-このような形式だったがWidget側
+
+このような形式だったが Widget 側
+
+
 
 ## 備考
 
-https://flutter.salon/plugin/mockito/
 
-https://zenn.dev/faucon/articles/ca4e3763498dac
-https://qiita.com/omitsuhashi/items/ea6ae22d9572ea882a2f
+
 
 https://qiita.com/MLLB/items/6b615428357ee9994c7e
 https://faq.growthbeat.com/article/178-ios-p12
