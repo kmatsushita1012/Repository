@@ -193,24 +193,26 @@ Error: This request has been automatically failed because it uses a deprecated v
   [参考 1](https://zenn.dev/t_fukuyama/articles/9048d5f26befee)
 - [参考 2](https://qiita.com/kokogento/items/6c0baf22c85a28db388c)
 
-必要な環境変数を集めてGithubActionsにセットする.
+必要な環境変数を集めて GithubActions にセットする.
+
 - 共通
-  - [FIREBASE_PROJ_DEV_NAME] プロジェクトID
-  - [FIREBASE_AUTH_TOKEN] Firebaseのトークン
-  - [FIREBASE_DEV_TOKEN] FirebaseのJson Token
-  - [FIREBASE_DEV_IOS_ID,FIREBASE_DEV_ANDROID_ID] FirebaseのアプリID(iOS/Androidで共通)
+  - [FIREBASE_PROJ_DEV_NAME] プロジェクト ID
+  - [FIREBASE_AUTH_TOKEN] Firebase のトークン
+  - [FIREBASE_DEV_TOKEN] Firebase の Json Token
+  - [FIREBASE_DEV_IOS_ID,FIREBASE_DEV_ANDROID_ID] Firebase のアプリ ID(iOS/Android で共通)
 - iOS
-  - [APPSTORE_CERT_BASE64] 証明書(Base64でエンコード)
+  - [APPSTORE_CERT_BASE64] 証明書(Base64 でエンコード)
   - [APPSTORE_CERT_PASSWORD] 証明書のパスワード
   - [MOBILEPROVISION_ADHOC_BASE64] プロビジョニングプロファイル(Adhoc)
   - [KEYCHAIN_PASSWORD] キーチェーンパスワード(任意の文字列で可)
 - Android
   - [ANDROID_KEY_JKS]キーストアファイル
   - [ANDROID_STORE_PASSWORD] キーストアファイルのパスワード
-  - [ANDROID_ALIAS_PASSWORD] キーストアファイルのALIASのパスワード
-  - [ANDROID_KEY_ALIAS] キーストアファイルのALIAS名
+  - [ANDROID_ALIAS_PASSWORD] キーストアファイルの ALIAS のパスワード
+  - [ANDROID_KEY_ALIAS] キーストアファイルの ALIAS 名
 
-#### iOSの手順
+#### iOS の手順
+
 - キーチェーンアクセスから証明書要求ファイル作成 ([参考](https://faq.growthbeat.com/article/178-ios-p12))
 - Apple Developer で Certificates を作成,ダウンロード
   - 用途に iOS Distribution を選択
@@ -218,15 +220,15 @@ Error: This request has been automatically failed because it uses a deprecated v
 - ダウンロードしたファイルをキーチェーンアクセスで開き`*.p12`で書き出し
   - ログイン->自分の証明書で選択
   - パスワードを入力し`APPSTORE_CERT_BASE64`にセット
-  - Base64にエンコードして`APPSTORE_CERT_BASE64`にセット
+  - Base64 にエンコードして`APPSTORE_CERT_BASE64`にセット
 - Apple Developer から AppID を作成
   - バンドル ID には`com.example.yourappname`を入力
 - Apple Developer から Profile を作成 ([参考](https://developer.apple.com/jp/help/account/manage-profiles/create-a-development-provisioning-profile/))
   - 用途に App Store Connect を選択.
   - 作成した AppID を選択.
   - 取得した証明書を選択.
-### Androidの手順
 
+### Android の手順
 
 ### テスト
 
@@ -255,10 +257,8 @@ Provider が絡むテキストフィールドとボタンでつまづいた.
 
 ## 備考
 
-
-
+その他備忘録. これらで治りはしなかったが今後役立つかもしれない.
+https://dev.classmethod.jp/articles/xcode-no-signing-certificate-ios-development-found-error/
 https://qiita.com/warapuri/items/2a32cb2201ce75aa5f4b
-
+https://qiita.com/warapuri/items/2a32cb2201ce75aa5f4b
 https://qiita.com/kokogento/items/c2979542a34610925e2d
-
-証明書 -> Type は AppstoreConnect
