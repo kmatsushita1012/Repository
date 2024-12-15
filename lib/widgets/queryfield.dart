@@ -22,7 +22,7 @@ class QueryField extends StatelessWidget {
               borderRadius: BorderRadius.circular(30.0),
             ),
             prefixIcon: const Icon(Icons.search)),
-        onSubmitted: (value) => onSubmitted,
+        onSubmitted: onSubmitted,
       ),
     );
   }

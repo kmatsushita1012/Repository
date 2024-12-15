@@ -30,6 +30,7 @@ class _ListPageState extends State<ListPage> {
   }
 
   void _onSubmitted(BuildContext context, String value) {
+    print("submit");
     final provider = context.read<RepositoryProvider>();
     provider.setQuery(value);
   }
