@@ -86,7 +86,7 @@ void getRepositories(int page) {
   }
 ```
 
-データモデルとして以下を作成しました.
+データモデルとしてレポジトリに対応する`Repository`.
 
 ```dart
 class Repository {
@@ -130,10 +130,11 @@ enum SortTypes {
 
 なぜか`tester.tap()`が反応しない
 
-####　ユニット(Provider)
-[providerのテスト](https://riverpod.dev/ja/docs/essentials/testing)を参考
+#### ユニット(Provider)
 
-###　ビルド
+[provider のテスト](https://riverpod.dev/ja/docs/essentials/testing)を参考
+
+### ビルド
 
 Github Actions でバージョン関係を中心に大量にエラーが発生しました.
 
@@ -177,5 +178,5 @@ https://qiita.com/MLLB/items/6b615428357ee9994c7e
 https://faq.growthbeat.com/article/178-ios-p12
 https://developer.apple.com/jp/help/account/manage-profiles/create-a-development-provisioning-profile/
 https://zenn.dev/shima999ba/articles/ae1fc477744e2a
-
+https://qiita.com/warapuri/items/2a32cb2201ce75aa5f4b
 証明書 -> Type は AppstoreConnect
