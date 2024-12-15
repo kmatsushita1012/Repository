@@ -1,0 +1,43 @@
+name: analyze & test
+on:
+  workflow_call:
+    secrets:
+      FIREBASE_PROJ_DEV_NAME:
+        description: プロジェクトID
+        required: true
+      FIREBASE_AUTH_TOKEN:
+        description: Firebaseのトークン情報
+        required: true
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: setup repository
+        uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+      - name: setup flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: "3.19.5"
+      - name: check version
+        run: flutter --version
+      - name: Setup packages
+        run: |
+          flutter pub get
+          dart run build_runner build -d
+      - name: Setup Firebase Project
+        env:
+          FIREBASE_PROJ_DEV_NAME: ${{ secrets.FIREBASE_PROJ_DEV_NAME }}
+          FIREBASE_AUTH_TOKEN: ${{ secrets.FIREBASE_AUTH_TOKEN }}
+        run: |
+          curl -sL https://firebase.tools | bash
+          dart pub global activate flutterfire_cli
+          flutterfire configure -p $FIREBASE_PROJ_DEV_NAME -y --platforms "ios, android" -i "com.exmple.example-app" -a "com.example.example_app" -m "com.example.example-app"  -w "1:XXX:web:YYY" -x "1:XXX:web:YYY" -t $FIREBASE_AUTH_TOKEN -f > null
+      - name: run analyze
+        run: flutter analyze
+      - name: run test
+        run: flutter test

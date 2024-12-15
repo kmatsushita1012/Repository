@@ -199,3 +199,8 @@ https://flutter.salon/plugin/mockito/
 
 https://zenn.dev/faucon/articles/ca4e3763498dac
 https://qiita.com/omitsuhashi/items/ea6ae22d9572ea882a2f
+
+https://zenn.dev/shima999ba/articles/ae1fc477744e2a
+https://qiita.com/MLLB/items/6b615428357ee9994c7e
+https://faq.growthbeat.com/article/178-ios-p12
+https://developer.apple.com/jp/help/account/manage-profiles/create-a-development-provisioning-profile/
