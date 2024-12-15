@@ -22,7 +22,8 @@ class DetailCard extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                Row(
+                Expanded(
+                    child: Row(
                   children: [
                     Expanded(
                       flex: 1,
@@ -44,7 +45,7 @@ class DetailCard extends StatelessWidget {
                       child: Container(),
                     ),
                   ],
-                ),
+                )),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: FadeTransition(
