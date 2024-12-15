@@ -26,9 +26,9 @@ on:
       FIREBASE_DEV_TOKEN:
         description: FirebaseのJson Token
         required: true
-      # EXPORT_OPTIONS:
-      #   description: Export Options
-      #   required: true
+      EXPORT_OPTIONS:
+        description: Export Options
+        required: true
 jobs:
   build:
     runs-on: macos-latest
