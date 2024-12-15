@@ -138,21 +138,23 @@ class SettingsProvider extends ChangeNotifier {
   https://note.com/gawakun/n/n54661ad04106
   https://api.flutter.dev/flutter/rendering/HitTestBehavior.html
 
-- リストページで追加の読み込みをできるようにした.[FlutterでのLazy Loadingリストビューの実装](https://qiita.com/omitsuhashi/items/ea6ae22d9572ea882a2f)を参考にした.
-
+- リストページで追加の読み込みをできるようにした.[Flutter での Lazy Loading リストビューの実装](https://qiita.com/omitsuhashi/items/ea6ae22d9572ea882a2f)を参考にした.
 
 ### 多言語化
 
 [Flutter アプリを多言語化する方法（作業時間：10 分）](https://zenn.dev/amuro/articles/27799da3afc40e)を参考にした.
 依存関係でハマりがちだが
+
 ```
 flutter clean
 flutter pub get
 flutter gen-l10n
 ```
+
 で治る
 
 ### アニメーション
+
 - 詳細ページには主に`FadeTransition`を用いた.[リファレンス](https://api.flutter.dev/flutter/widgets/FadeTransition-class.html)を参照.
 
 ### パイプライン作成
@@ -174,37 +176,49 @@ Java のセットアップもワークフローに組み込むことで対処.[[
 ```
 Error: This request has been automatically failed because it uses a deprecated version of `actions/download-artifact: v2`.
 ```
+
 該当部分は以下
+
 ```yaml
 - uses: actions/checkout@v2
   - name: Get release-ipa from artifacts
     uses: actions/download-artifact@v4
 ```
-`v2`を`v4`に書き換えて解決.`download-artifact`以外にも`upload-artifact`などで頻出した.
+
+`v2`を`v4`に書き換えて解決.`download-artifact`以外に`upload-artifact`,`checkout-artifact`も同様.
 
 ### Firebase App Distribution
 
 - iOS のバージョンが初期設定の 12.0 では Firebase と連携できなかったため 14.0 に変更.
   [参考 1](https://zenn.dev/t_fukuyama/articles/9048d5f26befee)
--
-[参考 2](https://qiita.com/kokogento/items/6c0baf22c85a28db388c)
+- [参考 2](https://qiita.com/kokogento/items/6c0baf22c85a28db388c)
 
+必要な環境変数を集めてGithubActionsにセットする.
 
 #### iOS
+必要な環境変数は以下
+- [APPSTORE_CERT_BASE64] 証明書(Base64でエンコード)
+- [APPSTORE_CERT_PASSWORD] 証明書のパスワード
+- [MOBILEPROVISION_ADHOC_BASE64] プロビジョニングプロファイル(Adhoc)
+- [KEYCHAIN_PASSWORD] キーチェーンパスワード(任意の文字列で可)
+
+
+
 - キーチェーンアクセスから証明書要求ファイル作成 ([参考](https://faq.growthbeat.com/article/178-ios-p12))
-- Apple DeveloperでCertificatesを作成,ダウンロード
-  - 用途にiOS Distributionを選択
+- Apple Developer で Certificates を作成,ダウンロード
+  - 用途に iOS Distribution を選択
   - 取得した証明書要求ファイルをセット
-- ダウンロードしたファイルをキーチェーンアクセスで開き.p12で書き出し.
+- ダウンロードしたファイルをキーチェーンアクセスで開き`*.p12`で書き出し
   - ログイン->自分の証明書で選択
-- Apple DeveloperからAppIDを作成
-- Apple DeveloperからProfileを作成
-  - 用途にApp Store Connectを選択.
-  - 作成したAppIDを選択
-  - 
-
-
-
+  - パスワードを入力し`APPSTORE_CERT_BASE64`にセット
+  - Base64にエンコードして`APPSTORE_CERT_BASE64`にセット
+- Apple Developer から AppID を作成
+  - バンドル ID には`com.example.yourappname`を入力
+- Apple Developer から Profile を作成 ([参考](https://developer.apple.com/jp/help/account/manage-profiles/create-a-development-provisioning-profile/))
+  - 用途に App Store Connect を選択.
+  - 作成した AppID を選択.
+  - 取得した証明書を選択.
+### Android
 
 
 ### テスト
@@ -232,20 +246,12 @@ Provider が絡むテキストフィールドとボタンでつまづいた.
 
 このような形式だったが Widget 側
 
-
-
 ## 備考
 
-
-
-
-https://qiita.com/MLLB/items/6b615428357ee9994c7e
-
-https://developer.apple.com/jp/help/account/manage-profiles/create-a-development-provisioning-profile/
 
 
 https://qiita.com/warapuri/items/2a32cb2201ce75aa5f4b
 
 https://qiita.com/kokogento/items/c2979542a34610925e2d
-https://dev.classmethod.jp/articles/xcode-no-signing-certificate-ios-development-found-error/
+
 証明書 -> Type は AppstoreConnect
