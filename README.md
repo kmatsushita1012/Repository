@@ -194,16 +194,23 @@ Error: This request has been automatically failed because it uses a deprecated v
 - [参考 2](https://qiita.com/kokogento/items/6c0baf22c85a28db388c)
 
 必要な環境変数を集めてGithubActionsにセットする.
+- 共通
+  - [FIREBASE_PROJ_DEV_NAME] プロジェクトID
+  - [FIREBASE_AUTH_TOKEN] Firebaseのトークン
+  - [FIREBASE_DEV_TOKEN] FirebaseのJson Token
+  - [FIREBASE_DEV_IOS_ID,FIREBASE_DEV_ANDROID_ID] FirebaseのアプリID(iOS/Androidで共通)
+- iOS
+  - [APPSTORE_CERT_BASE64] 証明書(Base64でエンコード)
+  - [APPSTORE_CERT_PASSWORD] 証明書のパスワード
+  - [MOBILEPROVISION_ADHOC_BASE64] プロビジョニングプロファイル(Adhoc)
+  - [KEYCHAIN_PASSWORD] キーチェーンパスワード(任意の文字列で可)
+- Android
+  - [ANDROID_KEY_JKS]キーストアファイル
+  - [ANDROID_STORE_PASSWORD] キーストアファイルのパスワード
+  - [ANDROID_ALIAS_PASSWORD] キーストアファイルのALIASのパスワード
+  - [ANDROID_KEY_ALIAS] キーストアファイルのALIAS名
 
-#### iOS
-必要な環境変数は以下
-- [APPSTORE_CERT_BASE64] 証明書(Base64でエンコード)
-- [APPSTORE_CERT_PASSWORD] 証明書のパスワード
-- [MOBILEPROVISION_ADHOC_BASE64] プロビジョニングプロファイル(Adhoc)
-- [KEYCHAIN_PASSWORD] キーチェーンパスワード(任意の文字列で可)
-
-
-
+#### iOSの手順
 - キーチェーンアクセスから証明書要求ファイル作成 ([参考](https://faq.growthbeat.com/article/178-ios-p12))
 - Apple Developer で Certificates を作成,ダウンロード
   - 用途に iOS Distribution を選択
@@ -218,7 +225,7 @@ Error: This request has been automatically failed because it uses a deprecated v
   - 用途に App Store Connect を選択.
   - 作成した AppID を選択.
   - 取得した証明書を選択.
-### Android
+### Androidの手順
 
 
 ### テスト

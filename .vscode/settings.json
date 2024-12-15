@@ -1,3 +1,4 @@
 {
-  "cmake.sourceDirectory": "/Users/matsushitakazuya/pro/RepositoryViewer/repository/linux"
+  "cmake.sourceDirectory": "/Users/matsushitakazuya/pro/RepositoryViewer/repository/linux",
+  "java.configuration.updateBuildConfiguration": "interactive"
 }
