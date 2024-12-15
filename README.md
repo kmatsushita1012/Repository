@@ -205,3 +205,5 @@ https://qiita.com/MLLB/items/6b615428357ee9994c7e
 https://faq.growthbeat.com/article/178-ios-p12
 https://developer.apple.com/jp/help/account/manage-profiles/create-a-development-provisioning-profile/
 https://zenn.dev/shima999ba/articles/ae1fc477744e2a
+
+証明書 -> Type は AppstoreConnect
