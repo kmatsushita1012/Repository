@@ -89,7 +89,7 @@ jobs:
           name: release-ipa
           path: build/ios/ipa/*.ipa
       - name: Debug IPA Path
-        run: ls -al build/ios/ipa
+        run: ls -al build/ios
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
         run: |
@@ -101,7 +101,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Debug IPA Path
-        run: ls -al build/ios/ipa
+        run: ls -al build/ios
       - uses: actions/checkout@v4
       - name: Get release-ipa from artifacts
         uses: actions/download-artifact@v4
