@@ -1,42 +1,17 @@
 import 'package:flutter/material.dart';
 
-class DetailTile extends StatefulWidget {
+class DetailTile extends StatelessWidget {
   final String title;
   final IconData iconData;
   final String value;
+  final Animation<double> animation;
 
   const DetailTile(
       {super.key,
       required this.title,
       required this.iconData,
-      required this.value});
-  @override
-  _DetailTileState createState() => _DetailTileState();
-}
-
-class _DetailTileState extends State<DetailTile> with TickerProviderStateMixin {
-  double opacityLevel = 1.0;
-
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(milliseconds: 500),
-    vsync: this,
-  );
-  late final Animation<double> _animation = CurvedAnimation(
-    parent: _controller,
-    curve: Curves.easeIn,
-  );
-
-  @override
-  void initState() {
-    super.initState();
-    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+      required this.value,
+      required this.animation});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +38,7 @@ class _DetailTileState extends State<DetailTile> with TickerProviderStateMixin {
                 return Align(
                     alignment: Alignment.centerLeft,
                     child: FadeTransition(
-                      opacity: _animation,
+                      opacity: animation,
                       child: Icon(
                         Icons.language,
                         size: constraints.maxWidth * 0.6,
@@ -79,9 +54,9 @@ class _DetailTileState extends State<DetailTile> with TickerProviderStateMixin {
                   Align(
                       alignment: Alignment.centerLeft,
                       child: FadeTransition(
-                        opacity: _animation,
+                        opacity: animation,
                         child: Text(
-                          widget.title,
+                          title,
                           softWrap: true,
                           textAlign: TextAlign.right,
                           style: TextStyle(fontSize: 24),
@@ -90,9 +65,9 @@ class _DetailTileState extends State<DetailTile> with TickerProviderStateMixin {
                   Align(
                       alignment: Alignment.centerLeft,
                       child: FadeTransition(
-                          opacity: _animation,
+                          opacity: animation,
                           child: Text(
-                            widget.value,
+                            value,
                             softWrap: true,
                             textAlign: TextAlign.right,
                             style: TextStyle(fontSize: 32),

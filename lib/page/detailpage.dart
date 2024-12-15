@@ -7,10 +7,37 @@ import 'package:repository/widgets/detailcard.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:repository/widgets/detailtile.dart';
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
   final int index;
 
   const DetailPage({super.key, required this.index});
+  @override
+  _DetailPageState createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
+  double opacityLevel = 1.0;
+
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(milliseconds: 500),
+    vsync: this,
+  );
+  late final Animation<double> _animation = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.easeIn,
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   void _trailingPressed(BuildContext context) {
     Navigator.push(
@@ -35,7 +62,7 @@ class DetailPage extends StatelessWidget {
         ],
       ),
       body: Consumer<RepositoryProvider>(builder: (context, model, _) {
-        Repository item = model.getRepository(index);
+        Repository item = model.getRepository(widget.index);
         return SingleChildScrollView(
             child: Container(
                 margin: const EdgeInsets.all(16.0),
@@ -71,10 +98,12 @@ class DetailPage extends StatelessWidget {
                       height: 16,
                     ),
                     DetailTile(
-                        title: AppLocalizations.of(context)!.language,
-                        iconData: Icons.language,
-                        value: item.language ??
-                            AppLocalizations.of(context)!.unset),
+                      title: AppLocalizations.of(context)!.language,
+                      iconData: Icons.language,
+                      value:
+                          item.language ?? AppLocalizations.of(context)!.unset,
+                      animation: _animation,
+                    ),
                     SizedBox(
                       height: MediaQuery.of(context).size.width,
                       child: GridView.count(
@@ -86,21 +115,29 @@ class DetailPage extends StatelessWidget {
                         physics: NeverScrollableScrollPhysics(),
                         children: [
                           DetailCard(
-                              title: AppLocalizations.of(context)!.stars,
-                              iconData: Icons.star,
-                              value: item.stars),
+                            title: AppLocalizations.of(context)!.stars,
+                            iconData: Icons.star,
+                            value: item.stars,
+                            animation: _animation,
+                          ),
                           DetailCard(
-                              title: AppLocalizations.of(context)!.wathcers,
-                              iconData: Icons.visibility,
-                              value: item.watchers),
+                            title: AppLocalizations.of(context)!.wathcers,
+                            iconData: Icons.visibility,
+                            value: item.watchers,
+                            animation: _animation,
+                          ),
                           DetailCard(
-                              title: AppLocalizations.of(context)!.forks,
-                              iconData: Icons.fork_right,
-                              value: item.forks),
+                            title: AppLocalizations.of(context)!.forks,
+                            iconData: Icons.fork_right,
+                            value: item.forks,
+                            animation: _animation,
+                          ),
                           DetailCard(
-                              title: AppLocalizations.of(context)!.issues,
-                              iconData: Icons.adjust,
-                              value: item.stars),
+                            title: AppLocalizations.of(context)!.issues,
+                            iconData: Icons.adjust,
+                            value: item.stars,
+                            animation: _animation,
+                          ),
                         ],
                       ),
                     )

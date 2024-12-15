@@ -12,6 +12,7 @@ class LanguagePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           AppLocalizations.of(context)!.language_setting,
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
         foregroundColor: colorScheme.onPrimary,
         backgroundColor: colorScheme.primary,
@@ -24,12 +25,13 @@ class LanguagePage extends StatelessWidget {
                   children: [
                     Expanded(
                         child: ListView.builder(
-                            itemCount: provider.appLocalizationsEntryList.length,
+                            itemCount:
+                                provider.appLocalizationsEntryList.length,
                             itemBuilder: (context, index) {
                               Locale locale =
                                   provider.appLocalizationsEntryList[index].key;
-                              AppLocalizations appLocalizations =
-                                  provider.appLocalizationsEntryList[index].value;
+                              AppLocalizations appLocalizations = provider
+                                  .appLocalizationsEntryList[index].value;
                               return SelectableTile(
                                 isSelected: locale.toLanguageTag() ==
                                     provider.locale.toLanguageTag(),

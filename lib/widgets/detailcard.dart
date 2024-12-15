@@ -1,43 +1,18 @@
 import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 
-class DetailCard extends StatefulWidget {
+class DetailCard extends StatelessWidget {
   final String title;
   final IconData iconData;
   final int value;
+  final Animation<double> animation;
 
   const DetailCard(
       {super.key,
       required this.title,
       required this.iconData,
-      required this.value});
-  @override
-  _DetailCardState createState() => _DetailCardState();
-}
-
-class _DetailCardState extends State<DetailCard> with TickerProviderStateMixin {
-  double opacityLevel = 1.0;
-
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(milliseconds: 500),
-    vsync: this,
-  );
-  late final Animation<double> _animation = CurvedAnimation(
-    parent: _controller,
-    curve: Curves.easeIn,
-  );
-
-  @override
-  void initState() {
-    super.initState();
-    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+      required this.value,
+      required this.animation});
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +30,9 @@ class _DetailCardState extends State<DetailCard> with TickerProviderStateMixin {
                         builder: (context, constraints) {
                           return Center(
                               child: FadeTransition(
-                            opacity: _animation,
+                            opacity: animation,
                             child: Icon(
-                              widget.iconData,
+                              iconData,
                               size: constraints.maxWidth * 0.9,
                             ),
                           ));
@@ -73,9 +48,9 @@ class _DetailCardState extends State<DetailCard> with TickerProviderStateMixin {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: FadeTransition(
-                      opacity: _animation,
+                      opacity: animation,
                       child: Text(
-                        widget.title,
+                        title,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         textAlign: TextAlign.left,
@@ -86,7 +61,7 @@ class _DetailCardState extends State<DetailCard> with TickerProviderStateMixin {
                   alignment: Alignment.centerRight,
                   child: Countup(
                     begin: 0,
-                    end: widget.value.toDouble(),
+                    end: value.toDouble(),
                     duration: Duration(seconds: 1),
                     separator: ',',
                     style: TextStyle(

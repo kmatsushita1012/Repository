@@ -4,14 +4,15 @@ import 'package:repository/models/sorttypes.dart';
 import 'package:repository/providers/repository_provider.dart';
 
 class SortButton extends StatelessWidget {
-  const SortButton({super.key});
+  final void Function(SortTypes) onSelected;
+  const SortButton({super.key, required this.onSelected});
 
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Consumer<RepositoryProvider>(
       builder: (context, provider, _) => PopupMenuButton<SortTypes>(
-        onSelected: (value) => provider.setSortType(value),
+        onSelected: onSelected,
         itemBuilder: (BuildContext context) {
           return SortTypes.values.map((item) {
             return PopupMenuItem<SortTypes>(

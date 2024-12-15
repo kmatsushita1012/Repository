@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:repository/models/sorttypes.dart';
 import 'package:repository/page/detailpage.dart';
 import 'package:repository/page/settingspage.dart';
 import 'package:repository/providers/repository_provider.dart';
@@ -26,6 +27,16 @@ class _ListPageState extends State<ListPage> {
         context.read<RepositoryProvider>().getMoreRepositories();
       }
     });
+  }
+
+  void _onSubmitted(BuildContext context, String value) {
+    final provider = context.read<RepositoryProvider>();
+    provider.setQuery(value);
+  }
+
+  void _onSelected(BuildContext context, SortTypes value) {
+    final provider = context.read<RepositoryProvider>();
+    provider.setSortType(value);
   }
 
   Widget _buildItem(BuildContext contex, int index) {
@@ -67,41 +78,47 @@ class _ListPageState extends State<ListPage> {
           ],
         ),
         body: Consumer<RepositoryProvider>(
-          builder: (context, provider, _) => Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Expanded(child: QueryField()),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    SizedBox(width: 48, height: 48, child: SortButton()),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: provider.count + (provider.isLoading ? 1 : 0),
-                      itemBuilder: _buildItem),
-                ),
-              ],
-            ),
+          builder: (context, provider, _) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 8,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Expanded(
+                      child: QueryField(
+                    onSubmitted: (value) => _onSubmitted(context, value),
+                  )),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  SizedBox(
+                      width: 48,
+                      height: 48,
+                      child: SortButton(
+                        onSelected: (value) => _onSelected(context, value),
+                      )),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Expanded(
+                child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: provider.count + (provider.isLoading ? 1 : 0),
+                    itemBuilder: _buildItem),
+              ),
+            ],
           ),
         ));
   }

@@ -7,13 +7,11 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:repository/models/sorttypes.dart';
 import 'package:repository/providers/repository_provider.dart';
-import 'package:repository/providers/settings_provider.dart';
 import 'package:repository/widgets/detailcard.dart';
 import 'package:repository/widgets/detailtile.dart';
 import 'package:repository/widgets/proceedabletile.dart';
 import 'package:repository/widgets/queryfield.dart';
 import 'package:repository/widgets/sortbutton.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
@@ -28,8 +26,12 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body:
-              DetailCard(title: title, iconData: Icons.language, value: value),
+          body: DetailCard(
+            title: title,
+            iconData: Icons.language,
+            value: value,
+            animation: AlwaysStoppedAnimation(1.0),
+          ),
         ),
       ),
     );
@@ -45,7 +47,11 @@ void main() {
       MaterialApp(
         home: Scaffold(
             body: DetailTile(
-                title: title, iconData: Icons.language, value: value)),
+          title: title,
+          iconData: Icons.language,
+          value: value,
+          animation: AlwaysStoppedAnimation(1.0),
+        )),
       ),
     );
     expect(find.text(title), findsOneWidget);
@@ -72,6 +78,7 @@ void main() {
   });
   group('QueryField Widget Test', () {
     late RepositoryProvider mockProvider;
+    String? query;
     setUp(() {
       mockProvider = RepositoryProvider();
     });
@@ -82,7 +89,8 @@ void main() {
         locale: Locale('en'),
         home: ChangeNotifierProvider<RepositoryProvider>.value(
           value: mockProvider,
-          child: const Scaffold(body: QueryField()),
+          child:
+              Scaffold(body: QueryField(onSubmitted: (value) => query = value)),
         ),
       );
     }
@@ -101,7 +109,7 @@ void main() {
       await tester.enterText(find.byType(TextField), queryText);
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pump();
-      expect(mockProvider.query, queryText);
+      expect(query, queryText);
     });
   });
   group('SortButton Widget Test', () {

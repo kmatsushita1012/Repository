@@ -4,7 +4,9 @@ import 'package:repository/providers/repository_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QueryField extends StatelessWidget {
-  const QueryField({super.key});
+  final void Function(String) onSubmitted;
+
+  const QueryField({super.key, required this.onSubmitted});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class QueryField extends StatelessWidget {
               borderRadius: BorderRadius.circular(30.0),
             ),
             prefixIcon: const Icon(Icons.search)),
-        onSubmitted: (value) => provider.setQuery(value),
+        onSubmitted: (value) => onSubmitted,
       ),
     );
   }
