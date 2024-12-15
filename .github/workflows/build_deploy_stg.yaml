@@ -33,4 +33,4 @@ jobs:
       FIREBASE_AUTH_TOKEN: ${{ secrets.FIREBASE_AUTH_TOKEN }} #ok
       FIREBASE_DEV_IOS_ID: ${{secrets.FIREBASE_DEV_IOS_ID}} #ok
       FIREBASE_DEV_TOKEN: ${{secrets.FIREBASE_DEV_TOKEN}} #ok
-      EXPORT_OPTIONS: ${{ secrets.EXPORT_OPTIONS_STG }}
+      # EXPORT_OPTIONS: ${{ secrets.EXPORT_OPTIONS_STG }}
