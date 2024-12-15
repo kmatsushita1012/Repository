@@ -114,6 +114,7 @@ void main() {
   });
   group('SortButton Widget Test', () {
     late RepositoryProvider mockProvider;
+    late SortTypes type;
     setUp(() {
       mockProvider = RepositoryProvider();
     });
@@ -124,12 +125,12 @@ void main() {
         locale: Locale('en'),
         home: ChangeNotifierProvider<RepositoryProvider>.value(
           value: mockProvider,
-          child: const Scaffold(
+          child: Scaffold(
               body: SizedBox(
             //サイズ大きくするといける
             width: 800,
             height: 800,
-            child: SortButton(),
+            child: SortButton(onSelected: (value) => type = value),
           )),
         ),
       );
@@ -153,10 +154,9 @@ void main() {
       await tester.pumpWidget(createTestableWidget());
       await tester.tap(find.byType(PopupMenuButton<SortTypes>));
       await tester.pumpAndSettle();
-      const sortType = SortTypes.stars;
       await tester.tap(find.text("Stars"));
       await tester.pumpAndSettle();
-      expect(mockProvider.sortType, sortType);
+      expect(type, SortTypes.stars);
     });
   });
 }
