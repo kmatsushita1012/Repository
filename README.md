@@ -23,19 +23,17 @@
     - 多言語対応
   - パイプライン完成 & Github Actions ビルド成功
 
-## 解説
+## 作業詳細
 
-2 日目の Firebase App Distribution への連携時にプロジェクトを作り直さざるを得なくなったため,2 日目以前のコミットの記録が消滅しました。ご容赦ください。代わりに時系列順に作業工程を詳しく説明します.
-
-### パイプライン作成
-
-[こちら](https://zenn.dev/takuowake/articles/e1f52c5f0fb4ab)で勉強しました.暫定的に Build APK まで実装しました.
+2 日目の Firebase App Distribution への連携時にプロジェクトを作り直さざるを得なくなったため,2 日目以前のコミットの記録が消滅しました。ご容赦ください。
 
 ### UI 設計
 
 Figma を用いて作成しました。
 
-### Provider
+### 実装
+
+#### Provider
 
 MVVM に触れるのが初めてのため[こちら](https://qiita.com/mamoru_takami/items/730b9db24c68cf8cfe75)で勉強しました.ウィジェットへの適用もこの記事通りに実装しました.
 
@@ -112,7 +110,7 @@ enum SortTypes {
 
 `SettingsProvider`は多言語対応で実装したため後述します.
 
-### ページ雛形
+### Widget
 
 最低限のテストができるように基本的なウィジェットを配置しました.以下のエラーが発生しました.
 
@@ -122,57 +120,33 @@ enum SortTypes {
   https://note.com/gawakun/n/n54661ad04106
   https://api.flutter.dev/flutter/rendering/HitTestBehavior.html
 
-### IntegrationTest
+### パイプライン作成
 
-[こちら](https://zenn.dev/shima999ba/articles/d0aba49b159bf0)で勉強しました.`await tester.pumpAndSettle()`でのタイミングの調節や`Widget`の再配置が必要な箇所が多く苦労しました.
+[Flutter アプリの CI/CD パイプライン構築ガイド](https://zenn.dev/takuowake/articles/e1f52c5f0fb4ab), [[Flutter]GitHub Actions で App Distribution にアプリをアップロードした](https://zenn.dev/shima999ba/articles/ae1fc477744e2a)を参考.
+
+### テスト
+
+[Flutter】IntegrationTest の準備](https://zenn.dev/shima999ba/articles/d0aba49b159bf0)を参考.
 
 なぜか`tester.tap()`が反応しない
 
 ###　ビルド
 
 Github Actions でバージョン関係を中心に大量にエラーが発生しました.
-例:
+
+- 例 1
 
 ```
-FAILURE: Build failed with an exception.
-
-* Where:
-Build file '/home/runner/work/RepositoryViewer/RepositoryViewer/android/app/build.gradle' line: 2
-
-* What went wrong:
-An exception occurred applying plugin request [id: 'com.android.application']
-> Failed to apply plugin 'com.android.internal.application'.
-   > Android Gradle plugin requires Java 17 to run. You are currently using Java 11.
-      Your current JDK is located in /usr/lib/jvm/temurin-11-jdk-amd64
-      You can try some of the following options:
-       - changing the IDE settings.
-       - changing the JAVA_HOME environment variable.
-       - changing `org.gradle.java.home` in `gradle.properties`.
-
-* Try:
-> Run with --stacktrace option to get the stack trace.
-> Run with --info or --debug option to get more log output.
-> Run with --scan to get full insights.
-
-* Get more help at https://help.gradle.org
-
-BUILD FAILED in 1m 4s
-Running Gradle task 'assembleRelease'...                           65.4s
-
-┌─ Flutter Fix ───────────────────────────────────────────────────────────────────────┐
-│ [!] Android Gradle plugin requires Java 17 to run. You are currently using Java 11. │
-│                                                                                     │
-│ To fix this issue, try updating to the latest Android SDK and Android Studio on:    │
-│ https://developer.android.com/studio/install                                        │
-│ If that does not work, you can set the Java version used by Flutter by              │
-│ running `flutter config --jdk-dir=“</path/to/jdk>“`                                 │
-│                                                                                     │
-│ To check the Java version used by Flutter, run `flutter doctor --verbose`           │
-└─────────────────────────────────────────────────────────────────────────────────────┘
-Gradle task assembleRelease failed with exit code 1
+Android Gradle plugin requires Java 17 to run. You are currently using Java 11.
 ```
 
 Java のセットアップもワークフローに組み込むことで対処.[[参考](https://stackoverflow.com/questions/77033194/java-17-is-required-instad-of-java-11-android-ci-cd-github-actions)]
+
+- 例 2
+
+```
+
+```
 
 ### 多言語化
 
@@ -200,7 +174,6 @@ https://flutter.salon/plugin/mockito/
 https://zenn.dev/faucon/articles/ca4e3763498dac
 https://qiita.com/omitsuhashi/items/ea6ae22d9572ea882a2f
 
-https://zenn.dev/shima999ba/articles/ae1fc477744e2a
 https://qiita.com/MLLB/items/6b615428357ee9994c7e
 https://faq.growthbeat.com/article/178-ios-p12
 https://developer.apple.com/jp/help/account/manage-profiles/create-a-development-provisioning-profile/
