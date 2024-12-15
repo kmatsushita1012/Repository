@@ -16,7 +16,7 @@ class SelectableTile<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => onTap(),
-      child: Container(
+      child: SizedBox(
         height: 64,
         child: Row(
           children: [

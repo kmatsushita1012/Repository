@@ -12,6 +12,7 @@ import 'package:repository/widgets/sortbutton.dart';
 class ListPage extends StatefulWidget {
   const ListPage({super.key});
   @override
+  // ignore: library_private_types_in_public_api
   _ListPageState createState() => _ListPageState();
 }
 
@@ -30,7 +31,6 @@ class _ListPageState extends State<ListPage> {
   }
 
   void _onSubmitted(BuildContext context, String value) {
-    print("submit");
     final provider = context.read<RepositoryProvider>();
     provider.setQuery(value);
   }

@@ -64,7 +64,6 @@ class RepositoryProvider extends ChangeNotifier {
           Repository item = Repository.fromSearhRepositoryItem(elem);
           _items.add(item);
         } catch (e) {
-          print("parse error ${e}");
           continue;
         }
       }

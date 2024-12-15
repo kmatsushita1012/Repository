@@ -24,7 +24,7 @@ class DetailTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: colorScheme.shadow.withOpacity(0.1),
+              color: colorScheme.shadow.withAlpha(31),
               blurRadius: 2,
               offset: Offset(0, 2),
             ),

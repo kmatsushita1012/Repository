@@ -12,10 +12,10 @@ class DetailPage extends StatefulWidget {
 
   const DetailPage({super.key, required this.index});
   @override
-  _DetailPageState createState() => _DetailPageState();
+  DetailPageState createState() => DetailPageState();
 }
 
-class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
+class DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
   double opacityLevel = 1.0;
 
   late final AnimationController _controller = AnimationController(
@@ -85,7 +85,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                             boxShadow: [
                               BoxShadow(
                                   blurRadius: 2,
-                                  color: colorScheme.shadow.withOpacity(0.1),
+                                  color: colorScheme.shadow.withAlpha(31),
                                   spreadRadius: 5)
                             ],
                           ),
