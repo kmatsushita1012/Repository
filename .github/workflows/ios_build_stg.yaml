@@ -79,7 +79,7 @@ jobs:
           flutterfire configure -p $FIREBASE_PROJ_DEV_NAME -y --platforms "ios" -i "com.example.example-app" -a "com.example.example_app" -m "com.example.pedometer-app"  -w "1:XXX:web:YYY" -x "1:XXX:web:YYY" -t $FIREBASE_AUTH_TOKEN -f > null
       - name: Building IPA
         env:
-          EXPORT_OPTIONS: ($){{ secrets.EXPORT_OPTIONS }}
+          EXPORT_OPTIONS: ${{ secrets.EXPORT_OPTIONS }}
         run: |
           # echo $EXPORT_OPTIONS > ios/Runner/ExportOptions.plist
           flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist --build-number=$GITHUB_RUN_NUMBER
