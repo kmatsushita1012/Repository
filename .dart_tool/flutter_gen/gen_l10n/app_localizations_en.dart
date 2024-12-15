@@ -50,4 +50,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get issues => 'Issues';
+
+  @override
+  String get http_error => 'An unexpected error has occurred. Please try again.';
+
+  @override
+  String get invalid_query => 'The search query you entered is invalid. Please check it again.';
+
+  @override
+  String get empty_list => 'Enter a keyword to search for repositories.';
 }

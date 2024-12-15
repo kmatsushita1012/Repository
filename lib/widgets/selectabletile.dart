@@ -15,6 +15,7 @@ class SelectableTile<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () => onTap(),
       child: SizedBox(
         height: 64,

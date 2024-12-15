@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
+import 'package:integration_test/common.dart';
 import 'package:repository/models/repository.dart';
 import 'package:repository/models/sorttypes.dart';
 import 'package:repository/providers/repository_provider.dart';
@@ -10,6 +11,11 @@ import 'package:repository/providers/settings_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
+  await normal();
+  await error();
+}
+
+Future<void> normal() async {
   //Repository
   setUpAll(() {
     // GetItのセットアップ
@@ -24,6 +30,7 @@ Future<void> main() async {
     bool isLoading = repositoryProvider.isLoading;
     Repository? item;
     int count = repositoryProvider.count;
+    int code = 0;
     repositoryProvider.addListener(() {
       query = repositoryProvider.query;
       type = repositoryProvider.sortType;
@@ -31,12 +38,13 @@ Future<void> main() async {
       item = repositoryProvider.getRepository(0);
     });
     test('Query before get result', () async {
-      repositoryProvider.setQuery(sampleText);
+      repositoryProvider.setQuery(sampleText, (value) => code = value);
       expect(isLoading, true);
       expect(query, sampleText);
+      expect(code, 0);
     });
     test('Query after get result', () async {
-      await repositoryProvider.setQuery(sampleText);
+      await repositoryProvider.setQuery(sampleText, (value) => code = value);
       expect(isLoading, false);
       expect(item!.name, 'q');
       expect(item!.userIconPath,
@@ -46,13 +54,15 @@ Future<void> main() async {
       expect(item!.watchers, 14927);
       expect(item!.forks, 1199);
       expect(item!.issues, 116);
+      expect(code, 0);
     });
     test('Sort', () async {
-      await repositoryProvider.setQuery(sampleText);
-      repositoryProvider.setSortType(SortTypes.stars);
+      await repositoryProvider.setQuery(sampleText, (value) {});
+      repositoryProvider.setSortType(SortTypes.stars, (value) => code = value);
       expect(type, SortTypes.stars);
       expect(isLoading, true);
       expect(count, 0);
+      expect(code, 0);
     });
   });
 
@@ -82,6 +92,52 @@ Future<void> main() async {
       final entries = settingsProvider.appLocalizationsEntryList;
       expect(entries[0].key.languageCode, 'en');
       expect(entries[1].key.languageCode, 'ja');
+    });
+  });
+}
+
+Future<void> error() async {
+  //Repository
+  setUpAll(() {
+    // GetItのセットアップ
+    final client = MockClient(errorRequestHandler);
+    GetIt.I.registerLazySingleton<http.Client>(() => client);
+  });
+  group('Repository Test', () {
+    final sampleText = 'sample';
+    final repositoryProvider = RepositoryProvider();
+    bool isLoading = repositoryProvider.isLoading;
+    int code = 0;
+    repositoryProvider.addListener(() {
+      isLoading = repositoryProvider.isLoading;
+    });
+    test('Query after get 500', () async {
+      await repositoryProvider.setQuery(sampleText, (value) => code = value);
+      expect(isLoading, false);
+      expect(code, 500);
+    });
+  });
+}
+
+Future<void> invalidQuery() async {
+  //Repository
+  setUpAll(() {
+    // GetItのセットアップ
+    final client = MockClient(errorRequestHandler);
+    GetIt.I.registerLazySingleton<http.Client>(() => client);
+  });
+  group('Repository Test', () {
+    final sampleText = 'sample';
+    final repositoryProvider = RepositoryProvider();
+    bool isLoading = repositoryProvider.isLoading;
+    int code = 0;
+    repositoryProvider.addListener(() {
+      isLoading = repositoryProvider.isLoading;
+    });
+    test('Query after get 422', () async {
+      await repositoryProvider.setQuery(sampleText, (value) => code = value);
+      expect(isLoading, false);
+      expect(code, 422);
     });
   });
 }
@@ -202,4 +258,12 @@ Future<http.Response> normalRequestHandler(http.Request request) async {
   ]
 }
 ''', 200);
+}
+
+Future<http.Response> errorRequestHandler(http.Request request) async {
+  return http.Response("", 500);
+}
+
+Future<http.Response> invalidQueryRequestHandler(http.Request request) async {
+  return http.Response("", 422);
 }

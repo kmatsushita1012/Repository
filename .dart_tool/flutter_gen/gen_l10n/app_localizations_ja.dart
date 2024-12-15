@@ -50,4 +50,13 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get issues => 'Issues';
+
+  @override
+  String get http_error => '予期しないエラーが発生しました。もう一度お試しください。';
+
+  @override
+  String get invalid_query => '入力された検索条件が無効です。再度確認してください。';
+
+  @override
+  String get empty_list => 'キーワードを入力してレポジトリを探しましょう。';
 }

@@ -4,6 +4,7 @@ import 'package:repository/models/sorttypes.dart';
 import 'package:repository/page/detailpage.dart';
 import 'package:repository/page/settingspage.dart';
 import 'package:repository/providers/repository_provider.dart';
+import 'package:repository/widgets/myalertdialog.dart';
 import 'package:repository/widgets/proceedabletile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:repository/widgets/queryfield.dart';
@@ -25,19 +26,32 @@ class _ListPageState extends State<ListPage> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        context.read<RepositoryProvider>().getMoreRepositories();
+        context.read<RepositoryProvider>().getMoreRepositories(
+            (value) => _showHttpErrorAlert(context, value));
       }
     });
   }
 
   void _onSubmitted(BuildContext context, String value) {
     final provider = context.read<RepositoryProvider>();
-    provider.setQuery(value);
+    provider.setQuery(value, (value) => _showHttpErrorAlert(context, value));
   }
 
   void _onSelected(BuildContext context, SortTypes value) {
     final provider = context.read<RepositoryProvider>();
-    provider.setSortType(value);
+    provider.setSortType(value, (value) => _showHttpErrorAlert(context, value));
+  }
+
+  void _showHttpErrorAlert(BuildContext context, int statusCode) {
+    late String message;
+    if (statusCode == 422) {
+      message = AppLocalizations.of(context)!.invalid_query;
+    } else {
+      message = AppLocalizations.of(context)!.http_error;
+    }
+    showDialog(
+        context: context,
+        builder: (_) => MyAlertDialog(title: "エラー", message: message));
   }
 
   Widget _buildItem(BuildContext contex, int index) {
@@ -114,11 +128,14 @@ class _ListPageState extends State<ListPage> {
                 height: 8,
               ),
               Expanded(
-                child: ListView.builder(
-                    controller: _scrollController,
-                    itemCount: provider.count + (provider.isLoading ? 1 : 0),
-                    itemBuilder: _buildItem),
-              ),
+                child: provider.count != 0 || provider.isLoading
+                    ? ListView.builder(
+                        controller: _scrollController,
+                        itemCount:
+                            provider.count + (provider.isLoading ? 1 : 0),
+                        itemBuilder: _buildItem)
+                    : Text(AppLocalizations.of(context)!.empty_list),
+              )
             ],
           ),
         ));

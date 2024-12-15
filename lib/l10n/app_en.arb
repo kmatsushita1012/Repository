@@ -14,5 +14,8 @@
   "stars": "Stars",
   "wathcers": "Watchers",
   "forks": "Forks",
-  "issues": "Issues"
+  "issues": "Issues",
+  "http_error": "An unexpected error has occurred. Please try again.",
+  "invalid_query": "The search query you entered is invalid. Please check it again.",
+  "empty_list": "Enter a keyword to search for repositories."
 }

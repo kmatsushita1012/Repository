@@ -19,7 +19,7 @@ class DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
   double opacityLevel = 1.0;
 
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(milliseconds: 500),
+    duration: const Duration(milliseconds: 1000),
     vsync: this,
   );
   late final Animation<double> _animation = CurvedAnimation(
@@ -71,28 +71,33 @@ class DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                   children: [
                     Row(children: [
                       Expanded(
+                          child: FadeTransition(
+                        opacity: _animation,
                         child: Text(
                           item.name,
                           softWrap: true,
                           style: const TextStyle(
                               fontSize: 48, fontWeight: FontWeight.bold),
                         ),
-                      ),
+                      )),
                       const SizedBox(width: 16),
-                      Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                  blurRadius: 2,
-                                  color: colorScheme.shadow.withAlpha(31),
-                                  spreadRadius: 5)
-                            ],
-                          ),
-                          child: CircleAvatar(
-                            radius: 64,
-                            backgroundImage: NetworkImage(item.userIconPath),
-                          )),
+                      FadeTransition(
+                          opacity: _animation,
+                          child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                      blurRadius: 2,
+                                      color: colorScheme.shadow.withAlpha(31),
+                                      spreadRadius: 5)
+                                ],
+                              ),
+                              child: CircleAvatar(
+                                radius: 64,
+                                backgroundImage:
+                                    NetworkImage(item.userIconPath),
+                              ))),
                     ]),
                     const SizedBox(
                       height: 16,

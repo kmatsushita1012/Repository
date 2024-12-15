@@ -20,29 +20,31 @@ class RepositoryProvider extends ChangeNotifier {
     return _items[index];
   }
 
-  Future<void> setQuery(String query) async {
+  Future<void> setQuery(String query, void Function(int) errorHandler) async {
     _query = query;
-    await _clearAndGetRepositories();
+    _clear();
+    await _getRepositories(errorHandler);
   }
 
-  Future<void> setSortType(SortTypes sortType) async {
+  Future<void> setSortType(
+      SortTypes sortType, void Function(int) errorHandler) async {
     _sortType = sortType;
-    await _clearAndGetRepositories();
+    _clear();
+    await _getRepositories(errorHandler);
   }
 
-  Future<void> getMoreRepositories() async {
+  Future<void> getMoreRepositories(void Function(int) errorHandler) async {
     _sortType = sortType;
     page += 1;
-    await _getRepositories();
+    await _getRepositories(errorHandler);
   }
 
-  Future<void> _clearAndGetRepositories() async {
+  Future<void> _clear() async {
     _items = [];
     page = 1;
-    await _getRepositories();
   }
 
-  Future<void> _getRepositories() async {
+  Future<void> _getRepositories(void Function(int) errorHandler) async {
     _isLoading = true;
     notifyListeners();
     final http.Client client = GetIt.I<http.Client>();
@@ -67,6 +69,8 @@ class RepositoryProvider extends ChangeNotifier {
           continue;
         }
       }
+    } else {
+      errorHandler(response.statusCode);
     }
     notifyListeners();
   }
