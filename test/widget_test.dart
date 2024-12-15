@@ -100,6 +100,7 @@ void main() {
       expect(find.byType(TextField), findsOneWidget);
       expect(find.byIcon(Icons.search), findsOneWidget);
       expect(find.text('Search'), findsOneWidget);
+
     });
 
     testWidgets('onSubmitted updates query in provider',

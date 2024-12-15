@@ -35,11 +35,11 @@ Figma を用いて作成しました。
 
 #### Provider
 
-MVVM に触れるのが初めてのため[こちら](https://qiita.com/mamoru_takami/items/730b9db24c68cf8cfe75)で勉強しました.ウィジェットへの適用もこの記事通りに実装しました.
+MVVM に触れるのが初めてのため[【Flutter】Provider を使って複数画面で再描画を行う【初心者向け】](https://qiita.com/mamoru_takami/items/730b9db24c68cf8cfe75)を参考.
 
-プロバイダーはメインとなるレポジトリ検索(`RepositoryProvider`)と設定(`SettingsProvider`)の 2 つに分けて作成します.
+プロバイダーはメインとなるレポジトリ検索(`RepositoryProvider`)と設定(`SettingsProvider`)の 2 つに分けて作成.
 
-`RepositoryProvider`は以下のとおり実装します.
+`RepositoryProvider`は以下のとおり実装.
 
 ```dart
 class RepositoryProvider extends ChangeNotifier {
@@ -54,7 +54,7 @@ class RepositoryProvider extends ChangeNotifier {
 }
 ```
 
-http 通信は実装経験があるため当時のコードから引用しアレンジを加えました.
+http 通信は実装経験があるため当時のコードから引用しアレンジを加えた.
 
 ```dart
 void getRepositories(int page) {
@@ -86,7 +86,7 @@ void getRepositories(int page) {
   }
 ```
 
-データモデルとしてレポジトリに対応する`Repository`.
+データモデルはレポジトリに対応する`Repository`とソートの選択肢に対応する`SortTypes`.
 
 ```dart
 class Repository {
@@ -108,35 +108,54 @@ enum SortTypes {
 }
 ```
 
-`SettingsProvider`は多言語対応で実装したため後述します.
+`SettingsProvider`は SharedPreference と連携しつつ設定の反映をリアルタイムで反映する.コンストラクタで SharedPreference を取り込むことでモックテストに対応.
+
+```dart
+class SettingsProvider extends ChangeNotifier {
+  late SharedPreferences _prefs;
+  late Locale _locale;
+  Locale get locale => _locale;
+
+  //全言語のAppLocalizationsが必要な時(言語設定)に使用
+  final List<MapEntry<Locale, AppLocalizations>> _appLocalizationsEntryList =
+      [];
+  List<MapEntry<Locale, AppLocalizations>> get appLocalizationsEntryList =>
+      _appLocalizationsEntryList;
+
+  SettingsProvider(SharedPreferences prefs) {
+    _prefs = prefs;
+    //_appLocalizationsEntryListの初期化
+  }
+
+}
+```
 
 ### Widget
 
-最低限のテストができるように基本的なウィジェットを配置しました.以下のエラーが発生しました.
-
 - ページの雛形作成中にウィジェット関連でエラー. `Column` と `ListView` を入れ子にするとサイズが定まらなくなるのが原因.`ListView`を`Expanded`で囲むなどで解決.
   https://qiita.com/umi_mori/items/fb7b67a5c5bb3dda927e
-- GestureDetector が子要素上しか反応しなかった.
+- `GestureDetector` が子要素上しか反応しなかった.
   https://note.com/gawakun/n/n54661ad04106
   https://api.flutter.dev/flutter/rendering/HitTestBehavior.html
 
+### 多言語化
+
+[Flutter アプリを多言語化する方法（作業時間：10 分）](https://zenn.dev/amuro/articles/27799da3afc40e)を参考にした.
+依存関係でハマりがちだが
+
+```
+flutter clean
+flutter pub get
+flutter gen-l10n
+```
+
+で治る
+
 ### パイプライン作成
 
-[Flutter アプリの CI/CD パイプライン構築ガイド](https://zenn.dev/takuowake/articles/e1f52c5f0fb4ab), [[Flutter]GitHub Actions で App Distribution にアプリをアップロードした](https://zenn.dev/shima999ba/articles/ae1fc477744e2a)を参考.
+[Flutter アプリの CI/CD パイプライン構築ガイド](https://zenn.dev/takuowake/articles/e1f52c5f0fb4ab), [[Flutter]GitHub Actions で App Distribution にアプリをアップロードした](https://zenn.dev/shima999ba/articles/ae1fc477744e2a)を参考.最初は前者を参考にしていたが iOS のビルドがアップできないことに気づき後者に変更.
 
-### テスト
-
-[Flutter】IntegrationTest の準備](https://zenn.dev/shima999ba/articles/d0aba49b159bf0)を参考.
-
-なぜか`tester.tap()`が反応しない
-
-#### ユニット(Provider)
-
-[provider のテスト](https://riverpod.dev/ja/docs/essentials/testing)を参考
-
-### ビルド
-
-Github Actions でバージョン関係を中心に大量にエラーが発生しました.
+Github Actions でバージョン関係を中心に大量にエラーが発生.
 
 - 例 1
 
@@ -146,26 +165,49 @@ Android Gradle plugin requires Java 17 to run. You are currently using Java 11.
 
 Java のセットアップもワークフローに組み込むことで対処.[[参考](https://stackoverflow.com/questions/77033194/java-17-is-required-instad-of-java-11-android-ci-cd-github-actions)]
 
-- 例 2
+- 例 2 　下記コードでエラー
 
+```yaml
+- name: collect ipa artifacts
+  uses: actions/upload-artifact@v2
+  with:
+    name: release-ipa
+    path: build/ios/ipa/*.ipa
 ```
 
-```
-
-### 多言語化
-
-ビルドでのエラーの多さに
-https://zenn.dev/amuro/articles/27799da3afc40e
-依存関係でハマった.
-flutter clean
-flutter pub get
-flutter gen-l10n
-で治る
+`v2`を`v4`に書き換えて解決.
 
 ### Firebase App Distribution
 
-iOS のバージョンが初期設定の 12.0 では Firebase と連携できなかったため 14.0 に変更
-[参考 1](https://zenn.dev/t_fukuyama/articles/9048d5f26befee),[参考 2](https://qiita.com/kokogento/items/6c0baf22c85a28db388c)
+- iOS のバージョンが初期設定の 12.0 では Firebase と連携できなかったため 14.0 に変更.
+  [参考 1](https://zenn.dev/t_fukuyama/articles/9048d5f26befee)
+-
+
+[参考 2](https://qiita.com/kokogento/items/6c0baf22c85a28db388c)
+
+### テスト
+
+[【Flutter】IntegrationTest の準備](https://zenn.dev/shima999ba/articles/d0aba49b159bf0)を参考.
+
+#### ユニット(Provider)
+
+[provider のテスト](https://riverpod.dev/ja/docs/essentials/testing)を参考
+
+#### Widget
+
+Provider が絡むテキストフィールドとボタンでつまづいた.
+
+```dart
+ testWidgets('renders QueryField correctly', (WidgetTester tester) async {
+  final provider = RepositoryProvider()
+    await tester.pumpWidget(MultiProvider(
+      providers: [ChangeNotifierProvider.value(provider)],
+      builder: (context, builder) => MaterialApp(
+        //...
+      ),
+    ));
+```
+このような形式だったがWidget側
 
 ## 備考
 
@@ -180,5 +222,5 @@ https://developer.apple.com/jp/help/account/manage-profiles/create-a-development
 https://zenn.dev/shima999ba/articles/ae1fc477744e2a
 https://qiita.com/warapuri/items/2a32cb2201ce75aa5f4b
 https://qiita.com/kokogento/items/c2979542a34610925e2d
+https://dev.classmethod.jp/articles/xcode-no-signing-certificate-ios-development-found-error/
 証明書 -> Type は AppstoreConnect
-
