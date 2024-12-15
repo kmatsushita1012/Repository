@@ -187,8 +187,25 @@ Error: This request has been automatically failed because it uses a deprecated v
 - iOS のバージョンが初期設定の 12.0 では Firebase と連携できなかったため 14.0 に変更.
   [参考 1](https://zenn.dev/t_fukuyama/articles/9048d5f26befee)
 -
-
 [参考 2](https://qiita.com/kokogento/items/6c0baf22c85a28db388c)
+
+
+#### iOS
+- キーチェーンアクセスから証明書要求ファイル作成 ([参考](https://faq.growthbeat.com/article/178-ios-p12))
+- Apple DeveloperでCertificatesを作成,ダウンロード
+  - 用途にiOS Distributionを選択
+  - 取得した証明書要求ファイルをセット
+- ダウンロードしたファイルをキーチェーンアクセスで開き.p12で書き出し.
+  - ログイン->自分の証明書で選択
+- Apple DeveloperからAppIDを作成
+- Apple DeveloperからProfileを作成
+  - 用途にApp Store Connectを選択.
+  - 作成したAppIDを選択
+  - 
+
+
+
+
 
 ### テスト
 
@@ -223,10 +240,12 @@ Provider が絡むテキストフィールドとボタンでつまづいた.
 
 
 https://qiita.com/MLLB/items/6b615428357ee9994c7e
-https://faq.growthbeat.com/article/178-ios-p12
+
 https://developer.apple.com/jp/help/account/manage-profiles/create-a-development-provisioning-profile/
-https://zenn.dev/shima999ba/articles/ae1fc477744e2a
+
+
 https://qiita.com/warapuri/items/2a32cb2201ce75aa5f4b
+
 https://qiita.com/kokogento/items/c2979542a34610925e2d
 https://dev.classmethod.jp/articles/xcode-no-signing-certificate-ios-development-found-error/
 証明書 -> Type は AppstoreConnect
