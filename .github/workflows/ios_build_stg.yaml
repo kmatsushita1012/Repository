@@ -76,14 +76,13 @@ jobs:
         run: |
           curl -sL https://firebase.tools | bash
           dart pub global activate flutterfire_cli
-          flutterfire configure -p $FIREBASE_PROJ_DEV_NAME -y --platforms "ios" -i "com.example.example-app" -a "com.example.example_app" -m "com.example.pedometer-app"  -w "1:XXX:web:YYY" -x "1:XXX:web:YYY" -t $FIREBASE_AUTH_TOKEN -f　> null
+          flutterfire configure -p $FIREBASE_PROJ_DEV_NAME -y --platforms "ios" -i "com.example.example-app" -a "com.example.example_app" -m "com.example.pedometer-app"  -w "1:XXX:web:YYY" -x "1:XXX:web:YYY" -t $FIREBASE_AUTH_TOKEN -f > null
       - name: Building IPA
-        # env:
-        # EXPORT_OPTIONS: ($){{ secrets.EXPORT_OPTIONS }}
+        env:
+          EXPORT_OPTIONS: ($){{ secrets.EXPORT_OPTIONS }}
         run: |
           # echo $EXPORT_OPTIONS > ios/Runner/ExportOptions.plist
-          flutter build ipa
-      # --release --export-options-plist=ios/Runner/ExportOptions.plist --build-number=$GITHUB_RUN_NUMBER
+          flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist --build-number=$GITHUB_RUN_NUMBER
       - name: collect ipa artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -109,6 +108,6 @@ jobs:
         with:
           appId: ${{secrets.FIREBASE_DEV_IOS_ID}}
           serviceCredentialsFileContent: ${{secrets.FIREBASE_DEV_TOKEN}}
-          groups: admin
+          groups: testers
           file: pedometer_app.ipa
           releaseNotes: $GITHUB_REF_NAME
