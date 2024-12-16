@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -11,6 +12,7 @@ import 'package:repository/widgets/detailcard.dart';
 import 'package:repository/widgets/detailtile.dart';
 import 'package:repository/widgets/proceedabletile.dart';
 import 'package:repository/widgets/queryfield.dart';
+import 'package:repository/widgets/selectabletile.dart';
 import 'package:repository/widgets/sortbutton.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -76,6 +78,8 @@ void main() {
     await tester.pump();
     expect(isTapped, true);
   });
+
+
   group('QueryField Widget Test', () {
     late RepositoryProvider mockProvider;
     String? query;
@@ -100,7 +104,6 @@ void main() {
       expect(find.byType(TextField), findsOneWidget);
       expect(find.byIcon(Icons.search), findsOneWidget);
       expect(find.text('Search'), findsOneWidget);
-
     });
 
     testWidgets('onSubmitted updates query in provider',
