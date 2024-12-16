@@ -8,11 +8,15 @@ class MyAlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return AlertDialog(
       title: Text(title),
       content: Text(message),
       actions: [
         TextButton(
+            style: ButtonStyle(
+                side: WidgetStateProperty.all(
+                    BorderSide(color: colorScheme.primary))),
             onPressed: () {
               Navigator.pop(context, 'OK');
             },

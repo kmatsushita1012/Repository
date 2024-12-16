@@ -14,6 +14,7 @@ class QueryField extends StatelessWidget {
     return Consumer<RepositoryProvider>(
       builder: (context, provider, _) => TextField(
         autofillHints: [AppLocalizations.of(context)!.search],
+        controller: TextEditingController(text: provider.query),
         decoration: InputDecoration(
             fillColor: colorScheme.secondaryContainer,
             filled: true,

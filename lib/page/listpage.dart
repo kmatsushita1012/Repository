@@ -74,8 +74,8 @@ class _ListPageState extends State<ListPage> {
   }
 
   void _scrollTop() {
-    _scrollController.animateTo(0, // 移動したい位置を指定
-        duration: Duration(milliseconds: 500), // 1秒かけて戻る
+    _scrollController.animateTo(0,
+        duration: Duration(milliseconds: 500),
         curve: Curves.linear);
   }
 

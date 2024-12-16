@@ -70,6 +70,7 @@ class RepositoryProvider extends ChangeNotifier {
         }
       }
     } else {
+      _query = "";
       errorHandler(response.statusCode);
     }
     notifyListeners();
