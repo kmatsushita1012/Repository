@@ -13,8 +13,8 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
-ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "1800" //タイムアウトして失敗を防ぐため
-ENV['XCODE_VERSION'] = "14.3.1" 最新のXcodeを指定
+ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "1800" 
+ENV['XCODE_VERSION'] = "14.3.1" 
 default_platform(:ios)
 
 platform :ios do
@@ -39,11 +39,11 @@ platform :ios do
     lane :archive_stg_app_distribution do
         import_certificates_and_provisioning_profile
         build_app(workspace: "SampleApp.xcworkspace",
-        scheme: "SampleApp_STG", //ビルドしたいスキーム
+        scheme: "SampleApp_STG",
         configuration: "STG", 
         clean: true,
         export_options: {
-        method: "Adhoc", //AdhocやEnterpriseなど
+        method: "Adhoc",
         provisioningProfiles: {
           "com.techtest.repository" => "yumemiprofile"
         }
