@@ -224,7 +224,9 @@ PLATFORMS
 
 DEPENDENCIES
   fastlane
-  fastlane-plugin-firebase_app_distribution
+  fastlane-plugin-firebase_app_distribution (= 0.9.1)
+  google-apis-firebaseappdistribution_v1 (= 0.3.0)
+  google-apis-firebaseappdistribution_v1alpha (= 0.2.0)
 
 BUNDLED WITH
    2.5.23
