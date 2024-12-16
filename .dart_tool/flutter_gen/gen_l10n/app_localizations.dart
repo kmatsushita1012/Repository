@@ -185,6 +185,12 @@ abstract class AppLocalizations {
   /// **'Issues'**
   String get issues;
 
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
   /// No description provided for @http_error.
   ///
   /// In en, this message translates to:

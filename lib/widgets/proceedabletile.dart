@@ -12,11 +12,10 @@ class ProceedableTile extends StatefulWidget {
     this.height = 64,
   });
   @override
-  ProceedableTileState createState() => ProceedableTileState();
+  _ProceedableTileState createState() => _ProceedableTileState();
 }
 
-class ProceedableTileState extends State<ProceedableTile> {
-
+class _ProceedableTileState extends State<ProceedableTile> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;

@@ -13,7 +13,6 @@ import 'package:repository/widgets/sortbutton.dart';
 class ListPage extends StatefulWidget {
   const ListPage({super.key});
   @override
-  // ignore: library_private_types_in_public_api
   _ListPageState createState() => _ListPageState();
 }
 
@@ -51,7 +50,8 @@ class _ListPageState extends State<ListPage> {
     }
     showDialog(
         context: context,
-        builder: (_) => MyAlertDialog(title: "エラー", message: message));
+        builder: (_) => MyAlertDialog(
+            title: AppLocalizations.of(context)!.error, message: message));
   }
 
   Widget _buildItem(BuildContext contex, int index) {
@@ -73,27 +73,33 @@ class _ListPageState extends State<ListPage> {
     }
   }
 
+  void _scrollTop() {
+    _scrollController.animateTo(0, // 移動したい位置を指定
+        duration: Duration(milliseconds: 500), // 1秒かけて戻る
+        curve: Curves.linear);
+  }
+
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            AppLocalizations.of(context)!.list,
-            style: TextStyle(fontWeight: FontWeight.bold),
+    return Consumer<RepositoryProvider>(
+      builder: (context, provider, _) => Scaffold(
+          appBar: AppBar(
+            title: Text(
+              AppLocalizations.of(context)!.list,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            foregroundColor: colorScheme.onPrimary,
+            backgroundColor: colorScheme.primary,
+            actions: [
+              IconButton(
+                  onPressed: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SettingsPage())),
+                  icon: const Icon(Icons.settings))
+            ],
           ),
-          foregroundColor: colorScheme.onPrimary,
-          backgroundColor: colorScheme.primary,
-          actions: [
-            IconButton(
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SettingsPage())),
-                icon: const Icon(Icons.settings))
-          ],
-        ),
-        body: Consumer<RepositoryProvider>(
-          builder: (context, provider, _) => Column(
+          body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
@@ -138,6 +144,12 @@ class _ListPageState extends State<ListPage> {
               )
             ],
           ),
-        ));
+          floatingActionButton: provider.count != 0 || provider.isLoading
+              ? FloatingActionButton(
+                  onPressed: _scrollTop,
+                  child: Icon(Icons.arrow_upward),
+                )
+              : null),
+    );
   }
 }

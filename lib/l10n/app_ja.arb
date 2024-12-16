@@ -15,6 +15,7 @@
   "wathcers": "Watchers",
   "forks": "Forks",
   "issues": "Issues",
+  "error": "エラー",
   "http_error": "予期しないエラーが発生しました。もう一度お試しください。",
   "invalid_query": "入力された検索条件が無効です。再度確認してください。",
   "empty_list":"キーワードを入力してレポジトリを探しましょう。"

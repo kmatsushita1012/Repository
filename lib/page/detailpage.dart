@@ -12,10 +12,10 @@ class DetailPage extends StatefulWidget {
 
   const DetailPage({super.key, required this.index});
   @override
-  DetailPageState createState() => DetailPageState();
+  _DetailPageState createState() => _DetailPageState();
 }
 
-class DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
+class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
   double opacityLevel = 1.0;
 
   late final AnimationController _controller = AnimationController(
@@ -107,7 +107,7 @@ class DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                                 ],
                               ),
                               child: CircleAvatar(
-                                radius: 64,
+                                radius: 48,
                                 backgroundImage:
                                     NetworkImage(item.userIconPath),
                               ))),

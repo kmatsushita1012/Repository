@@ -52,6 +52,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get issues => 'Issues';
 
   @override
+  String get error => 'エラー';
+
+  @override
   String get http_error => '予期しないエラーが発生しました。もう一度お試しください。';
 
   @override

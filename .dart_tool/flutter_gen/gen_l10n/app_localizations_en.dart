@@ -52,6 +52,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get issues => 'Issues';
 
   @override
+  String get error => 'Error';
+
+  @override
   String get http_error => 'An unexpected error has occurred. Please try again.';
 
   @override
