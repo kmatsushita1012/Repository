@@ -224,9 +224,12 @@ Error: This request has been automatically failed because it uses a deprecated v
 - Apple Developer から AppID を作成
   - バンドル ID には`com.example.yourappname`を入力
 - Apple Developer から Profile を作成 ([参考](https://developer.apple.com/jp/help/account/manage-profiles/create-a-development-provisioning-profile/))
+
   - 用途に App Store Connect を選択.
   - 作成した AppID を選択.
   - 取得した証明書を選択.
+
+  Fastlane に変更
 
 ### Android の手順
 
@@ -253,7 +256,7 @@ Provider が絡むテキストフィールドとボタンでつまづいた.
     ));
 ```
 
-このような形式だったが Widget 側でnullエラーに.
+このような形式だったが Widget 側で null エラーに.
 
 ## 備考
 
