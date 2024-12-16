@@ -50,6 +50,7 @@ jobs:
 
       - name: Bundle Install
         run: bundle install
+        working-directory: ./ios
 
       - name: Keychain.p12
         run: |
