@@ -39,7 +39,7 @@ platform :ios do
     lane :archive_stg_app_distribution do
         import_certificates_and_provisioning_profile
         build_app(workspace: "Runner.xcworkspace",
-        scheme: "Runner_STG",
+        scheme: "Runner",
         configuration: "STG", 
         clean: true,
         export_options: {
