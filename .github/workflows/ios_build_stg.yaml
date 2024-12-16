@@ -51,7 +51,7 @@ jobs:
       - name: ProvisioningProfile
         run: |
           echo "${{ secrets.MOBILEPROVISION_ADHOC_BASE64 }}" > adhoc.mobileprovision.txt
-          base64 --decode -i enterprise.mobileprovision.txt -o adhoc.mobileprovision
+          base64 --decode -i adhoc.mobileprovision.txt -o adhoc.mobileprovision
 
       - uses: actions/cache@v2
         with:

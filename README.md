@@ -212,7 +212,6 @@ Error: This request has been automatically failed because it uses a deprecated v
   - [ANDROID_KEY_ALIAS] キーストアファイルの ALIAS 名
 
 #### iOS の手順
-
 - キーチェーンアクセスから証明書要求ファイル作成 ([参考](https://faq.growthbeat.com/article/178-ios-p12))
 - Apple Developer で Certificates を作成,ダウンロード
   - 用途に iOS Distribution を選択
@@ -230,6 +229,7 @@ Error: This request has been automatically failed because it uses a deprecated v
   - 取得した証明書を選択.
 
   Fastlane に変更
+  https://note.com/resan0725/n/nc84186fa841c
 
 ### Android の手順
 
