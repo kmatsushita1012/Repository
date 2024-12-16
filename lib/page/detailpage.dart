@@ -44,6 +44,19 @@ class DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
         context, MaterialPageRoute(builder: (context) => SettingsPage()));
   }
 
+  Widget _lineupTwoWidget(Orientation orientation, Widget upper, Widget lower) {
+    return orientation == Orientation.portrait
+        ? Column(
+            children: [upper, lower],
+          )
+        : Row(
+            children: [
+              Expanded(flex: 1, child: upper),
+              Expanded(flex: 1, child: lower)
+            ],
+          );
+  }
+
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
@@ -102,49 +115,53 @@ class DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                     const SizedBox(
                       height: 16,
                     ),
-                    DetailTile(
-                      title: AppLocalizations.of(context)!.language,
-                      iconData: Icons.language,
-                      value:
-                          item.language ?? AppLocalizations.of(context)!.unset,
-                      animation: _animation,
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.width,
-                      child: GridView.count(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 8.0,
-                        mainAxisSpacing: 8.0,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        children: [
-                          DetailCard(
-                            title: AppLocalizations.of(context)!.stars,
-                            iconData: Icons.star,
-                            value: item.stars,
-                            animation: _animation,
+                    _lineupTwoWidget(
+                        MediaQuery.of(context).orientation,
+                        DetailTile(
+                          title: AppLocalizations.of(context)!.language,
+                          iconData: Icons.language,
+                          value: item.language ??
+                              AppLocalizations.of(context)!.unset,
+                          animation: _animation,
+                        ),
+                        AspectRatio(
+                          // height: MediaQuery.of(context).size.width,
+                          aspectRatio: 1,
+                          child: GridView.count(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 8.0,
+                            mainAxisSpacing: 8.0,
+                            childAspectRatio: 1.0,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            children: [
+                              DetailCard(
+                                title: AppLocalizations.of(context)!.stars,
+                                iconData: Icons.star,
+                                value: item.stars,
+                                animation: _animation,
+                              ),
+                              DetailCard(
+                                title: AppLocalizations.of(context)!.wathcers,
+                                iconData: Icons.visibility,
+                                value: item.watchers,
+                                animation: _animation,
+                              ),
+                              DetailCard(
+                                title: AppLocalizations.of(context)!.forks,
+                                iconData: Icons.fork_right,
+                                value: item.forks,
+                                animation: _animation,
+                              ),
+                              DetailCard(
+                                title: AppLocalizations.of(context)!.issues,
+                                iconData: Icons.adjust,
+                                value: item.stars,
+                                animation: _animation,
+                              ),
+                            ],
                           ),
-                          DetailCard(
-                            title: AppLocalizations.of(context)!.wathcers,
-                            iconData: Icons.visibility,
-                            value: item.watchers,
-                            animation: _animation,
-                          ),
-                          DetailCard(
-                            title: AppLocalizations.of(context)!.forks,
-                            iconData: Icons.fork_right,
-                            value: item.forks,
-                            animation: _animation,
-                          ),
-                          DetailCard(
-                            title: AppLocalizations.of(context)!.issues,
-                            iconData: Icons.adjust,
-                            value: item.stars,
-                            animation: _animation,
-                          ),
-                        ],
-                      ),
-                    )
+                        ))
                   ],
                 )));
       }),

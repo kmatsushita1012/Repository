@@ -48,7 +48,7 @@ class DetailTile extends StatelessWidget {
             ),
           ),
           Expanded(
-              flex: 1,
+              flex: 2,
               child: Column(
                 children: [
                   Align(
@@ -58,7 +58,6 @@ class DetailTile extends StatelessWidget {
                         child: Text(
                           title,
                           softWrap: true,
-                          textAlign: TextAlign.right,
                           style: TextStyle(fontSize: 24),
                         ),
                       )),
@@ -69,7 +68,6 @@ class DetailTile extends StatelessWidget {
                           child: Text(
                             value,
                             softWrap: true,
-                            textAlign: TextAlign.right,
                             style: TextStyle(fontSize: 32),
                           ))),
                 ],
