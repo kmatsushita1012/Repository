@@ -63,6 +63,7 @@ jobs:
       - name: Install CocoaPods frameworks and build with custom scripts
         if: steps.cache-cocoapods.outputs.cache-hit != 'true'
         run: pod install
+        working-directory: ./ios
 
       - name: list files
         run: ls -l
