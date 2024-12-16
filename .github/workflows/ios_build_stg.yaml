@@ -59,6 +59,9 @@ jobs:
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
+      # Install CocoaPodsでGenerated.xcconfigが必要のため
+      - name: Install dependencies with Flutter
+        run: flutter pub get
 
       - name: Install CocoaPods frameworks and build with custom scripts
         if: steps.cache-cocoapods.outputs.cache-hit != 'true'
