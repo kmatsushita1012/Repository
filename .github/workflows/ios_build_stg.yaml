@@ -68,7 +68,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pods-
 
-      - name: Install CocoaPods frameworks and build with custom scripts
+      - name: Install CocoaPods
         if: steps.cache-cocoapods.outputs.cache-hit != 'true'
         run: pod install
         working-directory: ./ios
@@ -85,3 +85,4 @@ jobs:
         run: |
           npm install -g firebase-tools
           bundle exec fastlane archive_stg_app_distribution
+        working-directory: ./ios
