@@ -6,7 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class QueryField extends StatelessWidget {
   final void Function(String) onSubmitted;
 
-  QueryField({super.key, required this.onSubmitted});
+  const QueryField({super.key, required this.onSubmitted});
 
   @override
   Widget build(BuildContext context) {

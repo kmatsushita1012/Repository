@@ -22,7 +22,8 @@ class DetailCard extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                Row(
+                Expanded(
+                    child: Row(
                   children: [
                     Expanded(
                       flex: 1,
@@ -33,7 +34,7 @@ class DetailCard extends StatelessWidget {
                             opacity: animation,
                             child: Icon(
                               iconData,
-                              size: constraints.maxWidth * 0.9,
+                              size: constraints.maxWidth * 0.8,
                             ),
                           ));
                         },
@@ -44,6 +45,9 @@ class DetailCard extends StatelessWidget {
                       child: Container(),
                     ),
                   ],
+                )),
+                const SizedBox(
+                  height: 8,
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
