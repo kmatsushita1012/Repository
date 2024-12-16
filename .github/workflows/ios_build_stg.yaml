@@ -56,11 +56,13 @@ jobs:
         run: |
           echo "${{ secrets.APPSTORE_CERT_BASE64 }}" > ios_distribution.p12.txt
           base64 --decode -i ios_distribution.p12.txt -o ios_distribution.p12
+        working-directory: ./ios
 
       - name: ProvisioningProfile
         run: |
           echo "${{ secrets.MOBILEPROVISION_ADHOC_BASE64 }}" > adhoc.mobileprovision.txt
           base64 --decode -i adhoc.mobileprovision.txt -o adhoc.mobileprovision
+        working-directory: ./ios
 
       - uses: actions/cache@v2
         with:
@@ -76,6 +78,7 @@ jobs:
 
       - name: list files
         run: ls -l
+        working-directory: ./ios
 
       - name: Enterprise Build and App Distribution
         env:
