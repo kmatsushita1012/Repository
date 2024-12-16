@@ -39,7 +39,7 @@ class RepositoryProvider extends ChangeNotifier {
     await _getRepositories(errorHandler);
   }
 
-  Future<void> _clear() async {
+  void _clear() {
     _items = [];
     page = 1;
   }
@@ -70,7 +70,6 @@ class RepositoryProvider extends ChangeNotifier {
         }
       }
     } else {
-      print(response.body);
       errorHandler(response.statusCode);
     }
     notifyListeners();

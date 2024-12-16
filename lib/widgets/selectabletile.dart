@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class SelectableTile<T> extends StatelessWidget {
   final bool isSelected;
   final String text;
+  final double height;
   final void Function() onTap;
 
   const SelectableTile({
@@ -10,15 +11,16 @@ class SelectableTile<T> extends StatelessWidget {
     required this.isSelected,
     required this.text,
     required this.onTap,
+    this.height = 64,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () => onTap(),
+      onTap: onTap,
       child: SizedBox(
-        height: 64,
+        height: height,
         child: Row(
           children: [
             isSelected
@@ -26,10 +28,12 @@ class SelectableTile<T> extends StatelessWidget {
                 : const SizedBox(
                     width: 40,
                   ),
-            Text(
+            Expanded(
+                child: Text(
               text,
+              softWrap: true,
               style: const TextStyle(fontSize: 18),
-            )
+            ))
           ],
         ),
       ),
