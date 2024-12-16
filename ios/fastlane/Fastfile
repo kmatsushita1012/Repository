@@ -43,7 +43,7 @@ platform :ios do
         configuration: "STG", 
         clean: true,
         export_options: {
-        method: "ad-hoc",
+        method: "app-store",
         provisioningProfiles: {
           "com.techtest.repository" => "yumemiprofileAppleDistribution"
         }
