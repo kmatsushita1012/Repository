@@ -21,7 +21,7 @@ class LanguagePage extends StatelessWidget {
       ),
       body: Consumer<SettingsProvider>(
           builder: (context, provider, _) => Container(
-                margin: const EdgeInsets.all(16.0),
+                margin: const EdgeInsets.all(8.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -30,10 +30,12 @@ class LanguagePage extends StatelessWidget {
                             itemCount:
                                 provider.appLocalizationsEntryList.length,
                             itemBuilder: (context, index) {
-                              Locale locale =
-                                  provider.appLocalizationsEntryList[index].key;
-                              AppLocalizations appLocalizations = provider
-                                  .appLocalizationsEntryList[index].value;
+                              //各言語のLocaleとAppLocalizationsを取得
+                              MapEntry<Locale, AppLocalizations> language =
+                                  provider.appLocalizationsEntryList[index];
+                              Locale locale = language.key;
+                              AppLocalizations appLocalizations =
+                                  language.value;
                               return SelectableTile(
                                 isSelected: locale.toLanguageTag() ==
                                     provider.locale.toLanguageTag(),

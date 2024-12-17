@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//リストの階層構造タイル　[Title　>]
 class ProceedableTile extends StatefulWidget {
   final String text;
   final double height;
@@ -9,7 +10,7 @@ class ProceedableTile extends StatefulWidget {
     super.key,
     required this.text,
     required this.onTap,
-    this.height = 64,
+    this.height = 72,
   });
   @override
   _ProceedableTileState createState() => _ProceedableTileState();
@@ -29,7 +30,6 @@ class _ProceedableTileState extends State<ProceedableTile> {
             decoration: BoxDecoration(
               color: colorScheme.surfaceContainer,
               borderRadius: BorderRadius.circular(16),
-              // border: Border.all(color: colorScheme.surface),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withAlpha(31),
@@ -40,6 +40,7 @@ class _ProceedableTileState extends State<ProceedableTile> {
             ),
             child: Row(
               children: [
+                //タイトル
                 Expanded(
                     child: Text(
                   widget.text,
@@ -50,6 +51,7 @@ class _ProceedableTileState extends State<ProceedableTile> {
                 const SizedBox(
                   width: 16,
                 ),
+                // >のアイコン
                 const Icon(Icons.arrow_forward_ios)
               ],
             ),

@@ -22,6 +22,7 @@ class _ListPageState extends State<ListPage> {
   @override
   void initState() {
     super.initState();
+    //追加読み込みを設定
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -31,16 +32,19 @@ class _ListPageState extends State<ListPage> {
     });
   }
 
+  //クエリ入力時
   void _onSubmitted(BuildContext context, String value) {
     final provider = context.read<RepositoryProvider>();
     provider.setQuery(value, (value) => _showHttpErrorAlert(context, value));
   }
 
+  //ソート方法選択時
   void _onSelected(BuildContext context, SortTypes value) {
     final provider = context.read<RepositoryProvider>();
     provider.setSortType(value, (value) => _showHttpErrorAlert(context, value));
   }
 
+  //エラー用コールバック
   void _showHttpErrorAlert(BuildContext context, int statusCode) {
     late String message;
     if (statusCode == 422) {
@@ -54,8 +58,10 @@ class _ListPageState extends State<ListPage> {
             title: AppLocalizations.of(context)!.error, message: message));
   }
 
+  //ListViewのアイテムビルダー
   Widget _buildItem(BuildContext contex, int index) {
     RepositoryProvider provider = context.read<RepositoryProvider>();
+    //読み込み中はアイテム数+1を生成し末端はインディケーター
     if (index < provider.count) {
       return ProceedableTile(
         text: provider.getRepository(index).name,
@@ -67,22 +73,22 @@ class _ListPageState extends State<ListPage> {
                     ))),
       );
     } else {
+      //インディケーター
       return Center(
         child: CircularProgressIndicator(),
       );
     }
   }
 
+  //FloatingActionButtonで上に戻る
   void _scrollTop() {
     _scrollController.animateTo(0,
-        duration: Duration(milliseconds: 500),
-        curve: Curves.linear);
+        duration: Duration(milliseconds: 500), curve: Curves.linear);
   }
 
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
-
     return Consumer<RepositoryProvider>(
       builder: (context, provider, _) => Scaffold(
           appBar: AppBar(
@@ -101,50 +107,47 @@ class _ListPageState extends State<ListPage> {
           ),
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 8,
             children: [
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Expanded(
-                      child: QueryField(
-                    onSubmitted: (value) => _onSubmitted(context, value),
-                  )),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  SizedBox(
-                      width: 48,
-                      height: 48,
-                      child: SortButton(
-                        onSelected: (value) => _onSelected(context, value),
+              Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    spacing: 8,
+                    children: [
+                      //クエリのテキストフィールド
+                      Expanded(
+                          child: QueryField(
+                        onSubmitted: (value) => _onSubmitted(context, value),
                       )),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
+                      //ソート方法選択ボタン
+                      SizedBox(
+                          width: 48,
+                          height: 48,
+                          child: SortButton(
+                            onSelected: (value) => _onSelected(context, value),
+                          )),
+                    ],
+                  )),
+              //リストビュー
               Expanded(
+                  child: Padding(
+                padding: EdgeInsets.all(8),
                 child: provider.count != 0 || provider.isLoading
                     ? ListView.builder(
                         controller: _scrollController,
+                        //読み込み中はインディケーターのために1つ増やす
                         itemCount:
                             provider.count + (provider.isLoading ? 1 : 0),
                         itemBuilder: _buildItem)
+                    //アイテムがない時のプレースホルダー
                     : Text(AppLocalizations.of(context)!.empty_list),
-              )
+              ))
             ],
           ),
-          floatingActionButton: provider.count != 0 || provider.isLoading
+          //先頭に戻る時
+          floatingActionButton: provider.count != 0
               ? FloatingActionButton(
                   onPressed: _scrollTop,
                   child: Icon(Icons.arrow_upward),

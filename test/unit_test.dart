@@ -13,35 +13,34 @@ void main() {
     late RepositoryProvider repositoryProvider;
     late MockClient mockClient;
     final sampleText = 'sample';
-    int code = 0;
-    bool isLoading = false;
+    late int code;
     Repository? item;
 
-    setUp(() {
-      GetIt.I.reset();
+    setUpAll(() {
+      //handlerに挙動を定義してモックに与える
       mockClient = MockClient(handler);
+      //クライアントを登録
       GetIt.I.registerLazySingleton<http.Client>(() => mockClient);
 
       repositoryProvider = RepositoryProvider();
       repositoryProvider.addListener(() {
-        isLoading = repositoryProvider.isLoading;
         item = repositoryProvider.count != 0
             ? repositoryProvider.getRepository(0)
             : null;
       });
       code = 0;
     });
-
+    //通常時リクエスト直後
     test('Query before getting result', () async {
       repositoryProvider.setQuery(sampleText, (value) => code = value);
-      expect(isLoading, true);
+      expect(repositoryProvider.isLoading, true);
       expect(repositoryProvider.query, sampleText);
       expect(code, 0);
     });
-
+    //通常時レスポンス取得後
     test('Query after getting success response', () async {
       await repositoryProvider.setQuery(sampleText, (value) => code = value);
-      expect(isLoading, false);
+      expect(repositoryProvider.isLoading, false);
       expect(code, 0);
       expect(item, isNotNull);
       expect(item!.name, 'q');
@@ -49,27 +48,28 @@ void main() {
       expect(item!.forks, 1199);
       expect(item!.issues, 116);
     });
-
+    //一般的なエラー
     test('Query after getting 500 response', () async {
       await repositoryProvider.setQuery('500', (value) => code = value);
-      expect(isLoading, false);
+      expect(repositoryProvider.isLoading, false);
       expect(code, 500);
       expect(item, isNull);
     });
-
+    //不適切なクエリのエラー
     test('Query after getting 422 response', () async {
       await repositoryProvider.setQuery('422', (value) => code = value);
-      expect(isLoading, false);
+      expect(repositoryProvider.isLoading, false);
       expect(code, 422);
       expect(item, isNull);
     });
   });
-
+  //設定用Providerのテスト
   group('SettingsProvider Tests', () {
     late SharedPreferences prefs;
     late SettingsProvider settingsProvider;
 
     setUp(() async {
+      //初期値は英語に設定
       SharedPreferences.setMockInitialValues({'locale': 'en'});
       prefs = await SharedPreferences.getInstance();
       settingsProvider = SettingsProvider(prefs);
@@ -89,12 +89,16 @@ void main() {
   });
 }
 
+//モックHTTPレスポンス
 Future<http.Response> handler(http.Request request) async {
   if (request.url.queryParameters.containsValue('500')) {
+    //一般的なエラー
     return http.Response('', 500);
   } else if (request.url.queryParameters.containsValue('422')) {
+    //不適切なクエリのエラー
     return http.Response('', 422);
   }
+  //正常なリクエスト
   return http.Response('''{
           "total_count": 1,
           "items": [

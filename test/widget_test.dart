@@ -15,12 +15,15 @@ import 'package:repository/widgets/selectabletile.dart';
 import 'package:repository/widgets/sortbutton.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+
 void main() {
+  // GetItのセットアップ
   setUpAll(() {
-    // GetItのセットアップ
+
     final client = MockClient(handler);
     GetIt.I.registerLazySingleton<http.Client>(() => client);
   });
+
   testWidgets('DetailCard', (WidgetTester tester) async {
     String title = "Stars";
     int value = -9223372036854775808;
@@ -58,6 +61,7 @@ void main() {
     expect(find.text(title), findsOneWidget);
     expect(find.text(value), findsOneWidget);
   });
+  //
   testWidgets('ProceedableTile', (WidgetTester tester) async {
     String title =
         "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";

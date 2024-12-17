@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//選択可能なタイル 言語設定用
 class SelectableTile<T> extends StatelessWidget {
   final bool isSelected;
   final String text;
@@ -23,11 +24,13 @@ class SelectableTile<T> extends StatelessWidget {
         height: height,
         child: Row(
           children: [
+            //アイコン
             isSelected
                 ? const SizedBox(width: 40, child: Icon(Icons.check))
                 : const SizedBox(
                     width: 40,
                   ),
+            //タイトル
             Expanded(
                 child: Text(
               text,

@@ -2,6 +2,7 @@
 
 このリポジトリは、株式会社ゆめみ様 の技術テストに基づいて作成されたプロジェクトです。
 
+
 ## 仕様
 
 - Flutter を用いた iOS/Android 向けアプリ
@@ -39,21 +40,32 @@
   - 実装 1
     - モデル
     - Provider
-    - ページ雛形
+    - ページ雛形作成
 - 2 日目
   - テスト作成
-  - Firebase App Distribution 連携
   - 実装 2
     - 多言語対応
-  - パイプライン完成 & Github Actions ビルド成功
+  - パイプライン
+    - リント&テストまでのワークフロー完成
+    - Firebase App Distribution(Android) 連携
 - 3 日目
+  - Firebase App Distribution (iOS) 連携
+    - 失敗
 - 4 日目
+  - テスト実装
+    - Unit
+    - UI
+    - Integration(通常操作のみ)
 - 5 日目
-
+  - リストページへのアニメーション追加
+    - MVVMパターンに組み込めず却下
+  - Firebase App Distribution (iOS) 連携再チャレンジ
+    - 失敗
+  - レスポンシブ対応
 - 6 日目
-  - iOS の Distribution に再チャレンジ
+  - iOS の Distribution に再々チャレンジ
     - Fastlane の導入
-  - UI テストの充実
+  - Integrationテストの充実
     - API のエラー発生時
     - 設定画面
 - 7 日目
@@ -212,19 +224,25 @@ Error: This request has been automatically failed because it uses a deprecated v
 
 ### テスト
 
+見逃しをなくすために生成 AI にユニット/Widget のコードを送って作成してもらい,適宜自分の環境に書き換えたり,不足している部分を追記した.
+
 #### ユニットテスト(Provider)
 
 [provider のテスト](https://riverpod.dev/ja/docs/essentials/testing)を参考.また htpp 通信のテストにモックを導入した.([【Flutter】DI と Mock を使って WEB API をテストする + mockito チートシート コード付](https://flutter.salon/plugin/mockito/))
+
 ```Dart
     late MockClient mockClient;
     setUp(() {
+      //リセット
       GetIt.I.reset();
       mockClient = MockClient(handler);
       GetIt.I.registerLazySingleton<http.Client>(() => mockClient);
     }
     //test
 ```
-このように登録する前に必ずリセットしないと重複登録でエラーになる.
+
+`setUp`を使うならこのように登録する前に必ずリセットしないと重複登録でエラーになる.`setUpAll`ならいらない.
+
 
 #### Widget
 
@@ -265,7 +283,8 @@ group('SortButton Widget Test', () {
       //...
     }
 ```
-MaterialAppの中にないとダメなのだろうか.
+
+MaterialApp の中にないとダメなのだろうか.
 
 #### IntegrationTest
 
@@ -311,7 +330,7 @@ MaterialAppの中にないとダメなのだろうか.
   - テスターに含めるデバイスを選択
   - 名前を入力して作成
 - Xcode から設定変更
-  - `BuildSettings`->`Code Siging Identity`で`Certificates in Keychain`から作成した証明書を選択
+  - `BuildSettings`->`Code Siging Identity`で`Certificates in Keychain`から作成した証明書を選択[参考](https://dev.classmethod.jp/articles/xcode-no-signing-certificate-ios-development-found-error/)
   - `Signing & Capablities`
     - `Automatic manage signing`のチェックを外す
     - `Provisioning File`で作成した Profile を選択.
@@ -396,7 +415,7 @@ Java のセットアップもワークフローに組み込むことで対処.[[
 ## 備考
 
 その他備忘録. これらで治りはしなかったが今後役立つかもしれない.
-https://dev.classmethod.jp/articles/xcode-no-signing-certificate-ios-development-found-error/
+
 https://qiita.com/warapuri/items/2a32cb2201ce75aa5f4b
 https://qiita.com/warapuri/items/2a32cb2201ce75aa5f4b
 https://qiita.com/kokogento/items/c2979542a34610925e2d

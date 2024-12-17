@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//エラー時のダイアログ
 class MyAlertDialog extends StatelessWidget {
   final String title;
   final String message;
@@ -18,7 +19,7 @@ class MyAlertDialog extends StatelessWidget {
                 side: WidgetStateProperty.all(
                     BorderSide(color: colorScheme.primary))),
             onPressed: () {
-              Navigator.pop(context, 'OK');
+              Navigator.pop(context);
             },
             child: const Text('OK'))
       ],

@@ -1,6 +1,7 @@
 import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 
+//詳細ページのグリッドのカード
 class DetailCard extends StatelessWidget {
   final String title;
   final IconData iconData;
@@ -17,14 +18,16 @@ class DetailCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        margin: const EdgeInsets.all(16),
+        margin: const EdgeInsets.all(8),
         child: Container(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              spacing: 8,
               children: [
                 Expanded(
                     child: Row(
                   children: [
+                    //左半分をアイコン,右半分を空白
                     Expanded(
                       flex: 1,
                       child: LayoutBuilder(
@@ -46,9 +49,7 @@ class DetailCard extends StatelessWidget {
                     ),
                   ],
                 )),
-                const SizedBox(
-                  height: 8,
-                ),
+                //タイトル
                 Align(
                   alignment: Alignment.centerLeft,
                   child: FadeTransition(
@@ -61,6 +62,7 @@ class DetailCard extends StatelessWidget {
                         style: TextStyle(fontSize: 24),
                       )),
                 ),
+                //値 カウントアップのアニメーション
                 Align(
                   alignment: Alignment.centerRight,
                   child: Countup(

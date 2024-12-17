@@ -1,3 +1,4 @@
+//レポジトリの検索結果を格納
 class Repository {
   final String name;
   final String userIconPath;
@@ -15,7 +16,8 @@ class Repository {
       required this.watchers,
       required this.forks,
       required this.issues});
-
+      
+  //JSON形式からのパーサー
   factory Repository.fromSearhRepositoryItem(dynamic item) {
     return Repository(
         name: item["name"],

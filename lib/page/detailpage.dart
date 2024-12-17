@@ -7,7 +7,9 @@ import 'package:repository/widgets/detailcard.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:repository/widgets/detailtile.dart';
 
+//詳細ページ
 class DetailPage extends StatefulWidget {
+  //アイテムのインデックス
   final int index;
 
   const DetailPage({super.key, required this.index});
@@ -16,8 +18,8 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
+  //アニメーション
   double opacityLevel = 1.0;
-
   late final AnimationController _controller = AnimationController(
     duration: const Duration(milliseconds: 1000),
     vsync: this,
@@ -30,6 +32,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    //アニメーション実行
     _controller.forward();
   }
 
@@ -39,11 +42,13 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  //右上の設定ボタン
   void _trailingPressed(BuildContext context) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => SettingsPage()));
   }
 
+  //縦横で配置を変える 縦画面なら縦並び　横画面なら横並び
   Widget _lineupTwoWidget(Orientation orientation, Widget upper, Widget lower) {
     return orientation == Orientation.portrait
         ? Column(
@@ -75,6 +80,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
         ],
       ),
       body: Consumer<RepositoryProvider>(builder: (context, model, _) {
+        //該当のアイテム
         Repository item = model.getRepository(widget.index);
         return SingleChildScrollView(
             child: Container(
@@ -115,17 +121,18 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                     const SizedBox(
                       height: 16,
                     ),
+                    //縦/横画面で配置を切り替え
                     _lineupTwoWidget(
                         MediaQuery.of(context).orientation,
+                        //言語
                         DetailTile(
                           title: AppLocalizations.of(context)!.language,
                           iconData: Icons.language,
                           value: item.language ??
-                              AppLocalizations.of(context)!.unset,
+                              AppLocalizations.of(context)!.unset, //言語が未定義の時
                           animation: _animation,
                         ),
                         AspectRatio(
-                          // height: MediaQuery.of(context).size.width,
                           aspectRatio: 1,
                           child: GridView.count(
                             crossAxisCount: 2,
@@ -135,24 +142,28 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             children: [
+                              //Star数
                               DetailCard(
                                 title: AppLocalizations.of(context)!.stars,
                                 iconData: Icons.star,
                                 value: item.stars,
                                 animation: _animation,
                               ),
+                              //Watcher数
                               DetailCard(
                                 title: AppLocalizations.of(context)!.wathcers,
                                 iconData: Icons.visibility,
                                 value: item.watchers,
                                 animation: _animation,
                               ),
+                              //Fork数
                               DetailCard(
                                 title: AppLocalizations.of(context)!.forks,
                                 iconData: Icons.fork_right,
                                 value: item.forks,
                                 animation: _animation,
                               ),
+                              //Issue数
                               DetailCard(
                                 title: AppLocalizations.of(context)!.issues,
                                 iconData: Icons.adjust,

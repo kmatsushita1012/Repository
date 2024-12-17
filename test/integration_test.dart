@@ -21,6 +21,7 @@ void main() {
   late SharedPreferences prefs;
 
   setUpAll(() async {
+    
     mockClient = MockClient(handler);
     GetIt.I.registerLazySingleton<http.Client>(() => mockClient);
     SharedPreferences.setMockInitialValues({'locale': 'en'});

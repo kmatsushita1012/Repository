@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//言語用のタイル
 class DetailTile extends StatelessWidget {
   final String title;
   final IconData iconData;
@@ -17,7 +18,7 @@ class DetailTile extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Container(
-      margin: EdgeInsets.all(16),
+      margin: EdgeInsets.all(8),
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
           color: colorScheme.surfaceContainerLow,
@@ -31,8 +32,9 @@ class DetailTile extends StatelessWidget {
           ]),
       child: Row(
         children: [
+          //アイコン
           Expanded(
-            flex: 1,
+            flex: 2,
             child: LayoutBuilder(
               builder: (context, constraints) {
                 return Align(
@@ -48,9 +50,10 @@ class DetailTile extends StatelessWidget {
             ),
           ),
           Expanded(
-              flex: 2,
+              flex: 3,
               child: Column(
                 children: [
+                  //タイトル
                   Align(
                       alignment: Alignment.centerLeft,
                       child: FadeTransition(
@@ -61,6 +64,7 @@ class DetailTile extends StatelessWidget {
                           style: TextStyle(fontSize: 24),
                         ),
                       )),
+                  //言語名
                   Align(
                       alignment: Alignment.centerLeft,
                       child: FadeTransition(

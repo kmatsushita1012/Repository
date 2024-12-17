@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+//ソート方法
 enum SortTypes {
   match,
   updated,
@@ -8,6 +9,7 @@ enum SortTypes {
   forks,
   isuues;
 
+  //クエリ用の変換
   String? toQueryString() {
     if (this == SortTypes.match) {
       return null;
@@ -18,7 +20,8 @@ enum SortTypes {
     }
   }
 
-  String text(BuildContext context) {
+  //UI用の変換
+  String toText(BuildContext context) {
     switch (this) {
       case SortTypes.stars:
         return AppLocalizations.of(context)!.stars;
@@ -33,6 +36,7 @@ enum SortTypes {
     }
   }
 
+  //アイコン
   IconData icon() {
     switch (this) {
       case SortTypes.stars:
