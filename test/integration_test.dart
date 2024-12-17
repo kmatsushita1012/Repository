@@ -15,14 +15,15 @@ import 'package:repository/main.dart';
 import 'package:repository/widgets/proceedabletile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'helpers/mockapi.dart';
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   late MockClient mockClient;
   late SharedPreferences prefs;
 
   setUpAll(() async {
-    
-    mockClient = MockClient(handler);
+    mockClient = MockClient(mockAPI);
     GetIt.I.registerLazySingleton<http.Client>(() => mockClient);
     SharedPreferences.setMockInitialValues({'locale': 'en'});
     prefs = await SharedPreferences.getInstance();
@@ -90,6 +91,22 @@ void main() {
         findsOneWidget);
   });
 
+  testWidgets('Notice 204', (WidgetTester tester) async {
+    await tester.pumpWidget(MyApp(prefs: prefs));
+
+    final textField = find.byType(TextField);
+    await tester.showKeyboard(textField);
+    await tester.pumpAndSettle();
+    await tester.enterText(textField, '204');
+    await tester.pumpAndSettle();
+    final testInput = TestTextInput();
+    await testInput.receiveAction(TextInputAction.done);
+    await tester.pumpAndSettle();
+    expect(find.byType(AlertDialog), findsOneWidget);
+    expect(find.text("Notice"), findsOneWidget);
+    expect(find.text("No results found."), findsOneWidget);
+  });
+
   testWidgets('Setting', (WidgetTester tester) async {
     await tester.pumpWidget(MyApp(prefs: prefs));
     await tester.tap(find.byType(IconButton));
@@ -106,37 +123,4 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text("設定"), findsOneWidget);
   });
-}
-
-Future<http.Response> handler(http.Request request) async {
-  if (request.url.queryParameters.containsValue('500')) {
-    return http.Response('', 500);
-  } else if (request.url.queryParameters.containsValue('422')) {
-    return http.Response('', 422);
-  }
-  return http.Response('''{
-          "total_count": 1,
-          "items": [
-            {
-              "id": 1,
-              "name": "q",
-              "stargazers_count": 100,
-              "watchers_count": 100,
-              "forks_count": 10,
-              "open_issues_count": 5,
-              "owner": {
-                "avatar_url": "https://avatars.githubusercontent.com/u/60294?v=4"
-              },
-              "size": 1428,
-              "stargazers_count": 14927,
-              "watchers_count": 14927,
-              "language": "JavaScript",
-              "forks_count": 1199,
-              "open_issues_count": 116,
-              "forks": 1199,
-              "open_issues": 116,
-              "watchers": 14927
-            }
-          ]
-        }''', 200);
 }

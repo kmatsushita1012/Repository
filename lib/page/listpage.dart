@@ -27,7 +27,8 @@ class _ListPageState extends State<ListPage> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         context.read<RepositoryProvider>().getMoreRepositories(
-            (value) => _showHttpErrorAlert(context, value));
+            onSuccess: (_) => _onSuccess(context),
+            onError: (value) => _onErrpr(context, value));
       }
     });
   }
@@ -35,17 +36,31 @@ class _ListPageState extends State<ListPage> {
   //クエリ入力時
   void _onSubmitted(BuildContext context, String value) {
     final provider = context.read<RepositoryProvider>();
-    provider.setQuery(value, (value) => _showHttpErrorAlert(context, value));
+    provider.setQuery(value,
+        onSuccess: (_) => _onSuccess(context),
+        onError: (value) => _onErrpr(context, value));
   }
 
   //ソート方法選択時
   void _onSelected(BuildContext context, SortTypes value) {
     final provider = context.read<RepositoryProvider>();
-    provider.setSortType(value, (value) => _showHttpErrorAlert(context, value));
+    provider.setSortType(value,
+        onSuccess: (_) => _onSuccess(context),
+        onError: (value) => _onErrpr(context, value));
+  }
+
+  void _onSuccess(BuildContext context) {
+    if (context.read<RepositoryProvider>().count == 0) {
+      showDialog(
+          context: context,
+          builder: (_) => MyAlertDialog(
+              title: AppLocalizations.of(context)!.notice,
+              message: AppLocalizations.of(context)!.no_results));
+    }
   }
 
   //エラー用コールバック
-  void _showHttpErrorAlert(BuildContext context, int statusCode) {
+  void _onErrpr(BuildContext context, int statusCode) {
     late String message;
     if (statusCode == 422) {
       message = AppLocalizations.of(context)!.invalid_query;

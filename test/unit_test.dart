@@ -8,6 +8,8 @@ import 'package:repository/providers/repository_provider.dart';
 import 'package:repository/providers/settings_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'helpers/mockapi.dart';
+
 void main() {
   group('Repository Tests', () {
     late RepositoryProvider repositoryProvider;
@@ -16,9 +18,10 @@ void main() {
     late int code;
     Repository? item;
 
-    setUpAll(() {
+    setUp(() {
+      GetIt.I.reset();
       //handlerに挙動を定義してモックに与える
-      mockClient = MockClient(handler);
+      mockClient = MockClient(mockAPI);
       //クライアントを登録
       GetIt.I.registerLazySingleton<http.Client>(() => mockClient);
 
@@ -32,16 +35,18 @@ void main() {
     });
     //通常時リクエスト直後
     test('Query before getting result', () async {
-      repositoryProvider.setQuery(sampleText, (value) => code = value);
+      repositoryProvider.setQuery(sampleText,
+          onSuccess: (value) => code = value, onError: (value) => code = value);
       expect(repositoryProvider.isLoading, true);
       expect(repositoryProvider.query, sampleText);
       expect(code, 0);
     });
     //通常時レスポンス取得後
     test('Query after getting success response', () async {
-      await repositoryProvider.setQuery(sampleText, (value) => code = value);
+      await repositoryProvider.setQuery(sampleText,
+          onSuccess: (value) => code = value, onError: (value) => code = value);
       expect(repositoryProvider.isLoading, false);
-      expect(code, 0);
+      expect(code, 200);
       expect(item, isNotNull);
       expect(item!.name, 'q');
       expect(item!.stars, 14927);
@@ -50,16 +55,26 @@ void main() {
     });
     //一般的なエラー
     test('Query after getting 500 response', () async {
-      await repositoryProvider.setQuery('500', (value) => code = value);
+      await repositoryProvider.setQuery('500',
+          onSuccess: (value) => code = value, onError: (value) => code = value);
       expect(repositoryProvider.isLoading, false);
       expect(code, 500);
       expect(item, isNull);
     });
     //不適切なクエリのエラー
     test('Query after getting 422 response', () async {
-      await repositoryProvider.setQuery('422', (value) => code = value);
+      await repositoryProvider.setQuery('422',
+          onSuccess: (value) => code = value, onError: (value) => code = value);
       expect(repositoryProvider.isLoading, false);
       expect(code, 422);
+      expect(item, isNull);
+    });
+    //結果なしの場合
+    test('Query after getting 204 response', () async {
+      await repositoryProvider.setQuery('204',
+          onSuccess: (value) => code = value, onError: (value) => code = value);
+      expect(repositoryProvider.isLoading, false);
+      expect(code, 200);
       expect(item, isNull);
     });
   });
@@ -87,41 +102,4 @@ void main() {
       expect(entries[1].key.languageCode, 'ja');
     });
   });
-}
-
-//モックHTTPレスポンス
-Future<http.Response> handler(http.Request request) async {
-  if (request.url.queryParameters.containsValue('500')) {
-    //一般的なエラー
-    return http.Response('', 500);
-  } else if (request.url.queryParameters.containsValue('422')) {
-    //不適切なクエリのエラー
-    return http.Response('', 422);
-  }
-  //正常なリクエスト
-  return http.Response('''{
-          "total_count": 1,
-          "items": [
-            {
-              "id": 1,
-              "name": "q",
-              "stargazers_count": 100,
-              "watchers_count": 100,
-              "forks_count": 10,
-              "open_issues_count": 5,
-              "owner": {
-                "avatar_url": "https://avatars.githubusercontent.com/u/60294?v=4"
-              },
-              "size": 1428,
-              "stargazers_count": 14927,
-              "watchers_count": 14927,
-              "language": "JavaScript",
-              "forks_count": 1199,
-              "open_issues_count": 116,
-              "forks": 1199,
-              "open_issues": 116,
-              "watchers": 14927
-            }
-          ]
-        }''', 200);
 }

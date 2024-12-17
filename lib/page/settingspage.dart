@@ -26,15 +26,13 @@ class SettingsPage extends StatelessWidget {
       ),
       body: Padding(
           padding: const EdgeInsets.all(8),
-          child: Expanded(
-              //設定項目
-              child: ListView(
+          child: ListView(
             children: [
               ProceedableTile(
                   text: AppLocalizations.of(context)!.language_name,
                   onTap: _onLanguageTap)
             ],
-          ))),
+          )),
     );
   }
 }

@@ -208,6 +208,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter a keyword to search for repositories.'**
   String get empty_list;
+
+  /// No description provided for @notice.
+  ///
+  /// In en, this message translates to:
+  /// **'Notice'**
+  String get notice;
+
+  /// No description provided for @no_results.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found.'**
+  String get no_results;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

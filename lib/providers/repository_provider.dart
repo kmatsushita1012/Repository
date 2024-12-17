@@ -28,31 +28,36 @@ class RepositoryProvider extends ChangeNotifier {
     return _items[index];
   }
 
-  Future<void> setQuery(String query, void Function(int) errorHandler) async {
+  Future<void> setQuery(String query,
+      {void Function(int)? onSuccess, void Function(int)? onError}) async {
     _query = query;
     _clear();
-    await _callAPI(errorHandler);
+    await _callAPI(onSuccess, onError);
   }
 
-  Future<void> setSortType(
-      SortTypes sortType, void Function(int) errorHandler) async {
+  Future<void> setSortType(SortTypes sortType,
+      {void Function(int)? onSuccess, void Function(int)? onError}) async {
     _sortType = sortType;
     _clear();
-    await _callAPI(errorHandler);
+    await _callAPI(onSuccess, onError);
   }
 
-  Future<void> getMoreRepositories(void Function(int) errorHandler) async {
+  Future<void> getMoreRepositories(
+      {void Function(int)? onSuccess, void Function(int)? onError}) async {
     _sortType = sortType;
     _page += 1;
-    await _callAPI(errorHandler);
+    await _callAPI(onSuccess, onError);
   }
+
   //レスポンスをクリア
   void _clear() {
     _items = [];
     _page = 1;
   }
+
   //APIツウシン
-  Future<void> _callAPI(void Function(int) errorHandler) async {
+  Future<void> _callAPI(
+      void Function(int)? onSuccess, void Function(int)? onError) async {
     _isLoading = true;
     notifyListeners();
 
@@ -68,7 +73,6 @@ class RepositoryProvider extends ChangeNotifier {
 
     _isLoading = false;
     notifyListeners();
-
     if (response.statusCode == 200) {
       //正常な処理
       dynamic responseBody = utf8.decode(response.bodyBytes);
@@ -81,10 +85,15 @@ class RepositoryProvider extends ChangeNotifier {
           continue;
         }
       }
+      if (onSuccess != null) {
+        onSuccess(response.statusCode);
+      }
     } else {
       //エラー時
       _query = "";
-      errorHandler(response.statusCode);
+      if (onError != null) {
+        onError(response.statusCode);
+      }
     }
     notifyListeners();
   }

@@ -15,12 +15,13 @@ import 'package:repository/widgets/selectabletile.dart';
 import 'package:repository/widgets/sortbutton.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'helpers/mockapi.dart';
 
 void main() {
   // GetItのセットアップ
-  setUpAll(() {
-
-    final client = MockClient(handler);
+  setUp(() {
+    GetIt.I.reset();
+    final client = MockClient(mockAPI);
     GetIt.I.registerLazySingleton<http.Client>(() => client);
   });
 
