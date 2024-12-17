@@ -9,6 +9,7 @@ import 'package:repository/models/sorttypes.dart';
 import 'package:repository/providers/repository_provider.dart';
 import 'package:repository/widgets/detailcard.dart';
 import 'package:repository/widgets/detailtile.dart';
+import 'package:repository/widgets/myalertdialog.dart';
 import 'package:repository/widgets/proceedabletile.dart';
 import 'package:repository/widgets/queryfield.dart';
 import 'package:repository/widgets/selectabletile.dart';
@@ -229,37 +230,17 @@ void main() {
       expect(type, SortTypes.stars);
     });
   });
-}
-
-Future<http.Response> handler(http.Request request) async {
-  if (request.url.queryParameters.containsValue('500')) {
-    return http.Response('', 500);
-  } else if (request.url.queryParameters.containsValue('422')) {
-    return http.Response('', 422);
-  }
-  return http.Response('''{
-          "total_count": 1,
-          "items": [
-            {
-              "id": 1,
-              "name": "q",
-              "stargazers_count": 100,
-              "watchers_count": 100,
-              "forks_count": 10,
-              "open_issues_count": 5,
-              "owner": {
-                "avatar_url": "https://avatars.githubusercontent.com/u/60294?v=4"
-              },
-              "size": 1428,
-              "stargazers_count": 14927,
-              "watchers_count": 14927,
-              "language": "JavaScript",
-              "forks_count": 1199,
-              "open_issues_count": 116,
-              "forks": 1199,
-              "open_issues": 116,
-              "watchers": 14927
-            }
-          ]
-        }''', 200);
+  testWidgets('MyAlertDialog', (WidgetTester tester) async {
+    String title = "title";
+    String message = "message";
+    await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+            body: MyAlertDialog(
+      title: title,
+      message: message,
+    ))));
+    expect(find.text(title), findsOneWidget);
+    expect(find.text(message), findsOneWidget);
+    expect(find.byType(TextButton), findsOneWidget);
+  });
 }
