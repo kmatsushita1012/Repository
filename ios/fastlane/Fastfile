@@ -47,7 +47,7 @@ platform :ios do
         method: "ad-hoc",
         provisioningProfiles: {
         #   "com.techtest.repository" => "yumemiprofile"
-          "com.techtest.repository" => "yumemiprofile-AdHoc";
+          "com.techtest.repository" => "yumemiprofile-AdHoc"
         }
     })
 

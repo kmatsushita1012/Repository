@@ -22,6 +22,18 @@
   - 実装 2
     - 多言語対応
   - パイプライン完成 & Github Actions ビルド成功
+- 3 日目
+- 4 日目
+- 5 日目
+
+- 6 日目
+  - iOS の Distribution に再チャレンジ
+    - Fastlane の導入
+  - UI テストの充実
+    - API のエラー発生時
+    - 設定画面
+- 7 日目
+  - iOS の Distribution に成功
 
 ## 作業詳細
 
@@ -132,13 +144,15 @@ class SettingsProvider extends ChangeNotifier {
 
 ### Widget
 
+経験があるので独力で行いつつ,細かいスタイルやその他プロパティについては生成 AI に聞くことでスムーズに開発を進めた.以下のエラーが発生.
+
 - ページの雛形作成中にウィジェット関連でエラー. `Column` と `ListView` を入れ子にするとサイズが定まらなくなるのが原因.`ListView`を`Expanded`で囲むなどで解決.
   https://qiita.com/umi_mori/items/fb7b67a5c5bb3dda927e
 - `GestureDetector` が子要素上しか反応しなかった.
   https://note.com/gawakun/n/n54661ad04106
   https://api.flutter.dev/flutter/rendering/HitTestBehavior.html
-
-- リストページで追加の読み込みをできるようにした.[Flutter での Lazy Loading リストビューの実装](https://qiita.com/omitsuhashi/items/ea6ae22d9572ea882a2f)を参考にした.
+  またリストページで追加の読み込みをできるようにした.
+- [Flutter での Lazy Loading リストビューの実装](https://qiita.com/omitsuhashi/items/ea6ae22d9572ea882a2f).
 
 ### 多言語化
 
@@ -151,15 +165,19 @@ flutter pub get
 flutter gen-l10n
 ```
 
-で治る
+で治る.
 
 ### アニメーション
 
 - 詳細ページには主に`FadeTransition`を用いた.[リファレンス](https://api.flutter.dev/flutter/widgets/FadeTransition-class.html)を参照.
+- リストページは API 通信,MVVM,インディケーター,追加読み込みなどが絡み合い,MVVM の設計パターンが壊れてしまったためアニメーションを断念.今後学んでいこうと思います.
 
 ### パイプライン作成
-
-[Flutter アプリの CI/CD パイプライン構築ガイド](https://zenn.dev/takuowake/articles/e1f52c5f0fb4ab), [[Flutter]GitHub Actions で App Distribution にアプリをアップロードした](https://zenn.dev/shima999ba/articles/ae1fc477744e2a)を参考.最初は前者を参考にしていたが iOS のビルドがアップできないことに気づき後者に変更.
+以下を参考.
+- [Flutter アプリの CI/CD パイプライン構築ガイド](https://zenn.dev/takuowake/articles/e1f52c5f0fb4ab)
+- [[Flutter]GitHub Actions で App Distribution にアプリをアップロードした](https://zenn.dev/shima999ba/articles/ae1fc477744e2a)
+- 
+最初は前者を参考にしていたが iOS のビルドがアップできないことに気づき後者に変更.
 
 Github Actions でバージョン関係を中心に大量にエラーが発生.
 
@@ -192,6 +210,7 @@ Error: This request has been automatically failed because it uses a deprecated v
 - iOS のバージョンが初期設定の 12.0 では Firebase と連携できなかったため 14.0 に変更.
   [参考 1](https://zenn.dev/t_fukuyama/articles/9048d5f26befee)
 - [参考 2](https://qiita.com/kokogento/items/6c0baf22c85a28db388c)
+- [GitHubActions×Fastlane×FirebaseでiOSアプリを配布するCI/CDを構築](https://note.com/resan0725/n/nc84186fa841c)
 
 必要な環境変数を集めて GithubActions にセットする.
 
@@ -212,6 +231,7 @@ Error: This request has been automatically failed because it uses a deprecated v
   - [ANDROID_KEY_ALIAS] キーストアファイルの ALIAS 名
 
 #### iOS の手順
+
 - キーチェーンアクセスから証明書要求ファイル作成 ([参考](https://faq.growthbeat.com/article/178-ios-p12))
 - Apple Developer で Certificates を作成,ダウンロード
   - 用途に iOS Distribution を選択
