@@ -49,7 +49,9 @@ class _ListPageState extends State<ListPage> {
         onError: (value) => _onErrpr(context, value));
   }
 
+  //成功時のコールバック
   void _onSuccess(BuildContext context) {
+    //結果0件の時
     if (context.read<RepositoryProvider>().count == 0) {
       showDialog(
           context: context,

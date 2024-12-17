@@ -30,7 +30,7 @@
 
 ## 開始前の技術レベル
 
-Flutter は半年前に開始ししアプリを 2 つリリース.機能を愚直に実装し形にできる程度.
+Flutter は半年前に開始ししアプリを 2 つリリース。機能を愚直に実装し形にできる程度。
 
 **使用したライブラリ**
 
@@ -46,14 +46,13 @@ Flutter は半年前に開始ししアプリを 2 つリリース.機能を愚�
 - Provider を用いた状態管理
 - 多言語対応
 - アニメーション
-- CI/CD パイプラインの構築,Github Actions
+- CI/CD パイプラインの構築(Github Actions)
 - IntegrationTest
 - Firebase App Distribution
 
 ## 作業行程
 
 - 1 日目
-  - パイプライン雛形作成
   - UI 設計(Figma)
   - 実装 1
     - モデル
@@ -64,7 +63,7 @@ Flutter は半年前に開始ししアプリを 2 つリリース.機能を愚�
   - 実装 2
     - 多言語対応
   - パイプライン
-    - リント&テストまでのワークフロー完成
+    - リント&テストまで完成
     - Firebase App Distribution(Android) 連携
 - 3 日目
   - Firebase App Distribution (iOS) 連携
@@ -88,10 +87,11 @@ Flutter は半年前に開始ししアプリを 2 つリリース.機能を愚�
     - 設定画面
 - 7 日目
   - iOS の Distribution に成功
+  - 不足部分を補い完成
 
 ## 作業詳細
 
-2 日目の Firebase App Distribution への連携時にプロジェクトを作り直さざるを得なくなったため,2 日目以前のコミットの記録が消滅しました。ご容赦ください。
+2 日目の Firebase App Distribution への連携時にプロジェクトを作り直さざるを得なくなったため、2 日目以前のコミットの記録が消滅しました。ご容赦ください。
 
 ### UI 設計
 
@@ -101,11 +101,11 @@ Figma を用いて作成しました。
 
 #### Provider
 
-MVVM に触れるのが初めてのため[【Flutter】Provider を使って複数画面で再描画を行う【初心者向け】](https://qiita.com/mamoru_takami/items/730b9db24c68cf8cfe75)を参考.
+MVVM に触れるのが初めてのため[【Flutter】Provider を使って複数画面で再描画を行う【初心者向け】](https://qiita.com/mamoru_takami/items/730b9db24c68cf8cfe75)を参考。
 
-プロバイダーはメインとなるレポジトリ検索(`RepositoryProvider`)と設定(`SettingsProvider`)の 2 つに分けて作成.
+プロバイダーはメインとなるレポジトリ検索(`RepositoryProvider`)と設定(`SettingsProvider`)の 2 つに分けて作成。
 
-`RepositoryProvider`は以下のとおり実装.
+`RepositoryProvider`は以下のとおり実装。
 
 ```dart
 class RepositoryProvider extends ChangeNotifier {
@@ -121,7 +121,7 @@ class RepositoryProvider extends ChangeNotifier {
 }
 ```
 
-http 通信は実装経験があるため当時のコードから引用しアレンジを加えた.
+http 通信は実装経験があるため当時のコードから引用しアレンジを加えた。
 
 ```dart
 void getRepositories(int page) {
@@ -139,7 +139,7 @@ void getRepositories(int page) {
   }
 ```
 
-データモデルはレポジトリに対応する`Repository`とソートの選択肢に対応する`SortTypes`.
+データモデルはレポジトリに対応する`Repository`とソートの選択肢に対応する`SortTypes`。
 
 ```dart
 class Repository {
@@ -164,7 +164,7 @@ enum SortTypes {
 }
 ```
 
-`SettingsProvider`は SharedPreference と連携しつつ設定の反映をリアルタイムで反映する.コンストラクタで SharedPreference を取り込むことでモックテストに対応.
+`SettingsProvider`は SharedPreference と連携しつつ設定の反映をリアルタイムで反映する。コンストラクタで SharedPreference を取り込むことでモックテストに対応。
 
 ```dart
 class SettingsProvider extends ChangeNotifier {
@@ -182,19 +182,19 @@ class SettingsProvider extends ChangeNotifier {
 
 ### Widget
 
-経験があるので独力で行いつつ,細かいスタイルやその他プロパティについては生成 AI に聞くことでスムーズに開発を進めた.以下のエラーが発生.
+経験があるので独力で行いつつ、細かいスタイルやその他プロパティについては生成 AI に聞くことでスムーズに開発を進めた。以下のエラーが発生。
 
-- ページの雛形作成中にウィジェット関連でエラー. `Column` と `ListView` を入れ子にするとサイズが定まらなくなるのが原因.`ListView`を`Expanded`で囲むなどで解決.
+- ページの雛形作成中にウィジェット関連でエラー。 `Column` と `ListView` を入れ子にするとサイズが定まらなくなるのが原因。`ListView`を`Expanded`で囲むなどで解決。
   https://qiita.com/umi_mori/items/fb7b67a5c5bb3dda927e
-- `GestureDetector` が子要素上しか反応しなかった.
+- `GestureDetector` が子要素上しか反応しなかった。
   https://note.com/gawakun/n/n54661ad04106
   https://api.flutter.dev/flutter/rendering/HitTestBehavior.html
-  またリストページで追加の読み込みをできるようにした.
-- [Flutter での Lazy Loading リストビューの実装](https://qiita.com/omitsuhashi/items/ea6ae22d9572ea882a2f).
+  またリストページで追加の読み込みをできるようにした。
+- [Flutter での Lazy Loading リストビューの実装](https://qiita.com/omitsuhashi/items/ea6ae22d9572ea882a2f)。
 
 ### 多言語化
 
-[Flutter アプリを多言語化する方法（作業時間：10 分）](https://zenn.dev/amuro/articles/27799da3afc40e)を参考にした.
+[Flutter アプリを多言語化する方法（作業時間：10 分）](https://zenn.dev/amuro/articles/27799da3afc40e)を参考にした。
 依存関係でハマりがちだが
 
 ```
@@ -203,26 +203,26 @@ flutter pub get
 flutter gen-l10n
 ```
 
-で治る.
+で治る。
 
 ### マテリアルデザイン
 
-`Theme.of(context).colorScheme`でカラースキームを取得して必要に応じてスタイルを変更.
+`Theme.of(context).colorScheme`でカラースキームを取得して必要に応じてスタイルを変更。
 
 ### アニメーション
 
-- 詳細ページには主に`FadeTransition`を用いた.[リファレンス](https://api.flutter.dev/flutter/widgets/FadeTransition-class.html)を参照.
-- リストページは API 通信,MVVM,インディケーター,追加読み込みなどが絡み合い,MVVM の設計パターンが壊れてしまったためアニメーションを断念.今後学んでいこうと思います.
+- 詳細ページには主に`FadeTransition`を用いた。[リファレンス](https://api.flutter.dev/flutter/widgets/FadeTransition-class.html)を参照。
+- リストページは API 通信、MVVM、インディケーター、追加読み込みなどが絡み合い、MVVM の設計パターンが壊れてしまったためアニメーションを断念。今後学んでいこうと思います。
 
 ### パイプライン作成
 
-以下を参考.
+以下を参考。
 
 1. [Flutter アプリの CI/CD パイプライン構築ガイド](https://zenn.dev/takuowake/articles/e1f52c5f0fb4ab)
 2. [[Flutter]GitHub Actions で App Distribution にアプリをアップロードした](https://zenn.dev/shima999ba/articles/ae1fc477744e2a)
 3. [GitHubActions×Fastlane×Firebase で iOS アプリを配布する CI/CD を構築](https://note.com/resan0725/n/nc84186fa841c)
 
-最終的にリント/テストと Android のデプロイは 2.,iOS のデプロイは 3.をベースに実装.
+最終的にリント/テストと Android のデプロイは 2.、iOS のデプロイは 3.をベースに実装。
 
 - Github Actions のバージョンでエラー
 
@@ -238,15 +238,15 @@ Error: This request has been automatically failed because it uses a deprecated v
     uses: actions/download-artifact@v4
 ```
 
-`v2`を`v4`に書き換えて解決.`download-artifact`以外に`upload-artifact`,`checkout-artifact`も同様.
+`v2`を`v4`に書き換えて解決。`download-artifact`以外に`upload-artifact`、`checkout-artifact`も同様。
 
 ### テスト
 
-見逃しをなくすために生成 AI にユニット/Widget のコードを送って作成してもらい,適宜自分の環境に書き換えたり,不足している部分を追記した.
+見逃しをなくすために生成 AI にユニット/Widget のコードを送って作成してもらい、適宜自分の環境に書き換えたり、不足している部分を追記した。
 
 #### ユニットテスト(Provider)
 
-[provider のテスト](https://riverpod.dev/ja/docs/essentials/testing)を参考.また htpp 通信のテストにモックを導入した.([【Flutter】DI と Mock を使って WEB API をテストする + mockito チートシート コード付](https://flutter.salon/plugin/mockito/))
+[provider のテスト](https://riverpod.dev/ja/docs/essentials/testing)を参考。また htpp 通信のテストにモックを導入した。([【Flutter】DI と Mock を使って WEB API をテストする + mockito チートシート コード付](https://flutter.salon/plugin/mockito/))
 
 ```Dart
     late MockClient mockClient;
@@ -259,7 +259,7 @@ Error: This request has been automatically failed because it uses a deprecated v
     //test
 ```
 
-`setUp`を使うならこのように登録する前に必ずリセットしないと重複登録でエラーになる.`setUpAll`ならいらない.
+`setUp`を使うならこのように登録する前に必ずリセットしないと重複登録でエラーになる。`setUpAll`ならいらない。
 
 #### Widget
 
@@ -276,7 +276,7 @@ Provider が絡むテキストフィールドとボタンでつまづいた.
     ));
 ```
 
-このような形式だったが Widget 側で null エラーに.かなり調べたが改善しなかったので ChatGPT に聞いたら解決してしまった.
+このような形式だったが Widget 側で null エラーに。かなり調べたが改善しなかったので ChatGPT に聞いたら解決してしまった。
 
 ```Dart
 group('SortButton Widget Test', () {
@@ -301,21 +301,21 @@ group('SortButton Widget Test', () {
     }
 ```
 
-MaterialApp の中にないとダメなのだろうか.
+MaterialApp の中にないとダメなのだろうか。
 
 #### IntegrationTest
 
-[【Flutter】IntegrationTest の準備](https://zenn.dev/shima999ba/articles/d0aba49b159bf0)を参考.
+[【Flutter】IntegrationTest の準備](https://zenn.dev/shima999ba/articles/d0aba49b159bf0)を参考。
 
 ### Firebase App Distribution
 
-必要な環境変数を集めて GithubActions にセットする.
+必要な環境変数を集めて GithubActions にセットする。
 
 - 共通
   - FIREBASE_PROJ_DEV_NAME : プロジェクト ID
   - FIREBASE_AUTH_TOKEN : Firebase のトークン
   - FIREBASE_DEV_TOKEN : Firebase の Json Token
-  - FIREBASE_DEV_IOS_ID,FIREBASE_DEV_ANDROID_ID : Firebase のアプリ ID(iOS/Android で共通)
+  - FIREBASE_DEV_IOS_ID/FIREBASE_DEV_ANDROID_ID : Firebase のアプリ ID(iOS/Android で共通)
 - iOS
   - APPSTORE_CERT_BASE64 : 証明書(Base64 でエンコード)
   - APPSTORE_CERT_PASSWORD : 証明書のパスワード
@@ -329,9 +329,9 @@ MaterialApp の中にないとダメなのだろうか.
 
 #### iOS の手順
 
-- iOS のバージョンが初期設定の 12.0 では Firebase と連携できなかったため 14.0 に変更.
+- iOS のバージョンが初期設定の 12.0 では Firebase と連携できなかったため 14.0 に変更。
 - キーチェーンアクセスから証明書要求ファイル作成 ([参考](https://faq.growthbeat.com/article/178-ios-p12))
-- Apple Developer で Certificates を作成,ダウンロード
+- Apple Developer で Certificates を作成、ダウンロード
   - Apple Distributionn を選択
   - 取得した証明書要求ファイルをセット
 - ダウンロードしたファイルをキーチェーンアクセスで開き`*.p12`で書き出し
@@ -346,11 +346,11 @@ MaterialApp の中にないとダメなのだろうか.
   - 取得した証明書を選択
   - テスターに含めるデバイスを選択
   - 名前を入力して作成
-- Xcode から設定変更
-  - `BuildSettings`->`Code Siging Identity`で`Certificates in Keychain`から作成した証明書を選択[参考](https://dev.classmethod.jp/articles/xcode-no-signing-certificate-ios-development-found-error/)
+- Xcode から設定変更　[参考 1](https://dev.classmethod.jp/articles/xcode-no-signing-certificate-ios-development-found-error/)/[参考 2](https://dev.classmethod.jp/articles/xcode-no-signing-certificate-ios-development-found-error/)
+  - `BuildSettings`->`Code Siging Identity`で`Certificates in Keychain`から作成した証明書を選択
   - `Signing & Capablities`
     - `Automatic manage signing`のチェックを外す
-    - `Provisioning File`で作成した Profile を選択.
+    - `Provisioning File`で作成した Profile を選択
       - ない場合は`import file`
     - `Provisioning profile *** doesn't include signing certificate`と表示されたら証明書と Profile が一致してないので要確認
 - 参考(3.)の手順 2 以降を実行
@@ -395,7 +395,7 @@ MaterialApp の中にないとダメなのだろうか.
     }
     ```
   - base64 コマンドの修正
-    - ファイル名を指定するとき`-i`,`-o`がなくてエラーになる
+    - ファイル名を指定するとき`-i`、`-o`がなくてエラーになる
     - ProvisioningProfile の方のファイル名がおかしかったので修正
 
   ```yaml
@@ -416,23 +416,26 @@ MaterialApp の中にないとダメなのだろうか.
 
 - [参考 1](https://zenn.dev/t_fukuyama/articles/9048d5f26befee)
 - [参考 2](https://qiita.com/kokogento/items/6c0baf22c85a28db388c)
+- [参考 3](https://qiita.com/kokogento/items/c2979542a34610925e2d)
 
 ### Android の手順
 
-通常通り keytool 周りを一通り取得すれば大丈夫なので省略.
+通常通り keytool 周りを一通り取得すれば大丈夫なので省略。
 
-- 1.を使用していたときに Java が入ってなかった.
+- 1.を使用していたときに Java が入ってなかった。
 
 ```
 Android Gradle plugin requires Java 17 to run. You are currently using Java 11.
 ```
 
-Java のセットアップもワークフローに組み込むことで対処.[[参考](https://stackoverflow.com/questions/77033194/java-17-is-required-instad-of-java-11-android-ci-cd-github-actions)]
+Java のセットアップもワークフローに組み込むことで対処。[[参考](https://stackoverflow.com/questions/77033194/java-17-is-required-instad-of-java-11-android-ci-cd-github-actions)]
 
-## 備考
+## 反省点
 
-その他備忘録. これらで治りはしなかったが今後役立つかもしれない.
-
-https://qiita.com/warapuri/items/2a32cb2201ce75aa5f4b
-https://qiita.com/warapuri/items/2a32cb2201ce75aa5f4b
-https://qiita.com/kokogento/items/c2979542a34610925e2d
+- git
+  - 開発初期は適切な使い方に慣れず、良くない操作が多かった。
+  - Github Actions の取り扱いが初めてだったのでデバッグのためのコミットが頻発してしまった。
+- Provider
+  - HTTP 通信やアニメーションを含めたときに適切な設計パターンがわからなかった。
+- Apple の証明書関連
+  - 理解しないまま動かすことを最優先にしたため復習の必要がある。

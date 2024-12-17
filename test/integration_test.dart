@@ -28,6 +28,7 @@ void main() {
     SharedPreferences.setMockInitialValues({'locale': 'en'});
     prefs = await SharedPreferences.getInstance();
   });
+  //通常
   testWidgets('Normal', (WidgetTester tester) async {
     await tester.pumpWidget(MyApp(prefs: prefs));
 
@@ -56,7 +57,7 @@ void main() {
     expect(find.text("Issues"), findsOneWidget);
     expect(find.byType(CircleAvatar), findsOneWidget);
   });
-
+  //ネットワークエラー等
   testWidgets('Error 500', (WidgetTester tester) async {
     await tester.pumpWidget(MyApp(prefs: prefs));
 
@@ -72,7 +73,7 @@ void main() {
     expect(find.text("An unexpected error has occurred. Please try again."),
         findsOneWidget);
   });
-
+  //不適切なクエリ
   testWidgets('Error 422', (WidgetTester tester) async {
     await tester.pumpWidget(MyApp(prefs: prefs));
 
@@ -90,7 +91,7 @@ void main() {
             "The search query you entered is invalid. Please check it again."),
         findsOneWidget);
   });
-
+  //結果0件
   testWidgets('Notice 204', (WidgetTester tester) async {
     await tester.pumpWidget(MyApp(prefs: prefs));
 
@@ -106,7 +107,7 @@ void main() {
     expect(find.text("Notice"), findsOneWidget);
     expect(find.text("No results found."), findsOneWidget);
   });
-
+  //設定
   testWidgets('Setting', (WidgetTester tester) async {
     await tester.pumpWidget(MyApp(prefs: prefs));
     await tester.tap(find.byType(IconButton));
