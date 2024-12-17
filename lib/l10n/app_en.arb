@@ -18,5 +18,7 @@
   "error": "Error",
   "http_error": "An unexpected error has occurred. Please try again.",
   "invalid_query": "The search query you entered is invalid. Please check it again.",
-  "empty_list": "Enter a keyword to search for repositories."
+  "empty_list": "Enter a keyword to search for repositories.",
+  "notice": "Notice",
+  "no_results": "No results found."
 }

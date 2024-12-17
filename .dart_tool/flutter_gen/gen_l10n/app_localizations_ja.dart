@@ -62,4 +62,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get empty_list => 'キーワードを入力してレポジトリを探しましょう。';
+
+  @override
+  String get notice => 'お知らせ';
+
+  @override
+  String get no_results => '該当する結果が見つかりませんでした';
 }

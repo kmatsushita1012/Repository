@@ -62,4 +62,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get empty_list => 'Enter a keyword to search for repositories.';
+
+  @override
+  String get notice => 'Notice';
+
+  @override
+  String get no_results => 'No results found.';
 }
