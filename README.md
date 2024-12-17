@@ -2,7 +2,6 @@
 
 このリポジトリは、株式会社ゆめみ様 の技術テストに基づいて作成されたプロジェクトです。
 
-
 ## 仕様
 
 - Flutter を用いた iOS/Android 向けアプリ
@@ -17,14 +16,33 @@
     - Watcher 数
     - Fork 数
     - Issue 数
+  - 設定ページ
+  - 例外発生時アラート表示
+    - 不適切なクエリ
+    - 検索結果が 0 件
+    - ネットワークエラー等
 - 多言語対応(英語/日本語)
+- アニメーション
+- マテリアルデザイン
+- レスポンシブ UI
 - CI/CD パイプライン
   - GithubActions + Firebase App Distribution
 
-## 未経験の技術
+## 開始前の技術レベル
+
+Flutter は半年前に開始ししアプリを 2 つリリース.機能を愚直に実装し形にできる程度.
+
+**使用したライブラリ**
+
+- HTTP
+- SharedPreferences
+- GoogleMap
+- SQLite
+
+**未経験の技術**
 
 - マテリアルデザイン
-- レスポンシブ(横画面)
+- レスポンシブ UI(横画面)
 - Provider を用いた状態管理
 - 多言語対応
 - アニメーション
@@ -58,14 +76,14 @@
     - Integration(通常操作のみ)
 - 5 日目
   - リストページへのアニメーション追加
-    - MVVMパターンに組み込めず却下
+    - MVVM パターンに組み込めず却下
   - Firebase App Distribution (iOS) 連携再チャレンジ
     - 失敗
   - レスポンシブ対応
 - 6 日目
   - iOS の Distribution に再々チャレンジ
     - Fastlane の導入
-  - Integrationテストの充実
+  - Integration テストの充実
     - API のエラー発生時
     - 設定画面
 - 7 日目
@@ -242,7 +260,6 @@ Error: This request has been automatically failed because it uses a deprecated v
 ```
 
 `setUp`を使うならこのように登録する前に必ずリセットしないと重複登録でエラーになる.`setUpAll`ならいらない.
-
 
 #### Widget
 
