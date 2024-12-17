@@ -45,7 +45,7 @@ platform :ios do
         export_options: {
         method: "ad-hoc",
         provisioningProfiles: {
-          "com.techtest.repository" => "yumemiprofileAppleDistribution"
+          "com.techtest.repository" => "yumemiprofile"
         }
     })
 
