@@ -192,7 +192,9 @@ class SettingsProvider extends ChangeNotifier {
   またリストページで追加の読み込みをできるようにした。
 - [Flutter での Lazy Loading リストビューの実装](https://qiita.com/omitsuhashi/items/ea6ae22d9572ea882a2f)。
 
-### 多言語化
+### 多言語対応
+
+`.dart_tool/flutter_gen/gen_l10n`は`.gitignore`から除外したが,万が一動作しない場合は実行の前に`flutter gen-l10n`を実行してください。
 
 [Flutter アプリを多言語化する方法（作業時間：10 分）](https://zenn.dev/amuro/articles/27799da3afc40e)を参考にした。
 依存関係でハマりがちだが
