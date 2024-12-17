@@ -50,13 +50,13 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Firebase: cf1b19f21410b029b6786a54e9764a0cacad3c99
-  firebase_core: 418aed674e9a0b8b6088aec16cde82a811f6261f
+  firebase_core: 222ad1787f0b9c145a06af2fdaa265a366576c0d
   FirebaseCore: e0510f1523bc0eb21653cac00792e1e2bd6f1771
   FirebaseCoreInternal: d98ab91e2d80a56d7b246856a8885443b302c0c2
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
-  integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
-  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
+  integration_test: 4a889634ef21a45d28d50d622cf412dc6d9f586e
+  shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
 
 PODFILE CHECKSUM: 1959d098c91d8a792531a723c4a9d7e9f6a01e38
 
