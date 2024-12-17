@@ -39,17 +39,18 @@ platform :ios do
     lane :archive_stg_app_distribution do
         import_certificates_and_provisioning_profile
         build_app(workspace: "Runner.xcworkspace",
-        scheme: "Runner",
-        configuration: "STG", 
-        clean: true,
-        export_options: {
-        # method: "app-store",
-        method: "ad-hoc",
-        provisioningProfiles: {
-        #   "com.techtest.repository" => "yumemiprofile"
-          "com.techtest.repository" => "yumemiprofile-AdHoc"
-        }
-    })
+            scheme: "Runner",
+            configuration: "STG", 
+            clean: true,
+            export_options: {
+                method: "ad-hoc",
+                # method: "app-store",
+                provisioningProfiles: {
+                    "com.techtest.repository" => "yumemiprofileAdHoc"
+                    #"com.techtest.repository" => "yumemiprofile"
+                }
+            }
+        )
 
         firebase_app_distribution(
             app: "1:269055085723:ios:78ce00c97dc8cccd800a3e",

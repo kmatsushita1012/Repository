@@ -173,15 +173,20 @@ flutter gen-l10n
 - リストページは API 通信,MVVM,インディケーター,追加読み込みなどが絡み合い,MVVM の設計パターンが壊れてしまったためアニメーションを断念.今後学んでいこうと思います.
 
 ### パイプライン作成
+
 以下を参考.
-- [Flutter アプリの CI/CD パイプライン構築ガイド](https://zenn.dev/takuowake/articles/e1f52c5f0fb4ab)
-- [[Flutter]GitHub Actions で App Distribution にアプリをアップロードした](https://zenn.dev/shima999ba/articles/ae1fc477744e2a)
-- 
-最初は前者を参考にしていたが iOS のビルドがアップできないことに気づき後者に変更.
+
+1. [Flutter アプリの CI/CD パイプライン構築ガイド](https://zenn.dev/takuowake/articles/e1f52c5f0fb4ab)
+2. [[Flutter]GitHub Actions で App Distribution にアプリをアップロードした](https://zenn.dev/shima999ba/articles/ae1fc477744e2a)
+3. [GitHubActions×Fastlane×FirebaseでiOSアプリを配布するCI/CDを構築](https://note.com/resan0725/n/nc84186fa841c)
+
+最終的にリント/テストと Android のデプロイは 2.,iOS のデプロイは 3.で行った.
+
+- 最初は前者を参考にしていたが iOS のビルドがアップできないことに気づき後者に変更.
 
 Github Actions でバージョン関係を中心に大量にエラーが発生.
 
-- 例 1
+- 例 1 (Java)
 
 ```
 Android Gradle plugin requires Java 17 to run. You are currently using Java 11.
@@ -189,7 +194,7 @@ Android Gradle plugin requires Java 17 to run. You are currently using Java 11.
 
 Java のセットアップもワークフローに組み込むことで対処.[[参考](https://stackoverflow.com/questions/77033194/java-17-is-required-instad-of-java-11-android-ci-cd-github-actions)]
 
-- 例 2
+- 例 2 (Github Actionsのバージョン)
 
 ```
 Error: This request has been automatically failed because it uses a deprecated version of `actions/download-artifact: v2`.
@@ -207,10 +212,7 @@ Error: This request has been automatically failed because it uses a deprecated v
 
 ### Firebase App Distribution
 
-- iOS のバージョンが初期設定の 12.0 では Firebase と連携できなかったため 14.0 に変更.
-  [参考 1](https://zenn.dev/t_fukuyama/articles/9048d5f26befee)
-- [参考 2](https://qiita.com/kokogento/items/6c0baf22c85a28db388c)
-- [GitHubActions×Fastlane×FirebaseでiOSアプリを配布するCI/CDを構築](https://note.com/resan0725/n/nc84186fa841c)
+
 
 必要な環境変数を集めて GithubActions にセットする.
 
@@ -232,6 +234,7 @@ Error: This request has been automatically failed because it uses a deprecated v
 
 #### iOS の手順
 
+- iOS のバージョンが初期設定の 12.0 では Firebase と連携できなかったため 14.0 に変更.
 - キーチェーンアクセスから証明書要求ファイル作成 ([参考](https://faq.growthbeat.com/article/178-ios-p12))
 - Apple Developer で Certificates を作成,ダウンロード
   - 用途に iOS Distribution を選択
@@ -250,6 +253,10 @@ Error: This request has been automatically failed because it uses a deprecated v
 
   Fastlane に変更
   https://note.com/resan0725/n/nc84186fa841c
+
+
+- [参考 1](https://zenn.dev/t_fukuyama/articles/9048d5f26befee)
+- [参考 2](https://qiita.com/kokogento/items/6c0baf22c85a28db388c)
 
 ### Android の手順
 
