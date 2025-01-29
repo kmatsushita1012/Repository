@@ -7,13 +7,13 @@ enum SortTypes {
   updated,
   stars,
   forks,
-  isuues;
+  issues;
 
   //クエリ用の変換
   String? toQueryString() {
     if (this == SortTypes.match) {
       return null;
-    } else if (this == SortTypes.isuues) {
+    } else if (this == SortTypes.issues) {
       return "help-wanted-issues";
     } else {
       return name;
@@ -27,7 +27,7 @@ enum SortTypes {
         return AppLocalizations.of(context)!.stars;
       case SortTypes.forks:
         return AppLocalizations.of(context)!.forks;
-      case SortTypes.isuues:
+      case SortTypes.issues:
         return AppLocalizations.of(context)!.issues;
       case SortTypes.updated:
         return AppLocalizations.of(context)!.last_updated;
@@ -43,7 +43,7 @@ enum SortTypes {
         return Icons.star;
       case SortTypes.forks:
         return Icons.fork_right;
-      case SortTypes.isuues:
+      case SortTypes.issues:
         return Icons.adjust;
       case SortTypes.updated:
         return Icons.update;

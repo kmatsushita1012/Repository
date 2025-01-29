@@ -79,7 +79,7 @@ class RepositoryProvider extends ChangeNotifier {
       dynamic parsedJson = jsonDecode(responseBody);
       for (var elem in parsedJson["items"]) {
         try {
-          Repository item = Repository.fromSearhRepositoryItem(elem);
+          Repository item = Repository.fromSearchRepositoryItem(elem);
           _items.add(item);
         } catch (e) {
           continue;

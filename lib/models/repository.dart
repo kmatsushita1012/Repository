@@ -16,9 +16,9 @@ class Repository {
       required this.watchers,
       required this.forks,
       required this.issues});
-      
+
   //JSON形式からのパーサー
-  factory Repository.fromSearhRepositoryItem(dynamic item) {
+  factory Repository.fromSearchRepositoryItem(dynamic item) {
     return Repository(
         name: item["name"],
         userIconPath: item["owner"]["avatar_url"],

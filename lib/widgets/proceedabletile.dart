@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 //リストの階層構造タイル　[Title　>]
-class ProceedableTile extends StatefulWidget {
+class ProceedableTile extends StatelessWidget {
   final String text;
   final double height;
   final void Function(BuildContext) onTap;
@@ -12,18 +12,14 @@ class ProceedableTile extends StatefulWidget {
     required this.onTap,
     this.height = 72,
   });
-  @override
-  _ProceedableTileState createState() => _ProceedableTileState();
-}
 
-class _ProceedableTileState extends State<ProceedableTile> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       child: SizedBox(
-          height: widget.height,
+          height: height,
           child: Container(
             margin: EdgeInsets.all(8),
             padding: EdgeInsets.all(8),
@@ -43,7 +39,7 @@ class _ProceedableTileState extends State<ProceedableTile> {
                 //タイトル
                 Expanded(
                     child: Text(
-                  widget.text,
+                  text,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(fontSize: 18, color: colorScheme.onSurface),
@@ -56,7 +52,7 @@ class _ProceedableTileState extends State<ProceedableTile> {
               ],
             ),
           )),
-      onTap: () => widget.onTap(context),
+      onTap: () => onTap(context),
     );
   }
 }

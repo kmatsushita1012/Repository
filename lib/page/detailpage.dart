@@ -167,7 +167,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                               DetailCard(
                                 title: AppLocalizations.of(context)!.issues,
                                 iconData: Icons.adjust,
-                                value: item.stars,
+                                value: item.issues,
                                 animation: _animation,
                               ),
                             ],
